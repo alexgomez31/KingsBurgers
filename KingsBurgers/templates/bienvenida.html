@@ -38,7 +38,13 @@
     <div class="card tarjeta text-center p-5">
         <h1 class="card-title">🍔 ¡Bienvenidos a <span class="destacado">KingsBurgers</span>! 👑</h1>
         <p class="mt-3">Las hamburguesas más reales de la ciudad.</p>
-        
+        {% if logueado %}
+            <p class="mt-3">¡Bienvenido(a)! Has iniciado sesión correctamente.</p>
+            <a href="{% url 'logout' %}" class="btn btn-secondary mt-3">Cerrar Sesión</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn boton-ingreso mt-4">Iniciar Sesión</a>
+            <p class="mt-3">¿No tienes cuenta? <a href="{% url 'registro_usuario' %}" class="enlace-registro">Regístrate aquí</a></p>
+        {% endif %}
     </div>
 </body>
 </html>

@@ -1,0 +1,118 @@
+{% extends "admin/panel_admin.html" %}
+
+{% block title %}Gestión de Usuarios - KingsBurgers{% endblock %}
+
+{% block header_title %}Gestión de Usuarios{% endblock %}
+
+{% block header_buttons %}
+<div class="btn-group me-2">
+    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoUsuarioModal">
+        Nuevo Usuario
+    </button>
+    <button type="button" class="btn btn-sm btn-outline-secondary">Exportar Lista</button>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        Listado de Usuarios
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Correo</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in usuarios %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.nombre }}</td>
+                        <td>{{ user.correo }}</td>
+                        <td>{{ user.get_tipo_usuario_display }}</td>
+                        <td>
+                            {% if user.habilitado %}
+                                <span class="badge bg-success">Activo</span>
+                            {% else %}
+                                <span class="badge bg-danger">Inactivo</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" 
+                                    data-bs-target="#editarUsuarioModal" data-id="{{ user.id }}">
+                                Editar
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" 
+                                    data-bs-target="#eliminarUsuarioModal" data-id="{{ user.id }}">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center">No hay usuarios registrados</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Nuevo Usuario -->
+<div class="modal fade" id="nuevoUsuarioModal" tabindex="-1" aria-labelledby="nuevoUsuarioModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nuevoUsuarioModalLabel">Nuevo Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'panel_admin' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="correo" class="form-label">Correo</label>
+                        <input type="email" class="form-control" id="correo" name="correo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipo_usuario" class="form-label">Tipo de Usuario</label>
+                        <select class="form-select" id="tipo_usuario" name="tipo_usuario" required>
+                            <option value="CLIENTE">Cliente</option>
+                            <option value="EMPLEADO">Empleado</option>
+                            <option value="ADMIN">Administrador</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contraseña" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="contraseña" name="contraseña" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Los demás modales (editar, eliminar) irían aquí -->
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Aquí puedes agregar JavaScript específico para esta página
+    document.addEventListener('DOMContentLoaded', function() {
+        // Código para manejar los modales de edición y eliminación
+    });
+</script>
+{% endblock %}

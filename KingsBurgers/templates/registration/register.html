@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro - KingsBurgers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #fbe9e7;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .tarjeta {
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .destacado {
+            color: #c62828;
+            font-weight: bold;
+        }
+        .boton-registro {
+            background-color: #c62828;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+        .boton-registro:hover {
+            background-color: #ab000d;
+        }
+        .form-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875em;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body class="d-flex align-items-center justify-content-center vh-100">
+    <div class="card tarjeta p-5 w-100" style="max-width: 600px;">
+        <h2 class="card-title text-center mb-4">Registro de Usuario</h2>
+        <form method="post" class="my-4" id="registroForm">
+            {% csrf_token %}
+            
+            <!-- Campo para seleccionar tipo de usuario -->
+            <div class="mb-4">
+                <label for="id_tipo_usuario" class="form-label">Tipo de Usuario:</label>
+                <select class="form-select" id="id_tipo_usuario" name="tipo_usuario" required onchange="mostrarCampos(this.value)">
+                    <option value="">Seleccione su tipo de usuario</option>
+                    <option value="CLIENTE">Cliente</option>
+                    <option value="EMPLEADO">Empleado</option>
+                    <option value="ADMIN">Administrador</option>
+                </select>
+                <div id="tipo_usuario_error" class="error-message"></div>
+            </div>
+            
+            <!-- Campos comunes a todos los usuarios -->
+            <div class="mb-3">
+                <label for="id_nombre" class="form-label">Nombre de usuario:</label>
+                <input type="text" class="form-control" id="id_nombre" name="nombre" required>
+                <div id="nombre_error" class="error-message"></div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_correo" class="form-label">Correo electrónico:</label>
+                <input type="email" class="form-control" id="id_correo" name="correo" required>
+                <div id="correo_error" class="error-message"></div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_password" class="form-label">Contraseña:</label>
+                <input type="password" class="form-control" id="id_password" name="password" required>
+                <div id="password_error" class="error-message"></div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_confirmar_password" class="form-label">Confirmar contraseña:</label>
+                <input type="password" class="form-control" id="id_confirmar_password" name="confirmar_password" required>
+                <div id="confirmar_password_error" class="error-message"></div>
+            </div>
+            
+            <!-- Sección específica para CLIENTE -->
+            <div id="cliente-section" class="form-section">
+                <h5 class="mb-3 text-muted">Información del Cliente</h5>
+                <div class="mb-3">
+                    <label for="id_telefono" class="form-label">Teléfono:</label>
+                    <input type="tel" class="form-control" id="id_telefono" name="telefono">
+                    <div id="telefono_error" class="error-message"></div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_direccion" class="form-label">Dirección:</label>
+                    <textarea class="form-control" id="id_direccion" name="direccion" rows="2"></textarea>
+                    <div id="direccion_error" class="error-message"></div>
+                </div>
+            </div>
+            
+            <!-- Sección específica para EMPLEADO -->
+            <div id="empleado-section" class="form-section">
+                <h5 class="mb-3 text-muted">Información del Empleado</h5>
+                <div class="mb-3">
+                    <label for="id_fecha_contrato" class="form-label">Fecha de contrato:</label>
+                    <input type="date" class="form-control" id="id_fecha_contrato" name="fecha_contrato">
+                    <div id="fecha_contrato_error" class="error-message"></div>
+                </div>
+            </div>
+            
+            <!-- Sección específica para ADMIN -->
+            <div id="admin-section" class="form-section">
+                <h5 class="mb-3 text-muted">Información del Administrador</h5>
+                <div class="mb-3">
+                    <label for="id_codigo_admin" class="form-label">Código de administrador:</label>
+                    <input type="password" class="form-control" id="id_codigo_admin" name="codigo_admin" placeholder="Ingrese el código especial">
+                    <div id="codigo_admin_error" class="error-message"></div>
+                </div>
+            </div>
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <p><strong>{{ field|title }}:</strong> {{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            {% endif %}
+            
+            <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-primary boton-registro">Registrarse</button>
+            </div>
+        </form>
+        
+        <div class="text-center mt-3">
+            <a href="{% url 'login' %}" class="text-decoration-none destacado">¿Ya tienes cuenta? Inicia sesión</a>
+        </div>
+    </div>
+
+    <script>
+        function mostrarCampos(tipoUsuario) {
+            // Ocultar todas las secciones primero
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.style.display = 'none';
+                // Remover required de todos los campos al ocultar
+                section.querySelectorAll('input, textarea').forEach(input => {
+                    input.removeAttribute('required');
+                    // Limpiar mensajes de error al ocultar
+                    const errorElement = document.getElementById(`${input.name}_error`);
+                    if (errorElement) {
+                        errorElement.textContent = '';
+                    }
+                });
+            });
+            
+            // Mostrar la sección correspondiente y agregar required
+            if (tipoUsuario === 'CLIENTE') {
+                const section = document.getElementById('cliente-section');
+                section.style.display = 'block';
+                section.querySelectorAll('input, textarea').forEach(input => {
+                    input.setAttribute('required', 'required');
+                });
+            } else if (tipoUsuario === 'EMPLEADO') {
+                const section = document.getElementById('empleado-section');
+                section.style.display = 'block';
+                section.querySelectorAll('input, textarea').forEach(input => {
+                    input.setAttribute('required', 'required');
+                });
+            } else if (tipoUsuario === 'ADMIN') {
+                const section = document.getElementById('admin-section');
+                section.style.display = 'block';
+                section.querySelectorAll('input, textarea').forEach(input => {
+                    input.setAttribute('required', 'required');
+                });
+            }
+        }
+
+        // Validación antes de enviar el formulario
+        document.getElementById('registroForm').addEventListener('submit', function(e) {
+            let isValid = true;
+            const tipoUsuario = document.getElementById('id_tipo_usuario').value;
+            
+            // Limpiar mensajes de error anteriores
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.textContent = '';
+            });
+
+            // Validar campos comunes
+            const camposComunes = [
+                {id: 'id_nombre', name: 'nombre', errorId: 'nombre_error'},
+                {id: 'id_correo', name: 'correo', errorId: 'correo_error'},
+                {id: 'id_password', name: 'password', errorId: 'password_error'},
+                {id: 'id_confirmar_password', name: 'confirmar_password', errorId: 'confirmar_password_error'}
+            ];
+
+            camposComunes.forEach(campo => {
+                const input = document.getElementById(campo.id);
+                if (!input.value.trim()) {
+                    document.getElementById(campo.errorId).textContent = 'Este campo es obligatorio';
+                    isValid = false;
+                }
+            });
+
+            // Validar contraseñas coincidentes
+            const password = document.getElementById('id_password').value;
+            const confirmPassword = document.getElementById('id_confirmar_password').value;
+            if (password !== confirmPassword) {
+                document.getElementById('confirmar_password_error').textContent = 'Las contraseñas no coinciden';
+                isValid = false;
+            }
+
+            // Validar campos específicos según el tipo de usuario
+            if (tipoUsuario === 'CLIENTE') {
+                const telefono = document.getElementById('id_telefono').value;
+                const direccion = document.getElementById('id_direccion').value;
+                
+                if (!telefono.trim()) {
+                    document.getElementById('telefono_error').textContent = 'El teléfono es obligatorio para clientes';
+                    isValid = false;
+                }
+                
+                if (!direccion.trim()) {
+                    document.getElementById('direccion_error').textContent = 'La dirección es obligatoria para clientes';
+                    isValid = false;
+                }
+            } else if (tipoUsuario === 'EMPLEADO') {
+                const fechaContrato = document.getElementById('id_fecha_contrato').value;
+                
+                if (!fechaContrato) {
+                    document.getElementById('fecha_contrato_error').textContent = 'La fecha de contrato es obligatoria para empleados';
+                    isValid = false;
+                }
+            } else if (tipoUsuario === 'ADMIN') {
+                const codigoAdmin = document.getElementById('id_codigo_admin').value;
+                
+                if (!codigoAdmin.trim()) {
+                    document.getElementById('codigo_admin_error').textContent = 'El código de administrador es obligatorio';
+                    isValid = false;
+                }
+            } else {
+                document.getElementById('tipo_usuario_error').textContent = 'Debe seleccionar un tipo de usuario';
+                isValid = false;
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+
+        // Mostrar sección si hay un valor seleccionado al cargar (por si hay error en el formulario)
+        document.addEventListener('DOMContentLoaded', function() {
+            const tipoUsuario = document.getElementById('id_tipo_usuario').value;
+            if (tipoUsuario) {
+                mostrarCampos(tipoUsuario);
+            }
+        });
+    </script>
+</body>
+</html>

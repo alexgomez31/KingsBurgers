@@ -1,0 +1,60 @@
+{% extends "admin/panel_admin.html" %}
+
+{% block title %}Dashboard - KingsBurgers{% endblock %}
+
+{% block header_title %}Panel de Administración{% endblock %}
+
+{% block content %}
+<div class="row my-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Usuarios</h5>
+                <p class="card-text">Administra usuarios del sistema.</p>
+                <a href="{% url 'panel_admin' %}" class="btn btn-primary">Gestionar</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Productos</h5>
+                <p class="card-text">Gestiona el catálogo de productos.</p>
+                <a href="{% url 'panel_admin' %}" class="btn btn-primary">Gestionar</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Ventas</h5>
+                <p class="card-text">Visualiza y administra las ventas.</p>
+                <a href="{% url 'panel_admin' %}" class="btn btn-primary">Gestionar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                Información del Empleado
+            </div>
+            <div class="card-body">
+                <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+                <p><strong>Correo:</strong> {{ usuario.correo }}</p>
+                <p><strong>Fecha de Contrato:</strong> {{ usuario.fecha_contrato }}</p>
+                <p><strong>Fecha de Inicio:</strong> {{ usuario.fecha_inicio }}</p>
+                <p><strong>Estado:</strong> 
+                    {% if usuario.habilitado %}
+                        <span class="badge bg-success">Activo</span>
+                    {% else %}
+                        <span class="badge bg-danger">Inactivo</span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

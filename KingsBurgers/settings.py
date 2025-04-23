@@ -38,6 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',
+    'KingsBurgers',
+]
+AUTH_USER_MODEL = 'KingsBurgers.Usuario'
+LOGIN_URL = '/login/'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 MIDDLEWARE = [
@@ -68,7 +76,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'KingsBurgers.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases

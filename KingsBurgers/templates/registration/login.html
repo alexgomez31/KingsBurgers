@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión - KingsBurgers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="d-flex align-items-center justify-content-center vh-100">
+    <div class="card p-5 w-100" style="max-width: 400px;">
+        <h2 class="text-center mb-4">Iniciar Sesión</h2>
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_correo" class="form-label">Correo electrónico:</label>
+                <input type="email" class="form-control" id="id_correo" name="correo" required>
+            </div>
+            <div class="mb-3">
+                <label for="id_password" class="form-label">Contraseña:</label>
+                <input type="password" class="form-control" id="id_password" name="contraseña" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="{% url 'registro_usuario' %}" class="text-decoration-none">¿No tienes cuenta? Regístrate aquí</a>
+        </div>
+    </div>
+</body>
+</html>
