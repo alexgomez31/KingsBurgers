@@ -10,8 +10,8 @@ class RegistroUsuarioForm(forms.Form):
     
     nombre = forms.CharField(max_length=100, required=True)
     correo = forms.EmailField(required=True)
-    password = forms.CharField(widget=forms.PasswordInput, required=True)  # Renombrado de "contraseña" a "password"
-    confirmar_password = forms.CharField(widget=forms.PasswordInput, required=True)  # Renombrado de "confirmar_contraseña" a "confirmar_password"
+    password = forms.CharField(widget=forms.PasswordInput, required=True) 
+    confirmar_password = forms.CharField(widget=forms.PasswordInput, required=True)  
     tipo_usuario = forms.ChoiceField(choices=TIPO_USUARIO_CHOICES, required=True)
     telefono = forms.CharField(max_length=15, required=False)
     direccion = forms.CharField(widget=forms.Textarea, required=False)

@@ -8,17 +8,13 @@ from django.contrib.auth import logout
 class UsuarioController:
     @staticmethod
     def registro_usuario(request):
-        """
-        Vista para registrar un nuevo usuario.
-        Crea un registro en la tabla Usuario y en la tabla específica (Cliente, Empleado, Administrador).
-        """
+  
         if request.method == 'POST':
             form = RegistroUsuarioForm(request.POST)
             if form.is_valid():
                 datos = form.cleaned_data
                 tipo_usuario = datos['tipo_usuario']
 
-                # Crear usuario base
                 usuario = Usuario(
                     nombre=datos['nombre'],
                     correo=datos['correo'],
@@ -27,19 +23,17 @@ class UsuarioController:
                 usuario.set_password(datos['password'])
                 usuario.save()
                 print(f"Usuario creado: {usuario.tipo_usuario}")
-                # Crear perfil específico según el tipo de usuario
                 try:
                     if tipo_usuario == 'CLIENTE':
                         Cliente.crear_desde_usuario(usuario, datos)
-                        return redirect('bienvenida')  # Redirigir a la página de bienvenida para clientes
+                        return redirect('bienvenida') 
                     elif tipo_usuario == 'EMPLEADO':
                         Empleado.crear_desde_usuario(usuario, datos)
-                        return redirect('dashboard')  # Redirigir al panel de administrador para empleados
+                        return redirect('dashboard') 
                     elif tipo_usuario == 'ADMIN':
                         Administrador.crear_desde_usuario(usuario, datos)
-                        return redirect('dashboard')  # Redirigir al dashboard de administradores
+                        return redirect('dashboard') 
                 except Exception as e:
-                    # Si falla la creación del perfil, eliminamos el usuario base
                     usuario.delete()
                     return render(request, 'registration/register.html', {
                         'form': form,
@@ -80,7 +74,6 @@ class UsuarioController:
                             'error': f"Ocurrió un error al redirigir: {str(e)}"
                         })
                 else:
-                    # Si el usuario no existe o la contraseña está incorrecta
                     return render(request, 'registration/login.html', {
                         'form': form,
                         'error': mensaje

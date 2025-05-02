@@ -1011,8 +1011,10 @@
             <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
             <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
         </div>
+
         <div class="carousel-inner">
-            <div class="carousel-item active" style="background-image: url('/api/placeholder/1200/600');">
+            {% load static %}
+            <div class="carousel-item active" style="background-image: url('{% static "KingsBurgers/img/11.png" %}'); background-size: cover; background-position: center;">
                 <div class="container">
                     <div class="carousel-caption">
                         <h1 class="carousel-title">SABOR <span>ARDIENTE</span> EN CADA MORDIDA</h1>
@@ -1021,7 +1023,7 @@
                     </div>
                 </div>
             </div>
-            <div class="carousel-item" style="background-image: url('/api/placeholder/1200/600');">
+            <div class="carousel-item" style="background-image: url('{% static "KingsBurgers/img/11.png" %}'); background-size: cover; background-position: center;">
                 <div class="container">
                     <div class="carousel-caption">
                         <h1 class="carousel-title">FUEGO Y <span>PASIÓN</span> EN CADA HAMBURGUESA</h1>
@@ -1030,7 +1032,7 @@
                     </div>
                 </div>
             </div>
-            <div class="carousel-item" style="background-image: url('/api/placeholder/1200/600');">
+            <div class="carousel-item" style="background-image: url('{% static "KingsBurgers/img/11.png" %}'); background-size: cover; background-position: center;">
                 <div class="container">
                     <div class="carousel-caption">
                         <h1 class="carousel-title">PROMOCIONES <span>EXPLOSIVAS</span></h1>
@@ -1070,7 +1072,8 @@
                 <!-- Hamburguesas -->
                 <div class="col-lg-4 col-md-6 product-item" data-category="hamburguesas">
                     <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');">
+                        {% load static %}
+                        <div class="product-img" style="background-image: url('{% static "KingsBurgers/img/11.png" %}'); background-size: cover; background-position: center;">
                             <div class="product-label">Bestseller</div>
                         </div>
                         <div class="product-info">
@@ -1088,7 +1091,8 @@
                 
                 <div class="col-lg-4 col-md-6 product-item " data-category="hamburguesas">
                     <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');"></div>
+                        {% load static %}
+                        <div class="product-img" style="background-image: url('{% static "KingsBurgers/img/11.png" %}'); background-size: cover; background-position: center;"></div>
                         <div class="product-info">
                             <h4 class="product-title">Double Flame</h4>
                             <p class="product-desc">Doble carne, doble queso, bacon crujiente, jalapeños y nuestra salsa picante de la casa para los amantes del auténtico sabor.</p>
