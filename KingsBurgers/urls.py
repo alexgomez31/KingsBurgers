@@ -4,6 +4,7 @@ from KingsBurgers.views.usuario_controller import UsuarioController
 from KingsBurgers.views.bienvenida_controller import BienvenidaController
 from KingsBurgers.views.vistas_admin_empleado_controller import VistasAdminEmpleadoController
 from KingsBurgers.views.categoria_controller import CategoriaController
+from KingsBurgers.views.inventario_controller import InventarioController
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
@@ -23,9 +24,14 @@ urlpatterns = [
     path('categorias/editar/<int:pk>/', CategoriaController.editar_categoria, name='editar_categoria'),
     path('categorias/eliminar/<int:pk>/', CategoriaController.eliminar_categoria, name='eliminar_categoria'),
 
+    #inventario
+    path('admin/inventario/crear/', InventarioController.crear_inventario, name='crear_inventario'),
+    path('admin/inventario/editar/<int:id>/', InventarioController.editar_inventario, name='editar_inventario'),
+    path('admin/inventario/eliminar/<int:id>/', InventarioController.eliminar_inventario, name='eliminar_inventario'),
 
 
-    # cuenta
+
+
     path('registro/', UsuarioController.registro_usuario, name='registro_usuario'),
     path('login/', UsuarioController.login_usuario, name='login'),
     path('logout/', UsuarioController.logout_usuario, name='logout'),

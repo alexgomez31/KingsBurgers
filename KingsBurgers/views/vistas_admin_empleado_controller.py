@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from KingsBurgers.models.Usuario import Usuario
+from KingsBurgers.forms import InventarioForm
+
 from KingsBurgers.models import Categoria, Producto , Inventario, Administrador, Empleado
 
 
@@ -124,20 +126,21 @@ class VistasAdminEmpleadoController:
         
     @login_required
     def panel_gestion_inventario_view(request):
-        if not request.user.is_authenticated:
-            return redirect('login')
-        
         try:
             usuario = Usuario.objects.get(id=request.user.id)
-            
+
             if usuario.tipo_usuario not in ['EMPLEADO', 'ADMIN']:
                 return redirect('bienvenida')
-            
-            Inventarios = Inventario.objects.all()
-            
+
+            inventarios = Inventario.objects.all()
+            productos = Producto.objects.all()
+            form = InventarioForm()
+
             return render(request, 'admin/inventario.html', {
                 'usuario': usuario,
-                'Inventario': Inventarios,
+                'inventarios': inventarios,
+                'form': form,
+                'productos': productos
             })
         except Usuario.DoesNotExist:
             return redirect('bienvenida')

@@ -1,15 +1,15 @@
 {% extends "admin/panel_admin.html" %}
 
-{% block title %}Gestión de Productos - KingsBurgers{% endblock %}
+{% block title %}Gestión de Inventario - KingsBurgers{% endblock %}
 
-{% block header_title %}Gestión de Productos{% endblock %}
-
+{% block header_title %}Gestión de Inventario{% endblock %}
 
 {% block header_buttons %}
 <div class="btn-group me-2">
-    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoUsuarioModal">
-        Nueva Producto
+    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#crearInventarioModal">
+        Nuevo Inventario
     </button>
+    
     <button type="button" class="btn btn-sm btn-outline-secondary">Exportar Lista</button>
 </div>
 {% endblock %}
@@ -17,7 +17,7 @@
 {% block content %}
 <div class="card">
     <div class="card-header">
-        Listado de Productos
+        Listado de Inventario
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -33,28 +33,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for inventario in Inventario %}
+                    {% for inv in inventarios %}
                     <tr>
-                        <td>{{ inventario.id }}</td>
-                        <td>{{ inventario.producto }}</td>
-                        <td>{{ inventario.cantidad_disponible }}</td>
-                        <td>{{ inventario.desde }}</td>
-                        <td>{{ inventario.hasta }}</td>
+                        <td>{{ inv.id }}</td>
+                        <td>{{ inv.producto }}</td>
+                        <td>{{ inv.cantidad_disponible }}</td>
+                        <td>{{ inv.desde }}</td>
+                        <td>{{ inv.hasta }}</td>
                      
                         <td>
-                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" 
-                                    data-bs-target="#editarUsuarioModal" data-id="{{ inventario.id }}">
+                            <button class="btn btn-sm btn-warning btn-editar" 
+                                    data-id="{{ inv.id }}"
+                                    data-producto="{{ inv.producto.id }}"
+                                    data-cantidad="{{ inv.cantidad_disponible }}"
+                                    data-desde="{{ inv.desde|date:'Y-m-d\\TH:i' }}"
+                                    data-hasta="{{ inv.hasta|date:'Y-m-d\\TH:i' }}">
                                 Editar
                             </button>
-                            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" 
-                                    data-bs-target="#eliminarUsuarioModal" data-id="{{ inventario.id }}">
-                                Eliminar
-                            </button>
+                            <a href="{% url 'eliminar_inventario' inv.id %}" class="btn btn-sm btn-danger"
+                               onclick="return confirm('¿Estás seguro de eliminar este producto?');">Eliminar</a>
                         </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="6" class="text-center">No hay usuarios registrados</td>
+                        <td colspan="6" class="text-center">No hay productos en inventario</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -63,52 +65,136 @@
     </div>
 </div>
 
-<!-- Modal para Nuevo Usuario -->
-<div class="modal fade" id="nuevoUsuarioModal" tabindex="-1" aria-labelledby="nuevoUsuarioModalLabel" aria-hidden="true">
+<!-- Modal Crear Inventario -->
+<div class="modal fade" id="crearInventarioModal" tabindex="-1" aria-labelledby="crearInventarioModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="nuevoUsuarioModalLabel">Nuevo Usuario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="{% url 'panel_admin' %}">
-                    {% csrf_token %}
+        <form method="POST" action="{% url 'crear_inventario' %}" id="crearInventarioForm">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="crearInventarioModalLabel">Agregar Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Producto -->
                     <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="correo" class="form-label">Correo</label>
-                        <input type="email" class="form-control" id="correo" name="correo" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="tipo_usuario" class="form-label">Tipo de Usuario</label>
-                        <select class="form-select" id="tipo_usuario" name="tipo_usuario" required>
-                            <option value="CLIENTE">Cliente</option>
-                            <option value="EMPLEADO">Empleado</option>
-                            <option value="ADMIN">Administrador</option>
+                        <label>Producto</label>
+                        <select class="form-select" name="producto" id="producto" required>
+                            {% for producto in productos %}
+                                <option value="{{ producto.id }}">{{ producto.nombre }}</option>
+                            {% endfor %}
                         </select>
                     </div>
+                    <!-- Cantidad -->
                     <div class="mb-3">
-                        <label for="contraseña" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="contraseña" name="contraseña" required>
+                        <label>Cantidad Disponible</label>
+                        <input type="number" class="form-control" name="cantidad_disponible" id="cantidad_disponible" required>
                     </div>
+                    <!-- Desde -->
+                    <div class="mb-3">
+                        <label>Desde</label>
+                        <input type="datetime-local" class="form-control" name="desde" required>
+                    </div>
+                    <!-- Hasta -->
+                    <div class="mb-3">
+                        <label>Hasta</label>
+                        <input type="datetime-local" class="form-control" name="hasta" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Guardar</button>
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
-<!-- Los demás modales (editar, eliminar) irían aquí -->
+<!-- Modal Editar Inventario (UN SOLO MODAL para todos los registros) -->
+<div class="modal fade" id="editarInventarioModal" tabindex="-1" aria-labelledby="editarInventarioModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="POST" id="editarInventarioForm" action="">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarInventarioModalLabel">Editar Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Producto -->
+                    <div class="mb-3">
+                        <label>Producto</label>
+                        <select class="form-select" name="producto" id="editar_producto" required>
+                            {% for producto in productos %}
+                                <option value="{{ producto.id }}">{{ producto.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <!-- Cantidad -->
+                    <div class="mb-3">
+                        <label>Cantidad Disponible</label>
+                        <input type="number" class="form-control" name="cantidad_disponible" id="editar_cantidad" required>
+                    </div>
+                    <!-- Desde (readonly) -->
+                    <div class="mb-3">
+                        <label>Desde</label>
+                        <input type="datetime-local" class="form-control" name="desde" id="editar_desde" readonly>
+                    </div>
+                    <!-- Hasta -->
+                    <div class="mb-3">
+                        <label>Hasta</label>
+                        <input type="datetime-local" class="form-control" name="hasta" id="editar_hasta" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Actualizar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-    // Aquí puedes agregar JavaScript específico para esta página
-    document.addEventListener('DOMContentLoaded', function() {
-        // Código para manejar los modales de edición y eliminación
+document.addEventListener('DOMContentLoaded', function() {
+    // Validación del formulario de creación
+    document.getElementById('crearInventarioForm').addEventListener('submit', function(e) {
+        const producto = document.getElementById('producto').value;
+        const cantidad = document.getElementById('cantidad_disponible').value;
+
+        if (!producto || !cantidad) {
+            alert('Por favor completa los campos requeridos.');
+            e.preventDefault();
+        }
     });
+    
+    // Manejar clicks en botones de editar
+    const botonesEditar = document.querySelectorAll('.btn-editar');
+    
+    botonesEditar.forEach(function(boton) {
+        boton.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const producto = this.getAttribute('data-producto');
+            const cantidad = this.getAttribute('data-cantidad');
+            const desde = this.getAttribute('data-desde');
+            const hasta = this.getAttribute('data-hasta');
+            
+            // Actualizar formulario con los datos del inventario
+            document.getElementById('editar_producto').value = producto;
+            document.getElementById('editar_cantidad').value = cantidad;
+            document.getElementById('editar_desde').value = desde;
+            document.getElementById('editar_hasta').value = hasta;
+            
+            // Actualizar la URL de acción del formulario
+            document.getElementById('editarInventarioForm').action = `/admin/inventario/editar/${id}/`;
+            
+            // Abrir el modal
+            const modal = new bootstrap.Modal(document.getElementById('editarInventarioModal'));
+            modal.show();
+        });
+    });
+});
 </script>
 {% endblock %}

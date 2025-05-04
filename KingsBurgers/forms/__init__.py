@@ -43,3 +43,10 @@ class CategoriaForm(forms.ModelForm):
     class Meta:
         model = Categoria
         fields = ['nombre', 'descripcion', 'habilitado', 'administrador']
+
+
+
+class InventarioForm(forms.ModelForm):
+    class Meta:
+        model = Inventario
+        fields = ['producto', 'cantidad_disponible', 'desde', 'hasta']
