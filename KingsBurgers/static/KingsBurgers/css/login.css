@@ -1,0 +1,151 @@
+:root {
+    --burger-red: #e63946;
+    --burger-yellow: #f8c537;
+    --burger-orange: #ff9500;
+    --text-dark: #333333;
+}
+
+body {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url('/static/KingsBurgers/img/hambur.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    padding: 40px 0;
+
+}
+
+.login-container {
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+.login-card {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background-color: white;
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--burger-red) 0%, var(--burger-orange) 100%);
+    padding: 1.5rem;
+    border: none;
+    position: relative;
+}
+
+.logo-container {
+    text-align: center;
+}
+
+.brand-logo {
+    text-align: center;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.logo-img {
+    width: 150px;
+    max-width: 180px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    border-radius: 50%;
+
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logo-text {
+    color: white;
+    font-weight: 800;
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.burger-icon {
+    color: var(--burger-orange);
+    font-size: 2.5rem;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.form-control {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    padding: 0.8rem;
+    color: var(--text-dark);
+    border-radius: 8px;
+}
+
+.form-control:focus {
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(255, 149, 0, 0.25);
+    border-color: var(--burger-orange);
+}
+
+.form-label {
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.btn-login {
+    background: linear-gradient(135deg, var(--burger-orange) 0%, var(--burger-yellow) 100%);
+    border: none;
+    padding: 0.8rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    color: var(--text-dark);
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(248, 197, 55, 0.4);
+    background: linear-gradient(135deg, var(--burger-yellow) 0%, var(--burger-orange) 100%);
+}
+
+.register-link {
+    color: var(--burger-orange);
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.register-link:hover {
+    color: var(--burger-red);
+}
+
+.input-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--burger-orange);
+}
+
+.form-floating > .form-control {
+    padding-right: 40px;
+}
+
+.form-floating > .form-control::placeholder {
+    color: #adb5bd;
+}
+
+.password-toggle {
+    cursor: pointer;
+}

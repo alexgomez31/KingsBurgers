@@ -3,1590 +3,314 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KingsBurgers 🔥 - Fuego y Sabor en cada Mordida</title>
+    <title>Registro - KingsBurgers</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #ff3b30;
-            --primary-dark: #c41e15;
-            --primary-light: #ff6b61;
-            --accent: #ffb700;
-            --dark-bg: #0a0a0a;
-            --dark-card: #141414;
-            --dark-element: #1e1e1e;
-            --light-text: #f5f5f5;
-            --gray-text: #aaaaaa;
-            --gradient-fire: linear-gradient(45deg, #ff3b30, #ff5722, #ffb700);
-        }
-        
-        body {
-            font-family: 'Montserrat', 'Segoe UI', sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--light-text);
-            overflow-x: hidden;
-        }
-        
-        .section-title {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 40px;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-        
-        .section-title::after {
-            content: "";
-            position: absolute;
-            width: 60%;
-            height: 4px;
-            background: var(--gradient-fire);
-            bottom: -10px;
-            left: 0;
-            border-radius: 4px;
-        }
-        
-        /* Header styles */
-        .navbar {
-            background-color: rgba(10, 10, 10, 0.95);
-            box-shadow: 0 2px 20px rgba(255, 59, 48, 0.2);
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 59, 48, 0.3);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-        
-        .navbar-brand {
-            font-weight: 800;
-            font-size: 1.8rem;
-            color: var(--light-text) !important;
-            text-shadow: 0 0 10px rgba(255, 59, 48, 0.5);
-        }
-        
-        .navbar-brand span {
-            color: var(--primary);
-        }
-        
-        .nav-link {
-            color: var(--light-text) !important;
-            font-weight: 600;
-            margin: 0 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background: var(--gradient-fire);
-            bottom: 0;
-            left: 0;
-            transition: width 0.3s ease;
-        }
-        
-        .nav-link:hover {
-            color: var(--primary) !important;
-        }
-        
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        
-        .cart-icon {
-            position: relative;
-        }
-        
-        .cart-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--gradient-fire);
-            color: var(--light-text);
-            font-size: 0.7rem;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* Slider styles */
-        .carousel {
-            margin-bottom: 50px;
-        }
-        
-        .carousel-item {
-            height: 600px;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-        
-        .carousel-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.4));
-        }
-        
-        .carousel-caption {
-            bottom: 80px;
-            text-align: left;
-            max-width: 600px;
-        }
-        
-        .carousel-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
-            margin-bottom: 20px;
-        }
-        
-        .carousel-text {
-            font-size: 1.3rem;
-            margin-bottom: 30px;
-            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
-        }
-        
-        .carousel-title span {
-            color: var(--primary);
-        }
-        
-        .btn-flame {
-            background: var(--gradient-fire);
-            color: var(--light-text);
-            border: none;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 59, 48, 0.4);
-        }
-        
-        .btn-flame:hover {
-            background: linear-gradient(45deg, var(--primary-dark), var(--primary), var(--accent));
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 59, 48, 0.6);
-            color: var(--light-text);
-        }
-        
-        /* Category menu styles */
-        .category-menu {
-            background-color: var(--dark-element);
-            padding: 20px;
-            border-radius: 15px;
-            margin: 30px 0;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 59, 48, 0.2);
-        }
-        
-        .category-btn {
-            background-color: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            font-weight: 600;
-            margin: 5px;
-            padding: 10px 25px;
-            border-radius: 50px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-        
-        .category-btn:hover, .category-btn.active {
-            background: var(--gradient-fire);
-            color: var(--light-text);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 59, 48, 0.3);
-        }
-
-        
-        /* Product card styles */
-        .product-card {
-            background-color: var(--dark-card);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            margin-bottom: 30px !important;
-            transition: all 0.4s ease;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        
-        .product-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(255, 59, 48, 0.2);
-            border: 1px solid rgba(255, 59, 48, 0.3);
-         
-        }
-        .product-item{
-            margin-bottom: 30px;
-        }
-        
-        .product-img {
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .product-img::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 30%;
-            background: linear-gradient(to top, var(--dark-card), transparent);
-        }
-        
-        .product-label {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: var(--gradient-fire);
-            color: var(--light-text);
-            font-weight: 700;
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            z-index: 1;
-        }
-        
-        .product-info {
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1; /* Hace que la info crezca para empujar el precio al fondo */
-        }
-
-        .product-title {
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: var(--light-text);
-            font-size: 1.4rem;
-        }
-
-        .product-desc {
-            color: var(--gray-text);
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            flex-grow: 1; /* Esta línea es CLAVE para empujar el resto hacia abajo */
-        }
-
-        .product-info .d-flex {
-            margin-top: auto; /* Esto garantiza que el precio y el botón queden abajo */
-        }
-
-        .product-price {
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-right: 10px;
-        }
-        
-        .old-price {
-            font-size: 1rem;
-            color: var(--gray-text);
-            text-decoration: line-through;
-        }
-        
-        .add-to-cart {
-            background-color: var(--dark-element);
-            color: var(--light-text);
-            border: 2px solid var(--primary);
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-        }
-        
-        .add-to-cart:hover {
-            background: var(--gradient-fire);
-            color: var(--light-text);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 59, 48, 0.3);
-        }
-        
-        .add-to-cart i {
-            margin-right: 8px;
-        }
-        
-        /* Fire divider */
-        .fire-divider {
-            position: relative;
-            height: 150px;
-            margin: 70px 0;
-            background: url('/api/placeholder/1200/150') center center no-repeat;
-            background-size: cover;
-            overflow: hidden;
-        }
-        
-        .fire-divider::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--dark-bg), transparent, var(--dark-bg));
-        }
-        
-        .fire-divider-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            width: 100%;
-            z-index: 1;
-        }
-        
-        .fire-divider-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            color: var(--light-text);
-            text-shadow: 0 0 20px rgba(255, 59, 48, 0.8);
-            margin-bottom: 0;
-        }
-        
-        .fire-divider-title span {
-            color: var(--primary);
-        }
-        
-        /* About section */
-        .about-section {
-            padding: 80px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .about-image {
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 59, 48, 0.2);
-            height: 100%;
-            min-height: 400px;
-        }
-
-        .about-content {
-            padding: 30px;
-        }
-
-        .about-title {
-            font-weight: 800;
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-        }
-
-        .about-text {
-            color: var(--gray-text);
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 30px;
-        }
-
-        .feature-box {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .feature-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--dark-element);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 20px;
-            color: var(--primary);
-            font-size: 1.5rem;
-            box-shadow: 0 5px 15px rgba(255, 59, 48, 0.2);
-            border: 1px solid rgba(255, 59, 48, 0.3);
-        }
-
-        .feature-title {
-            font-weight: 700;
-            margin-bottom: 5px;
-            font-size: 1.2rem;
-        }
-
-        .feature-text {
-            color: var(--gray-text);
-            font-size: 0.9rem;
-            margin: 0;
-        }
-
-        /* Locations section */
-        .locations-section {
-            padding: 80px 0;
-            background-color: rgba(20, 20, 20, 0.5);
-        }
-
-        .location-card {
-            background-color: var(--dark-card);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            margin-bottom: 30px;
-            transition: all 0.4s ease;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            height: 100%;
-        }
-
-        .location-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(255, 59, 48, 0.2);
-            border: 1px solid rgba(255, 59, 48, 0.3);
-        }
-
-        .location-img {
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .location-info {
-            padding: 25px;
-        }
-
-        .location-title {
-            font-weight: 700;
-            margin-bottom: 15px;
-            font-size: 1.4rem;
-        }
-
-        .location-address {
-            color: var(--gray-text);
-            margin-bottom: 15px;
-            font-size: 0.95rem;
-        }
-
-        .location-hours {
-            color: var(--gray-text);
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-        }
-
-        .location-link {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .location-link i {
-            margin-left: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .location-link:hover {
-            color: var(--primary-light);
-        }
-
-        .location-link:hover i {
-            transform: translateX(5px);
-        }
-
-        /* Contact section */
-        .contact-section {
-            padding: 80px 0;
-        }
-
-        .contact-info {
-            background-color: var(--dark-card);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            height: 100%;
-        }
-
-        .contact-form {
-            background-color: var(--dark-card);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .contact-item {
-            display: flex;
-            margin-bottom: 25px;
-        }
-
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--dark-element);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 20px;
-            color: var(--primary);
-            font-size: 1.3rem;
-            box-shadow: 0 5px 15px rgba(255, 59, 48, 0.2);
-            border: 1px solid rgba(255, 59, 48, 0.3);
-            flex-shrink: 0;
-        }
-
-        .contact-text {
-            color: var(--gray-text);
-        }
-
-        .contact-text strong {
-            display: block;
-            color: var(--light-text);
-            margin-bottom: 5px;
-        }
-
-        .form-control {
-            background-color: var(--dark-element);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--light-text);
-            padding: 12px 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .form-control:focus {
-            background-color: var(--dark-element);
-            border-color: var(--primary);
-            color: var(--light-text);
-            box-shadow: 0 0 10px rgba(255, 59, 48, 0.2);
-        }
-
-        .form-control::placeholder {
-            color: rgba(170, 170, 170, 0.7);
-        }
-
-        textarea.form-control {
-            min-height: 150px;
-            resize: none;
-        }
-        
-        /* Footer styles */
-        footer {
-            background-color: var(--dark-element);
-            color: var(--light-text);
-            padding: 60px 0 20px;
-            border-top: 1px solid rgba(255, 59, 48, 0.3);
-            position: relative;
-        }
-        
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--gradient-fire);
-        }
-        
-        .footer-title {
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 25px;
-            color: var(--primary);
-            position: relative;
-            display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .footer-title::after {
-            content: '';
-            position: absolute;
-            width: 40px;
-            height: 3px;
-            background: var(--gradient-fire);
-            bottom: -8px;
-            left: 0;
-            border-radius: 3px;
-        }
-        
-        footer ul {
-            list-style: none;
-            padding-left: 0;
-        }
-        
-        footer ul li {
-            margin-bottom: 12px;
-        }
-        
-        footer a {
-            color: var(--gray-text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        footer a:hover {
-            color: var(--primary);
-            text-decoration: none;
-            padding-left: 5px;
-        }
-        
-        .social-icons a {
-            display: inline-block;
-            margin-right: 20px;
-            font-size: 1.8rem;
-            color: var(--gray-text);
-            transition: all 0.3s ease;
-        }
-        
-        .social-icons a:hover {
-            color: var(--primary);
-            transform: translateY(-5px) scale(1.1);
-            text-shadow: 0 5px 15px rgba(255, 59, 48, 0.4);
-        }
-        
-        .footer-logo {
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 10px rgba(255, 59, 48, 0.5));
-        }
-        
-        .footer-copyright {
-            color: var(--gray-text);
-            font-size: 0.9rem;
-            margin-top: 10px;
-        }
-        
-        .footer-developer {
-            color: var(--gray-text);
-            font-size: 0.9rem;
-        }
-        
-        .footer-developer span {
-            color: var(--primary);
-            font-weight: 600;
-        }
-        
-        .cookies-bar {
-            background-color: rgba(20, 20, 20, 0.97);
-            color: var(--light-text);
-            padding: 20px 0;
-            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
-            border-top: 1px solid rgba(255, 59, 48, 0.3);
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-        
-        .cookies-text {
-            font-size: 0.95rem;
-            color: var(--gray-text);
-        }
-        
-        .cookies-text a {
-            color: var(--primary);
-            font-weight: 600;
-            text-decoration: none;
-        }
-        
-        .cookies-text a:hover {
-            text-decoration: underline;
-        }
-        
-        .cookies-btn {
-            background: var(--gradient-fire);
-            color: var(--light-text);
-            border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-        
-        .cookies-btn:hover {
-            background: linear-gradient(45deg, var(--primary-dark), var(--primary), var(--accent));
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 59, 48, 0.3);
-        }
-        
-        /* Fire animation for logo */
-        @keyframes flicker {
-            0% { text-shadow: 0 0 5px rgba(255, 59, 48, 0.5); }
-            25% { text-shadow: 0 0 10px rgba(255, 59, 48, 0.7); }
-            50% { text-shadow: 0 0 15px rgba(255, 59, 48, 0.9), 0 0 20px rgba(255, 183, 0, 0.4); }
-            75% { text-shadow: 0 0 10px rgba(255, 59, 48, 0.7); }
-            100% { text-shadow: 0 0 5px rgba(255, 59, 48, 0.5); }
-        }
-        
-        .fire-text {
-            animation: flicker 2s infinite alternate;
-        }
-
-        /* Added glow effect */
-        .glow-effect {
-            filter: drop-shadow(0 0 10px rgba(255, 59, 48, 0.7));
-            transition: all 0.3s ease;
-        }
-
-        .glow-effect:hover {
-            filter: drop-shadow(0 0 15px rgba(255, 59, 48, 0.9));
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 992px) {
-            .carousel-item {
-                height: 500px;
-            }
-            
-            .carousel-title {
-                font-size: 2.5rem;
-            }
-            
-            .category-btn {
-                margin-bottom: 10px;
-            }
-
-            .about-image {
-                margin-bottom: 30px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .carousel-item {
-                height: 400px;
-            }
-            
-            .carousel-title {
-                font-size: 2rem;
-            }
-            
-            .fire-divider {
-                height: 100px;
-            }
-            
-            .fire-divider-title {
-                font-size: 1.8rem;
-            }
-            
-            footer {
-                padding: 40px 0 20px;
-            }
-
-            .navbar-brand {
-                font-size: 1.5rem;
-            }
-        }
-
-        /* Background glow effects */
-        .bg-glow {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            z-index: -1;
-            opacity: 0.2;
-        }
-
-        .glow-1 {
-            width: 300px;
-            height: 300px;
-            background: var(--primary);
-            top: 20%;
-            left: -150px;
-        }
-
-        .glow-2 {
-            width: 400px;
-            height: 400px;
-            background: var(--accent);
-            bottom: 10%;
-            right: -200px;
-        }
-
-        .glow-3 {
-            width: 250px;
-            height: 250px;
-            background: var(--primary-dark);
-            top: 60%;
-            left: 30%;
-        }
-
-
-        /* alerticas parpadeante paar sin cuenta  */
-        .pulse-alert {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background-color: #ff4757; /* Rojo llamativo */
-            border-radius: 50%;
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            animation: pulse 2s infinite;
-        }
-
-        /* Efecto de parpadeo más intenso */
-        .alert-icon {
-            color: #ff6b81; /* Color rosado/rojo para el ícono */
-            position: relative;
-            animation: blink 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
-            }
-            70% {
-                transform: scale(1.1);
-                box-shadow: 0 0 0 10px rgba(255, 71, 87, 0);
-            }
-            100% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
-            }
-        }
-
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.3; color: #ff0000; }
-            100% { opacity: 1; }
-        }
-
-        /* Contenedor para posicionar correctamente el dropdown */
-        .user-menu-container {
-            position: relative;
-        }
-
-        /* Menú desplegable centrado */
-        .dropdown-menu-centered {
-            right: auto;
-            left: 50%;
-            transform: translateX(-50%);
-            margin-top: 8px;
-        }
-
-        /* Estilo para el ícono de alerta */
-        .alert-icon {
-            color: #ff6b81;
-            position: relative;
-        }
-
-        .pulse-alert {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background-color: #ff4757;
-            border-radius: 50%;
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(0.95);
-                opacity: 1;
-            }
-            70% {
-                transform: scale(1.3);
-                opacity: 0.7;
-            }
-            100% {
-                transform: scale(0.95);
-                opacity: 1;
-            }
-        }
-
-        .fa-circle-user {
-            font-size: 1.3rem;
-        }
-
-        .navbar {
-            overflow: visible;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/kingsburgers/css/registro.css">
 </head>
 <body>
-    <!-- Background glows -->
-    <div class="bg-glow glow-1"></div>
-    <div class="bg-glow glow-2"></div>
-    <div class="bg-glow glow-3"></div>
-
-    <!-- Navbar/Header -->
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="burger-background">
         <div class="container">
-            <a class="navbar-brand fire-text" href="#">Kings<span>Burgers</span> 🔥</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#menu">Menú</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">Nosotros</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#locations">Locales</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contacto</a>
-                    </li>
-
-                    {% if logueado %}
-                        <li class="nav-item">
-                            <a class="nav-link cart-icon" href="#">
-                                <i class="fas fa-shopping-cart"></i>
-                                <span class="cart-badge">0</span>
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown user-menu-container">
-                            <a class="nav-link cart-icon dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-solid fa-circle-user"></i>
-                            </a>
-                            <!-- Menú desplegable -->
-                            <ul class="dropdown-menu dropdown-menu-centered" aria-labelledby="userDropdown">
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Perfil</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Configuración</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
-                            </ul>
-                        </li>
-                    {% else %}
-                        <li class="nav-item dropdown user-menu-container">
-                            <a class="nav-link dropdown-toggle" href="#" id="authDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-solid fa-user alert-icon"></i>
-                                <span class="pulse-alert"></span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-centered" aria-labelledby="authDropdown">
-                                <li><a class="dropdown-item" href="{% url 'login' %}"><i class="fas fa-sign-in-alt me-2"></i>Iniciar sesión</a></li>
-                                <li><a class="dropdown-item" href="{% url 'registro_usuario' %}"><i class="fas fa-user-plus me-2"></i>Registrarse</a></li>
-                            </ul>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Slider/Carousel -->
-    <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
-            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
-            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
-        </div>
-
-        <div class="carousel-inner">
-            {% load static %}
-            <div class="carousel-item active" style="background-image: url('{% static "KingsBurgers/img/11.png" %}'); background-size: cover; background-position: center;">
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1 class="carousel-title">SABOR <span>ARDIENTE</span> EN CADA MORDIDA</h1>
-                        <p class="carousel-text">Nuestras hamburguesas son preparadas con la mejor carne a la parrilla, servidas en pan artesanal y con ingredientes frescos de primera calidad.</p>
-                        <button class="btn btn-flame">ORDENAR AHORA</button>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item" style="background-image: url('{% static "KingsBurgers/img/11.png" %}'); background-size: cover; background-position: center;">
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1 class="carousel-title">FUEGO Y <span>PASIÓN</span> EN CADA HAMBURGUESA</h1>
-                        <p class="carousel-text">Nuestros maestros parrilleros crean la perfecta combinación de sabores, texturas y aromas que te harán volver por más.</p>
-                        <button class="btn btn-flame">DESCUBRIR MENÚ</button>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item" style="background-image: url('{% static "KingsBurgers/img/11.png" %}'); background-size: cover; background-position: center;">
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1 class="carousel-title">PROMOCIONES <span>EXPLOSIVAS</span></h1>
-                        <p class="carousel-text">Disfruta de nuestros combos y promociones especiales. ¡El sabor que buscas al precio que mereces!</p>
-                        <button class="btn btn-flame">VER PROMOS</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-            <span class="visually-hidden">Anterior</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-            <span class="visually-hidden">Siguiente</span>
-        </button>
-    </div>
-
-    <!-- Product Menu Section -->
-    <section id="menu" class="py-5">
-        <div class="container">
-            <h2 class="section-title text-center">Nuestro Menú</h2>
-            
-            <!-- Categories Menu -->
-            <div class="category-menu text-center">
-                <button class="category-btn active" data-category="all">Todos</button>
-                <button class="category-btn" data-category="hamburguesas">Hamburguesas</button>
-                <button class="category-btn" data-category="combos">Combos</button>
-                <button class="category-btn" data-category="promociones">Promociones</button>
-                <button class="category-btn" data-category="adicionales">Adicionales</button>
-                <button class="category-btn" data-category="bebidas">Bebidas</button>
-            </div>
-            
-            <!-- Products Grid -->
-            <div class="row product-container">
-                <!-- Hamburguesas -->
-                <div class="col-lg-4 col-md-6 product-item" data-category="hamburguesas">
-                    <div class="product-card">
-                        {% load static %}
-                        <div class="product-img" style="background-image: url('{% static "KingsBurgers/img/11.png" %}'); background-size: cover; background-position: center;">
-                            <div class="product-label">Bestseller</div>
-                        </div>
-                        <div class="product-info">
-                            <h4 class="product-title">Fire King Burger</h4>
-                            <p class="product-desc">Nuestra hamburguesa estrella con carne Angus a la parrilla, queso cheddar, bacon ahumado, cebolla caramelizada y nuestra salsa secreta.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$18.900</span>
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="card-wrapper">
+                        <div class="burger-top"></div>
+                        <div class="card registro-card">
+                            <div class="brand-logo">
+                                <img src="/api/placeholder/200/100" alt="KingsBurgers Logo" class="logo-img">
+                            </div>
+                            
+                            <h2 class="text-center titulo-registro">HAMBURGUESAS AL FUEGO</h2>
+                            <p class="text-center subtitulo">
+                            
+                            <form method="post" class="my-4" id="registroForm">
+                                {% csrf_token %}
+                                
+                                <!-- Selector de tipo de usuario -->
+                                <div class="mb-4">
+                                    <div class="user-type-selector">
+                                        <label class="user-type-label">Selecciona tu rol:</label>
+                                        <div class="user-type-options">
+                                            <div class="option-card" data-value="CLIENTE" onclick="selectUserType(this, 'CLIENTE')">
+                                                <i class="fas fa-user"></i>
+                                                <span>Cliente</span>
+                                            </div>
+                                            <div class="option-card" data-value="EMPLEADO" onclick="selectUserType(this, 'EMPLEADO')">
+                                                <i class="fas fa-briefcase"></i>
+                                                <span>Empleado</span>
+                                            </div>
+                                            <div class="option-card" data-value="ADMIN" onclick="selectUserType(this, 'ADMIN')">
+                                                <i class="fas fa-crown"></i>
+                                                <span>Admin</span>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="id_tipo_usuario" name="tipo_usuario" required>
+                                        <div id="tipo_usuario_error" class="error-message"></div>
+                                    </div>
                                 </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 product-item " data-category="hamburguesas">
-                    <div class="product-card">
-                        {% load static %}
-                        <div class="product-img" style="background-image: url('{% static "KingsBurgers/img/11.png" %}'); background-size: cover; background-position: center;"></div>
-                        <div class="product-info">
-                            <h4 class="product-title">Double Flame</h4>
-                            <p class="product-desc">Doble carne, doble queso, bacon crujiente, jalapeños y nuestra salsa picante de la casa para los amantes del auténtico sabor.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$22.900</span>
+                                
+                                <!-- Campos comunes a todos los usuarios -->
+                                <div class="input-group-custom">
+                                    <div class="icon-wrapper">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <input type="text" class="form-control custom-input" id="id_nombre" name="nombre" placeholder="Nombre de usuario" required>
+                                    <div id="nombre_error" class="error-message"></div>
                                 </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 product-item" data-category="hamburguesas">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');"></div>
-                        <div class="product-info">
-                            <h4 class="product-title">Smoky BBQ</h4>
-                            <p class="product-desc">Carne madurada, queso ahumado, aros de cebolla crujientes y nuestra legendaria salsa BBQ casera con un toque de bourbon.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$19.900</span>
+                                
+                                <div class="input-group-custom">
+                                    <div class="icon-wrapper">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <input type="email" class="form-control custom-input" id="id_correo" name="correo" placeholder="Correo electrónico" required>
+                                    <div id="correo_error" class="error-message"></div>
                                 </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Combos -->
-                <div class="col-lg-4 col-md-6 product-item" data-category="combos">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');">
-                            <div class="product-label">Popular</div>
-                        </div>
-                        <div class="product-info">
-                            <h4 class="product-title">Combo Kings Inferno</h4>
-                            <p class="product-desc">Fire King Burger con papas fritas rústicas, salsa de queso cheddar y bebida a elección. ¡El combo perfecto!</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$25.900</span>
-                                    <span class="old-price">$28.900</span>
+                                
+                                <div class="input-group-custom">
+                                    <div class="icon-wrapper">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                    <input type="password" class="form-control custom-input" id="id_password" name="password" placeholder="Contraseña" required>
+                                    <div id="password_error" class="error-message"></div>
                                 </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 product-item" data-category="combos">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');"></div>
-                        <div class="product-info">
-                            <h4 class="product-title">Combo Familiar Flames</h4>
-                            <p class="product-desc">4 hamburguesas a elección, 2 porciones grandes de papas, 4 bebidas y 2 postres. ¡Perfecto para compartir!</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$69.900</span>
-                                    <span class="old-price">$75.900</span>
+                                
+                                <div class="input-group-custom">
+                                    <div class="icon-wrapper">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <input type="password" class="form-control custom-input" id="id_confirmar_password" name="confirmar_password" placeholder="Confirmar contraseña" required>
+                                    <div id="confirmar_password_error" class="error-message"></div>
                                 </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Promociones -->
-                <div class="col-lg-4 col-md-6 product-item" data-category="promociones">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');">
-                            <div class="product-label">Oferta</div>
-                        </div>
-                        <div class="product-info">
-                            <h4 class="product-title">2x1 Jueves de Fuego</h4>
-                            <p class="product-desc">Todos los jueves, lleva 2 Fire King Burger por el precio de 1. La mejor forma de encender tu semana.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$18.900</span>
-                                    <span class="old-price">$37.800</span>
+                                
+                                <!-- Sección específica para CLIENTE -->
+                                <div id="cliente-section" class="form-section">
+                                    <div class="seccion-subtitulo">
+                                        <i class="fas fa-utensils"></i>
+                                        <h5>Información del Cliente</h5>
+                                    </div>
+                                    
+                                    <div class="input-group-custom">
+                                        <div class="icon-wrapper">
+                                            <i class="fas fa-phone"></i>
+                                        </div>
+                                        <input type="tel" class="form-control custom-input" id="id_telefono" name="telefono" placeholder="Teléfono">
+                                        <div id="telefono_error" class="error-message"></div>
+                                    </div>
+                                    
+                                    <div class="input-group-custom">
+                                        <div class="icon-wrapper">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <textarea class="form-control custom-input" id="id_direccion" name="direccion" rows="2" placeholder="Dirección de entrega"></textarea>
+                                        <div id="direccion_error" class="error-message"></div>
+                                    </div>
                                 </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Adicionales -->
-                <div class="col-lg-4 col-md-6 product-item" data-category="adicionales">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');"></div>
-                        <div class="product-info">
-                            <h4 class="product-title">Papas Fuego</h4>
-                            <p class="product-desc">Papas fritas rústicas con queso cheddar derretido, bacon crujiente, jalapeños y nuestra salsa picante especial.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$12.900</span>
+                                
+                                <!-- Sección específica para EMPLEADO -->
+                                <div id="empleado-section" class="form-section">
+                                    <div class="seccion-subtitulo">
+                                        <i class="fas fa-id-card"></i>
+                                        <h5>Información del Empleado</h5>
+                                    </div>
+                                    
+                                    <div class="input-group-custom">
+                                        <div class="icon-wrapper">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                        <input type="date" class="form-control custom-input" id="id_fecha_contrato" name="fecha_contrato">
+                                        <div id="fecha_contrato_error" class="error-message"></div>
+                                    </div>
                                 </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 product-item" data-category="adicionales">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');"></div>
-                        <div class="product-info">
-                            <h4 class="product-title">Aros de Cebolla Inferno</h4>
-                            <p class="product-desc">Aros de cebolla crujientes rebozados en nuestra masa especial con especias picantes y salsa ranch para dipear.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$10.900</span>
+                                
+                                <!-- Sección específica para ADMIN -->
+                                <div id="admin-section" class="form-section">
+                                    <div class="seccion-subtitulo">
+                                        <i class="fas fa-shield-alt"></i>
+                                        <h5>Información del Administrador</h5>
+                                    </div>
+                                    
+                                    <div class="input-group-custom">
+                                        <div class="icon-wrapper">
+                                            <i class="fas fa-key"></i>
+                                        </div>
+                                        <input type="password" class="form-control custom-input" id="id_codigo_admin" name="codigo_admin" placeholder="Código de administrador">
+                                        <div id="codigo_admin_error" class="error-message"></div>
+                                    </div>
                                 </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Bebidas -->
-                <div class="col-lg-4 col-md-6 product-item" data-category="bebidas">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');"></div>
-                        <div class="product-info">
-                            <h4 class="product-title">Milkshake de Chocolate Explosivo</h4>
-                            <p class="product-desc">Cremoso batido de chocolate belga con crema batida, salsa de chocolate y chispas de chocolate crujiente.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$8.900</span>
+                                
+                                {% if form.errors %}
+                                <div class="alert alert-danger">
+                                    {% for field, errors in form.errors.items %}
+                                        {% for error in errors %}
+                                            <p><strong>{{ field|title }}:</strong> {{ error }}</p>
+                                        {% endfor %}
+                                    {% endfor %}
+                                    {% if form.non_field_errors %}
+                                        {% for error in form.non_field_errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    {% endif %}
                                 </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 product-item" data-category="bebidas">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');"></div>
-                        <div class="product-info">
-                            <h4 class="product-title">Limonada de Fuego</h4>
-                            <p class="product-desc">Refrescante limonada con un toque de jengibre, menta fresca y un ligero picor de chile que despertará tus sentidos.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$7.900</span>
+                                {% endif %}
+                                
+                                <div class="d-grid gap-2 mt-4">
+                                    <button type="submit" class="btn boton-registro">
+                                        <span>¡REGISTRARME!</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </button>
                                 </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
+                            </form>
+                            
+                            <div class="text-center mt-3 login-link">
+                                <a href="{% url 'login' %}" class="text-decoration-none">¿Ya eres parte de la realeza? <span class="destacado">Inicia sesión</span></a>
                             </div>
                         </div>
+                        <div class="burger-bottom"></div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Fire Divider -->
-    <div class="fire-divider">
-        <div class="fire-divider-content">
-            <h3 class="fire-divider-title">EL AUTÉNTICO SABOR DE LA <span>PARRILLA</span></h3>
-        </div>
-    </div>
-
-    <!-- About Section -->
-    <section id="about" class="about-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    {% load static %}
-                    <div class="image-column">
-                        <div class="about-image mb-3" style="background-image: url('{% static "KingsBurgers/img/11.png" %}'); background-size: cover; background-position: center;"></div>
-                        <div class="about-image mb-3" style="background-image: url('{% static "KingsBurgers/img/11.png" %}'); background-size: cover; background-position: center;"></div>
-                        <div class="about-image" style="background-image: url('{% static "KingsBurgers/img/11.png" %}'); background-size: cover; background-position: center;"></div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="about-content">
-                        <h2 class="section-title">Nuestra Historia</h2>
-                        <p class="about-text">En KingsBurgers, nuestra pasión por las hamburguesas nació en 2015, cuando decidimos crear un lugar donde la calidad, el sabor y la innovación fueran los protagonistas. Desde entonces, nos hemos dedicado a perfeccionar cada detalle, desde la selección de los mejores cortes de carne hasta la elaboración artesanal de nuestros panes y salsas.</p>
-                        <p class="about-text">Nos enorgullece ofrecer una experiencia gastronómica única, combinando técnicas tradicionales de parrilla con toques innovadores que despiertan los sentidos. Cada hamburguesa es una obra de arte creada con pasión y dedicación por nuestro equipo de chefs expertos.</p>
-                        
-                        <div class="feature-box">
-                            <div class="feature-icon">
-                                <i class="fas fa-fire"></i>
-                            </div>
-                            <div>
-                                <h4 class="feature-title">Ingredientes de Calidad</h4>
-                                <p class="feature-text">Seleccionamos cuidadosamente cada ingrediente para garantizar el máximo sabor y frescura.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="feature-box">
-                            <div class="feature-icon">
-                                <i class="fas fa-utensils"></i>
-                            </div>
-                            <div>
-                                <h4 class="feature-title">Recetas Originales</h4>
-                                <p class="feature-text">Nuestras salsas y mezclas de especias son creaciones propias, desarrolladas tras años de experimentación.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="feature-box">
-                            <div class="feature-icon">
-                                <i class="fas fa-leaf"></i>
-                            </div>
-                            <div>
-                                <h4 class="feature-title">Compromiso Sostenible</h4>
-                                <p class="feature-text">Trabajamos con productores locales y utilizamos envases biodegradables para reducir nuestro impacto ambiental.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Locations Section -->
-    <section id="locations" class="locations-section">
-        <div class="container">
-            <h2 class="section-title text-center">Nuestros Locales</h2>
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="location-card">
-                        <div class="location-img" style="background-image: url('/api/placeholder/400/300');"></div>
-                        <div class="location-info">
-                            <h4 class="location-title">KingsBurgers Centro</h4>
-                            <p class="location-address"><i class="fas fa-map-marker-alt me-2"></i> Av. Principal 123, Centro</p>
-                            <p class="location-hours"><i class="far fa-clock me-2"></i> Lun-Dom: 12:00 - 23:00</p>
-                            <a href="#" class="location-link">Ver en mapa <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="location-card">
-                        <div class="location-img" style="background-image: url('/api/placeholder/400/300');"></div>
-                        <div class="location-info">
-                            <h4 class="location-title">KingsBurgers Norte</h4>
-                            <p class="location-address"><i class="fas fa-map-marker-alt me-2"></i> Calle Norte 456, Plaza Comercial</p>
-                            <p class="location-hours"><i class="far fa-clock me-2"></i> Lun-Dom: 12:00 - 22:00</p>
-                            <a href="#" class="location-link">Ver en mapa <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="location-card">
-                        <div class="location-img" style="background-image: url('/api/placeholder/400/300');"></div>
-                        <div class="location-info">
-                            <h4 class="location-title">KingsBurgers Este</h4>
-                            <p class="location-address"><i class="fas fa-map-marker-alt me-2"></i> Avda. Oriental 789, Centro Comercial</p>
-                            <p class="location-hours"><i class="far fa-clock me-2"></i> Lun-Dom: 12:00 - 23:30</p>
-                            <a href="#" class="location-link">Ver en mapa <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact-section">
-        <div class="container">
-            <h2 class="section-title text-center">Contacto</h2>
-            <div class="row">
-                <div class="col-lg-5 mb-4 mb-lg-0">
-                    <div class="contact-info">
-                        <h3 class="mb-4">¿Preguntas o comentarios?</h3>
-                        <p class="mb-4">Estamos aquí para ayudarte. Contáctanos por cualquiera de estos medios o llena el formulario y te responderemos a la brevedad.</p>
-                        
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-phone-alt"></i>
-                            </div>
-                            <div class="contact-text">
-                                <strong>Teléfono</strong>
-                                +56 9 1234 5678
-                            </div>
-                        </div>
-                        
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="contact-text">
-                                <strong>Email</strong>
-                                contacto@kingsburgers.com
-                            </div>
-                        </div>
-                        
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="contact-text">
-                                <strong>Oficina Central</strong>
-                                Av. Principal 123, Centro<br>Santiago, Chile
-                            </div>
-                        </div>
-                        
-                        <div class="social-icons mt-4">
-                            <a href="#" class="glow-effect"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="glow-effect"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="glow-effect"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="glow-effect"><i class="fab fa-tiktok"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="contact-form">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Nombre" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="email" class="form-control" placeholder="Email" required>
-                                </div>
-                            </div>
-                            <input type="text" class="form-control" placeholder="Asunto">
-                            <textarea class="form-control" placeholder="Mensaje" required></textarea>
-                            <button type="submit" class="btn btn-flame mt-3">Enviar Mensaje</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4 mb-lg-0">
-                    <a href="#" class="navbar-brand mb-4 fire-text">Kings<span>Burgers</span> 🔥</a>
-                    <p class="mb-4">Desde 2015 encendiendo el sabor en cada hamburguesa, combinando la mejor calidad con la pasión por la parrilla y los ingredientes frescos.</p>
-                    <div class="social-icons">
-                        <a href="#" class="glow-effect"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="glow-effect"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="glow-effect"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="glow-effect"><i class="fab fa-tiktok"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
-                    <h4 class="footer-title">Enlaces</h4>
-                    <ul>
-                        <li><a href="#">Inicio</a></li>
-                        <li><a href="#menu">Menú</a></li>
-                        <li><a href="#about">Nosotros</a></li>
-                        <li><a href="#locations">Locales</a></li>
-                        <li><a href="#contact">Contacto</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-                    <h4 class="footer-title">Horarios</h4>
-                    <ul>
-                        <li>Lunes - Jueves: 12:00 - 22:00</li>
-                        <li>Viernes - Sábado: 12:00 - 00:00</li>
-                        <li>Domingo: 12:00 - 21:00</li>
-                    </ul>
-                    <div class="mt-4">
-                        <h4 class="footer-title">Delivery</h4>
-                        <div class="d-flex align-items-center gap-3 mt-3">
-                            <a href="#" class="glow-effect"><i class="fas fa-motorcycle fa-lg"></i></a>
-                            <a href="#" class="glow-effect"><i class="fas fa-car fa-lg"></i></a>
-                            <a href="#" class="glow-effect"><i class="fas fa-shopping-bag fa-lg"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="footer-title">Newsletter</h4>
-                    <p class="mb-3">Suscríbete para recibir nuestras promociones y novedades.</p>
-                    <form class="mb-3">
-                        <div class="input-group">
-                            <input type="email" class="form-control" placeholder="Tu email" style="background-color: var(--dark-element); border: 1px solid rgba(255,255,255,0.1); color: var(--light-text);">
-                            <button class="btn btn-flame" type="submit"><i class="fas fa-paper-plane"></i></button>
-                        </div>
-                    </form>
-                    <p class="mb-0">Acepto recibir comunicaciones comerciales.</p>
-                </div>
-            </div>
-            <hr style="border-color: rgba(255,255,255,0.1);" class="my-4">
-            <div class="row">
-                <div class="col-md-6 mb-3 mb-md-0">
-                    <p class="footer-copyright mb-0">© 2025 KingsBurgers. Todos los derechos reservados.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <p class="footer-developer mb-0">Diseñado con <span><i class="fas fa-fire"></i></span> por Webdev Studios</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Cookies Bar -->
-    <div class="cookies-bar">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8 mb-3 mb-lg-0">
-                    <p class="cookies-text mb-0">Utilizamos cookies para mejorar tu experiencia en nuestro sitio web. Al continuar navegando, aceptas nuestra <a href="#">Política de Cookies</a> y <a href="#">Términos de Privacidad</a>.</p>
-                </div>
-                <div class="col-lg-4 text-lg-end">
-                    <button class="cookies-btn">Aceptar todo</button>
-                    <button class="btn btn-link text-light">Personalizar</button>
                 </div>
             </div>
         </div>
     </div>
 
-</body>
-</html>
-
-
-    <!-- JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Script para el menú de categorías
-        document.addEventListener('DOMContentLoaded', function() {
-            const categoryButtons = document.querySelectorAll('.category-btn');
-            const productItems = document.querySelectorAll('.product-item');
+        function selectUserType(element, value) {
+            // Quitar clase activa de todas las opciones
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('active');
+            });
             
-            categoryButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remover la clase active de todos los botones
-                    categoryButtons.forEach(btn => btn.classList.remove('active'));
-                    // Añadir la clase active al botón clickeado
-                    this.classList.add('active');
-                    
-                    const category = this.getAttribute('data-category');
-                    
-                    // Mostrar/ocultar productos según la categoría
-                    productItems.forEach(item => {
-                        if (category === 'all' || item.getAttribute('data-category') === category) {
-                            item.style.display = 'block';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
+            // Añadir clase activa a la opción seleccionada
+            element.classList.add('active');
+            
+            // Actualizar el valor del input oculto
+            document.getElementById('id_tipo_usuario').value = value;
+            
+            // Mostrar los campos correspondientes
+            mostrarCampos(value);
+        }
+        
+        function mostrarCampos(tipoUsuario) {
+            // Ocultar todas las secciones primero
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.style.display = 'none';
+                // Remover required de todos los campos al ocultar
+                section.querySelectorAll('input, textarea').forEach(input => {
+                    input.removeAttribute('required');
+                    // Limpiar mensajes de error al ocultar
+                    const errorElement = document.getElementById(`${input.name}_error`);
+                    if (errorElement) {
+                        errorElement.textContent = '';
+                    }
                 });
             });
             
-            // Carrito de compras (funcionalidad básica)
-            const addToCartButtons = document.querySelectorAll('.add-to-cart');
-            const cartBadge = document.querySelector('.cart-badge');
-            let cartCount = 0;
-            
-            addToCartButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    cartCount++;
-                    cartBadge.textContent = cartCount;
-                    
-                    // Efecto de animación al añadir al carrito
-                    this.innerHTML = '<i class="fas fa-check"></i>Añadido';
-                    this.style.backgroundColor = 'var(--primary)';
-                    this.style.color = 'var(--light-text)';
-                    
-                    setTimeout(() => {
-                        this.innerHTML = '<i class="fas fa-shopping-cart"></i>Añadir';
-                        this.style.backgroundColor = '';
-                        this.style.color = '';
-                    }, 1000);
+            // Mostrar la sección correspondiente y agregar required
+            if (tipoUsuario === 'CLIENTE') {
+                const section = document.getElementById('cliente-section');
+                section.style.display = 'block';
+                section.querySelectorAll('input, textarea').forEach(input => {
+                    input.setAttribute('required', 'required');
                 });
+            } else if (tipoUsuario === 'EMPLEADO') {
+                const section = document.getElementById('empleado-section');
+                section.style.display = 'block';
+                section.querySelectorAll('input, textarea').forEach(input => {
+                    input.setAttribute('required', 'required');
+                });
+            } else if (tipoUsuario === 'ADMIN') {
+                const section = document.getElementById('admin-section');
+                section.style.display = 'block';
+                section.querySelectorAll('input, textarea').forEach(input => {
+                    input.setAttribute('required', 'required');
+                });
+            }
+        }
+
+        // Validación antes de enviar el formulario
+        document.getElementById('registroForm').addEventListener('submit', function(e) {
+            let isValid = true;
+            const tipoUsuario = document.getElementById('id_tipo_usuario').value;
+            
+            // Limpiar mensajes de error anteriores
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.textContent = '';
             });
-            
-            // Cerrar aviso de cookies
-            const cookiesBtn = document.querySelector('.cookies-btn');
-            const cookiesBar = document.querySelector('.cookies-bar');
-            
-            cookiesBtn.addEventListener('click', function() {
-                cookiesBar.style.display = 'none';
-            });
-            
-            // Efecto parallax para el carrusel
-            const carousel = document.querySelector('.carousel');
-            window.addEventListener('scroll', function() {
-                const scrolled = window.scrollY;
-                if (scrolled < 600) {
-                    carousel.style.backgroundPositionY = scrolled * 0.2 + 'px';
+
+            // Validar campos comunes
+            const camposComunes = [
+                {id: 'id_nombre', name: 'nombre', errorId: 'nombre_error'},
+                {id: 'id_correo', name: 'correo', errorId: 'correo_error'},
+                {id: 'id_password', name: 'password', errorId: 'password_error'},
+                {id: 'id_confirmar_password', name: 'confirmar_password', errorId: 'confirmar_password_error'}
+            ];
+
+            camposComunes.forEach(campo => {
+                const input = document.getElementById(campo.id);
+                if (!input.value.trim()) {
+                    document.getElementById(campo.errorId).textContent = 'Este campo es obligatorio';
+                    isValid = false;
                 }
             });
 
-            // Animación para los elementos al hacer scroll
-            const animateElements = document.querySelectorAll('.product-card, .location-card, .about-image, .contact-info, .contact-form');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = 1;
-                        entry.target.style.transform = 'translateY(0)';
+            // Validar contraseñas coincidentes
+            const password = document.getElementById('id_password').value;
+            const confirmPassword = document.getElementById('id_confirmar_password').value;
+            if (password !== confirmPassword) {
+                document.getElementById('confirmar_password_error').textContent = 'Las contraseñas no coinciden';
+                isValid = false;
+            }
+
+            // Validar campos específicos según el tipo de usuario
+            if (tipoUsuario === 'CLIENTE') {
+                const telefono = document.getElementById('id_telefono').value;
+                const direccion = document.getElementById('id_direccion').value;
+                
+                if (!telefono.trim()) {
+                    document.getElementById('telefono_error').textContent = 'El teléfono es obligatorio para clientes';
+                    isValid = false;
+                }
+                
+                if (!direccion.trim()) {
+                    document.getElementById('direccion_error').textContent = 'La dirección es obligatoria para clientes';
+                    isValid = false;
+                }
+            } else if (tipoUsuario === 'EMPLEADO') {
+                const fechaContrato = document.getElementById('id_fecha_contrato').value;
+                
+                if (!fechaContrato) {
+                    document.getElementById('fecha_contrato_error').textContent = 'La fecha de contrato es obligatoria para empleados';
+                    isValid = false;
+                }
+            } else if (tipoUsuario === 'ADMIN') {
+                const codigoAdmin = document.getElementById('id_codigo_admin').value;
+                
+                if (!codigoAdmin.trim()) {
+                    document.getElementById('codigo_admin_error').textContent = 'El código de administrador es obligatorio';
+                    isValid = false;
+                }
+            } else {
+                document.getElementById('tipo_usuario_error').textContent = 'Debe seleccionar un tipo de usuario';
+                isValid = false;
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+
+        // Mostrar sección si hay un valor seleccionado al cargar (por si hay error en el formulario)
+        document.addEventListener('DOMContentLoaded', function() {
+            const tipoUsuario = document.getElementById('id_tipo_usuario').value;
+            if (tipoUsuario) {
+                // Marcar como activa la opción correspondiente
+                document.querySelectorAll('.option-card').forEach(card => {
+                    if (card.dataset.value === tipoUsuario) {
+                        card.classList.add('active');
                     }
                 });
-            }, { threshold: 0.1 });
-            
-            animateElements.forEach(element => {
-                element.style.opacity = 0;
-                element.style.transform = 'translateY(20px)';
-                element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                observer.observe(element);
-            });   
+                mostrarCampos(tipoUsuario);
+            }
         });
-</script>
+    </script>
+</body>
+</html>

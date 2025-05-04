@@ -1,0 +1,495 @@
+/* Fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600&display=swap');
+
+/* Variables globales */
+:root {
+    --primary: #ff3b30;
+    --primary-dark: #c41e15;
+    --primary-light: #ff6b61;
+    --accent: #ffb700;
+    --dark-bg: #0a0a0a;
+    --dark-card: #141414;
+    --dark-element: #1e1e1e;
+    --light-text: #f5f5f5;
+    --gray-text: #aaaaaa;
+    --gradient-fire: linear-gradient(45deg, #ff3b30, #ff5722, #ffb700);
+    
+    /* Colores adicionales para el formulario */
+    --form-bg: #ffffff;
+    --input-bg: #f8f8f8;
+    --input-border: #e0e0e0;
+    --input-focus: #ff3b30;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.25);
+    --border-radius: 12px;
+}
+
+/* Estilos generales */
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    background-color: var(--dark-bg);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 40px 0;
+    margin: 0;
+}
+
+.burger-background {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background-image: url('/static/KingsBurgers/img/hambur.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    padding: 40px 0;
+}
+
+.burger-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* background: rgba(128, 128, 128, 0.146); */
+    z-index: 0;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Tarjeta de registro */
+.card-wrapper {
+    position: relative;
+    margin: 30px 0;
+    perspective: 1000px;
+}
+
+.burger-top {
+    height: 50px;
+    background: var(--accent);
+    border-radius: 50% 50% 5px 5px;
+    margin-bottom: -20px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.15);
+    
+    /* Semillas */
+    &::before, &::after {
+        content: '';
+        position: absolute;
+        width: 15px;
+        height: 8px;
+        background-color: var(--light-text);
+        border-radius: 50%;
+    }
+    
+    &::before {
+        top: 15px;
+        left: 25%;
+    }
+    
+    &::after {
+        top: 25px;
+        left: 65%;
+    }
+}
+
+.burger-bottom {
+    height: 35px;
+    background: var(--accent);
+    border-radius: 5px 5px 50% 50%;
+    margin-top: -20px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.registro-card {
+    background-color: var(--form-bg);
+    border: none;
+    border-radius: 18px;
+    padding: 40px 30px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+/* Logo y títulos */
+.brand-logo {
+    text-align: center;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.logo-img {
+    width: 150px;
+    max-width: 180px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    border-radius: 50%;
+
+}
+
+.titulo-registro {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    color: var(--primary);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 1.5px;
+    font-size: 2.2rem;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.titulo-registro::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--gradient-fire);
+    border-radius: 2px;
+}
+
+.subtitulo {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 35px;
+    margin-top: 20px;
+}
+
+/* Selector de tipo de usuario */
+.user-type-selector {
+    margin-bottom: 30px;
+}
+
+.user-type-label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+    display: block;
+    font-size: 1.1rem;
+}
+
+.user-type-options {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.option-card {
+    flex: 1;
+    background-color: var(--input-bg);
+    border-radius: var(--border-radius);
+    padding: 18px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
+    border: 2px solid transparent;
+}
+
+.option-card i {
+    font-size: 2rem;
+    color: #777;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.option-card span {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #555;
+}
+
+.option-card.active {
+    background: var(--gradient-fire);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-color: transparent;
+}
+
+.option-card.active i, 
+.option-card.active span {
+    color: var(--light-text);
+}
+
+.option-card:hover:not(.active) {
+    border-color: var(--primary-light);
+    transform: translateY(-3px);
+}
+
+.option-card:hover:not(.active) i {
+    color: var(--primary);
+}
+
+/* Campos de formulario */
+.input-group-custom {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.icon-wrapper {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    z-index: 10;
+    transition: all 0.2s ease;
+}
+
+.custom-input {
+    padding-left: 45px;
+    border-radius: 10px;
+    border: 2px solid var(--input-border);
+    background-color: var(--input-bg);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    height: auto;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    color: #333;
+}
+
+.custom-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.15);
+    background-color: #fff;
+}
+
+.custom-input:focus + .icon-wrapper,
+.input-group-custom:hover .icon-wrapper {
+    color: var(--primary);
+}
+
+.custom-input::placeholder {
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+textarea.custom-input {
+    padding-top: 13px;
+    min-height: 80px;
+}
+
+/* Secciones específicas de usuario */
+.form-section {
+    display: none;
+    padding: 25px;
+    background-color: var(--input-bg);
+    border-radius: var(--border-radius);
+    margin-bottom: 30px;
+    box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--primary);
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.seccion-subtitulo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.seccion-subtitulo i {
+    color: var(--primary);
+    font-size: 1.3rem;
+    margin-right: 10px;
+}
+
+.seccion-subtitulo h5 {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Botón de registro */
+.boton-registro {
+    background: var(--gradient-fire);
+    border: none;
+    color: white;
+    padding: 15px 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(255, 59, 48, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.boton-registro span {
+    margin-right: 10px;
+    position: relative;
+    z-index: 2;
+}
+
+.boton-registro i {
+    position: relative;
+    z-index: 2;
+}
+
+.boton-registro::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, var(--primary-dark), var(--primary), var(--accent));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.boton-registro:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(255, 59, 48, 0.4);
+}
+
+.boton-registro:hover::before {
+    opacity: 1;
+}
+
+.boton-registro:active {
+    transform: translateY(1px);
+}
+
+/* Enlace de inicio de sesión */
+.login-link {
+    margin-top: 25px;
+    font-size: 0.95rem;
+}
+
+.login-link a {
+    color: #555;
+    transition: all 0.2s ease;
+}
+
+.destacado {
+    color: var(--primary);
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.login-link a:hover .destacado {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+/* Mensajes de error */
+.error-message {
+    color: var(--primary);
+    font-size: 0.8rem;
+    margin-top: 5px;
+    padding-left: 45px;
+}
+
+/* Alertas */
+.alert-danger {
+    background-color: #fff1f1;
+    border-color: #ffe0e0;
+    color: var(--primary);
+    border-radius: 10px;
+}
+
+/* Animaciones */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.input-error {
+    animation: shake 0.5s ease-in-out;
+    border-color: var(--primary) !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .registro-card {
+        padding: 30px 20px;
+    }
+    
+    .user-type-options {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .option-card {
+        padding: 12px;
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+    
+    .option-card i {
+        margin-bottom: 0;
+        margin-right: 15px;
+        font-size: 1.5rem;
+    }
+    
+    .titulo-registro {
+        font-size: 1.8rem;
+    }
+    
+    .form-section {
+        padding: 20px 15px;
+    }
+}
+
+/* Estilos adicionales para fecha y formato especial */
+input[type="date"].custom-input {
+    color: #333;
+}
+
+/* Efecto de brillo en los bordes de la tarjeta */
+.registro-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: var(--gradient-fire);
+    z-index: -1;
+    border-radius: 20px;
+    opacity: 0.3;
+}
+
+/* Efectos de transición para el formulario */
+.form-section {
+    transition: all 0.3s ease;
+}
+
+/* Estilo para campos con error */
+.custom-input.has-error {
+    border-color: var(--primary);
+    background-color: #fff5f5;
+}
