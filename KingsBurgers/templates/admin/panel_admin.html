@@ -10,7 +10,7 @@
 
     <!-- <style>
       
-        {% block extra_css %}{% endblock %}
+        {% block extra_css %}{% endblock %} 
     </style> -->
 </head>
 <body>
@@ -50,9 +50,9 @@
     <div class="sidebar-container" id="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-brand">
-                <i class="fas fa-crown brand-icon"></i>
+                <img src="/static/kingsburgers/img/logo.png" alt="Corona" class="logoo">
                 <div>
-                    <h4 class="m-0">King's Burgers</h4>
+                    <h4 class="m-0">King's Burger's</h4>
                     <small>Panel Administrativo</small>
                 </div>
             </div>
@@ -80,33 +80,30 @@
             <p class="menu-category">Catálogo</p>
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'productos' %}active{% endif %}">
-                        <i class="fas fa-hamburger"></i>
-                        Productos
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'categorias' %}active{% endif %}">
+                    <a href="{% url 'categorias' %}" class="nav-link {% if seccion_activa == 'categorias' %}active{% endif %}">
                         <i class="fas fa-tags"></i>
                         Categorías
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'ingredientes' %}active{% endif %}">
-                        <i class="fas fa-cheese"></i>
-                        Ingredientes
+                    <a href="{% url 'productos' %}" class="nav-link {% if seccion_activa == 'productos' %}active{% endif %}">
+                        <i class="fas fa-hamburger"></i>
+                        Productos
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'combos' %}active{% endif %}">
-                        <i class="fas fa-utensils"></i>
-                        Combos
-                    </a>
-                </li>
+               
+                
             </ul>
             
             <p class="menu-category">Operaciones</p>
             <ul class="nav flex-column">
+
+                <li class="nav-item">
+                    <a href="{% url 'inventario' %}" class="nav-link {% if seccion_activa == 'inventario' %}active{% endif %}">
+                        <i class="fas fa-boxes"></i>
+                        Inventario
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'ventas' %}active{% endif %}">
                         <i class="fas fa-cash-register"></i>
@@ -119,24 +116,14 @@
                         Pedidos
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'inventario' %}active{% endif %}">
-                        <i class="fas fa-boxes"></i>
-                        Inventario
-                    </a>
-                </li>
+             
                 <li class="nav-item">
                     <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'promociones' %}active{% endif %}">
                         <i class="fas fa-percentage"></i>
                         Promociones
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'configuracion' %}active{% endif %}">
-                        <i class="fas fa-cogs"></i>
-                        Inventario
-                    </a>
-                </li>
+                
             </ul>
             
             <p class="menu-category">Análisis</p>
@@ -161,27 +148,7 @@
                 </li>
             </ul>
             
-            <p class="menu-category">Configuración</p>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'empresa' %}active{% endif %}">
-                        <i class="fas fa-building"></i>
-                        Empresa
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'sucursales' %}active{% endif %}">
-                        <i class="fas fa-store"></i>
-                        Sucursales
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'configuracion' %}active{% endif %}">
-                        <i class="fas fa-cogs"></i>
-                        Configuración
-                    </a>
-                </li>
-            </ul>
+            
             {% endif %}
                 
             {% if usuario.tipo_usuario == 'EMPLEADO' %}
@@ -219,6 +186,7 @@
                 {{ usuario.nombre.0|upper }}
             </div>
             <div class="user-info">
+                <p class="user-name">{{ usuario.id}}</p>
                 <p class="user-name">{{ usuario.nombre }}</p>
                 <span class="user-role">{{ usuario.get_tipo_usuario_display }}</span>
             </div>

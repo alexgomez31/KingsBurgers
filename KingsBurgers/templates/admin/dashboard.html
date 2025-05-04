@@ -1,60 +1,669 @@
 {% extends "admin/panel_admin.html" %}
-
 {% block title %}Dashboard - KingsBurgers{% endblock %}
-
-{% block header_title %}Panel de Administración{% endblock %}
+{% block header_title %}Dashboard Administrativo{% endblock %}
 
 {% block content %}
-<div class="row my-4">
-    <div class="col-md-4">
-        <div class="card">
+<!-- Tarjetas de Resumen -->
+<div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
             <div class="card-body">
-                <h5 class="card-title">Usuarios</h5>
-                <p class="card-text">Administra usuarios del sistema.</p>
-                <a href="{% url 'panel_admin' %}" class="btn btn-primary">Gestionar</a>
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Ventas Totales (Mensual)</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">$58,750</div>
+                        <div class="text-xs text-success mt-2">
+                            <i class="fas fa-arrow-up"></i> 12.5% vs mes anterior
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card">
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
             <div class="card-body">
-                <h5 class="card-title">Productos</h5>
-                <p class="card-text">Gestiona el catálogo de productos.</p>
-                <a href="{% url 'panel_admin' %}" class="btn btn-primary">Gestionar</a>
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Pedidos Completados (Mensual)</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">1,248</div>
+                        <div class="text-xs text-success mt-2">
+                            <i class="fas fa-arrow-up"></i> 8.3% vs mes anterior
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-shopping-bag fa-2x text-gray-300"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card">
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
             <div class="card-body">
-                <h5 class="card-title">Ventas</h5>
-                <p class="card-text">Visualiza y administra las ventas.</p>
-                <a href="{% url 'panel_admin' %}" class="btn btn-primary">Gestionar</a>
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Ticket Promedio</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">$47.08</div>
+                        <div class="text-xs text-success mt-2">
+                            <i class="fas fa-arrow-up"></i> 3.2% vs mes anterior
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-receipt fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Alertas de Inventario</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                        <div class="text-xs text-danger mt-2">
+                            <i class="fas fa-arrow-up"></i> 2 más que ayer
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row mt-4">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                Información del Empleado
+<!-- Gráfica de Ventas -->
+<div class="row">
+    <div class="col-xl-8 col-lg-7">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Resumen de Ventas</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Filtrar por:</div>
+                        <a class="dropdown-item active" href="#">Últimos 7 días</a>
+                        <a class="dropdown-item" href="#">Últimos 30 días</a>
+                        <a class="dropdown-item" href="#">Este mes</a>
+                        <a class="dropdown-item" href="#">Este año</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Exportar datos</a>
+                    </div>
+                </div>
             </div>
             <div class="card-body">
-                <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
-                <p><strong>Correo:</strong> {{ usuario.correo }}</p>
-                <p><strong>Fecha de Contrato:</strong> {{ usuario.fecha_contrato }}</p>
-                <p><strong>Fecha de Inicio:</strong> {{ usuario.fecha_inicio }}</p>
-                <p><strong>Estado:</strong> 
-                    {% if usuario.habilitado %}
-                        <span class="badge bg-success">Activo</span>
-                    {% else %}
-                        <span class="badge bg-danger">Inactivo</span>
-                    {% endif %}
-                </p>
+                <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráfica de Productos Más Vendidos -->
+    <div class="col-xl-4 col-lg-5">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Productos Más Vendidos</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Filtrar por:</div>
+                        <a class="dropdown-item active" href="#">Últimos 7 días</a>
+                        <a class="dropdown-item" href="#">Últimos 30 días</a>
+                        <a class="dropdown-item" href="#">Este mes</a>
+                        <a class="dropdown-item" href="#">Este año</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart-pie pt-4 pb-2">
+                    <canvas id="myPieChart"></canvas>
+                </div>
+                <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-primary"></i> Hamburguesa Doble
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-success"></i> Combo Familiar
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-info"></i> Hamburguesa Especial
+                    </span>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Análisis de Ventas por Categoría -->
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Ventas por Categoría</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-bar">
+                    <canvas id="categoryBarChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Análisis de Ventas por Hora -->
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Ventas por Hora del Día</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-bar">
+                    <canvas id="hourlyBarChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alertas de Inventario y Productos a Reponer -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-warning text-white">
+                <h6 class="m-0 font-weight-bold">Productos con Stock Bajo</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-white"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="#">Generar Orden de Compra</a>
+                        <a class="dropdown-item" href="#">Marcar como Revisados</a>
+                        <a class="dropdown-item" href="#">Ver Historial de Inventario</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="stockAlertTable">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th>Stock Actual</th>
+                                <th>Stock Mínimo</th>
+                                <th>Último Reabastecimiento</th>
+                                <th>Ventas Últimos 7 días</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Hamburguesa Clásica</td>
+                                <td>Hamburguesas</td>
+                                <td><span class="badge bg-danger">2</span></td>
+                                <td>10</td>
+                                <td>28/04/2025</td>
+                                <td>32</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Añadir Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Papas Fritas</td>
+                                <td>Adicionales</td>
+                                <td><span class="badge bg-warning">5</span></td>
+                                <td>15</td>
+                                <td>30/04/2025</td>
+                                <td>45</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Añadir Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Coca-Cola 500ml</td>
+                                <td>Bebidas</td>
+                                <td><span class="badge bg-danger">3</span></td>
+                                <td>20</td>
+                                <td>29/04/2025</td>
+                                <td>38</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Añadir Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Nuggets de Pollo</td>
+                                <td>Adicionales</td>
+                                <td><span class="badge bg-warning">8</span></td>
+                                <td>12</td>
+                                <td>01/05/2025</td>
+                                <td>22</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Añadir Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Hamburguesa Vegetariana</td>
+                                <td>Hamburguesas</td>
+                                <td><span class="badge bg-warning">6</span></td>
+                                <td>8</td>
+                                <td>02/05/2025</td>
+                                <td>15</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Añadir Stock</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Últimas ventas y rendimiento -->
+<div class="row">
+    <!-- Tabla de Últimas Ventas -->
+    <div class="col-xl-7 col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Últimas Ventas</h6>
+                <a href="#" class="btn btn-sm btn-primary">Ver Todas</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Orden #</th>
+                                <th>Cliente</th>
+                                <th>Productos</th>
+                                <th>Total</th>
+                                <th>Fecha/Hora</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>0053</td>
+                                <td>Carlos Pérez</td>
+                                <td>Combo Familiar x1, Bebidas x2</td>
+                                <td>$38.50</td>
+                                <td>04/05/2025 - 15:42</td>
+                                <td><span class="badge bg-success">Completado</span></td>
+                            </tr>
+                            <tr>
+                                <td>0052</td>
+                                <td>María López</td>
+                                <td>Hamburguesa Doble x2, Papas x1, Bebidas x2</td>
+                                <td>$35.75</td>
+                                <td>04/05/2025 - 14:20</td>
+                                <td><span class="badge bg-success">Completado</span></td>
+                            </tr>
+                            <tr>
+                                <td>0051</td>
+                                <td>Juan Gómez</td>
+                                <td>Hamburguesa Especial x1, Nuggets x1, Bebidas x1</td>
+                                <td>$22.50</td>
+                                <td>04/05/2025 - 13:45</td>
+                                <td><span class="badge bg-success">Completado</span></td>
+                            </tr>
+                            <tr>
+                                <td>0050</td>
+                                <td>Ana Martínez</td>
+                                <td>Hamburguesa Vegetariana x1, Papas x1, Bebidas x1</td>
+                                <td>$18.25</td>
+                                <td>04/05/2025 - 12:30</td>
+                                <td><span class="badge bg-success">Completado</span></td>
+                            </tr>
+                            <tr>
+                                <td>0049</td>
+                                <td>Roberto Silva</td>
+                                <td>Combo Familiar x1, Adicionales x3</td>
+                                <td>$45.80</td>
+                                <td>04/05/2025 - 12:15</td>
+                                <td><span class="badge bg-success">Completado</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rendimiento de Productos -->
+    <div class="col-xl-5 col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Rendimiento de Productos</h6>
+            </div>
+            <div class="card-body">
+                <h4 class="small font-weight-bold">Hamburguesa Clásica <span class="float-right">65%</span></h4>
+                <div class="progress mb-4">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <h4 class="small font-weight-bold">Hamburguesa Doble <span class="float-right">85%</span></h4>
+                <div class="progress mb-4">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <h4 class="small font-weight-bold">Combo Familiar <span class="float-right">78%</span></h4>
+                <div class="progress mb-4">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <h4 class="small font-weight-bold">Papas Fritas <span class="float-right">90%</span></h4>
+                <div class="progress mb-4">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <h4 class="small font-weight-bold">Hamburguesa Vegetariana <span class="float-right">40%</span></h4>
+                <div class="progress mb-4">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <h4 class="small font-weight-bold">Nuggets de Pollo <span class="float-right">60%</span></h4>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts para las gráficas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+<script>
+// Configuración de la gráfica de área (ventas)
+var ctx = document.getElementById("myAreaChart");
+var myLineChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ["27 Abr", "28 Abr", "29 Abr", "30 Abr", "1 May", "2 May", "3 May", "4 May"],
+        datasets: [{
+            label: "Ingresos",
+            lineTension: 0.3,
+            backgroundColor: "rgba(78, 115, 223, 0.05)",
+            borderColor: "rgba(78, 115, 223, 1)",
+            pointRadius: 3,
+            pointBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointBorderColor: "rgba(78, 115, 223, 1)",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: [5680, 6400, 5780, 6850, 7480, 8200, 7850, 6980],
+        }],
+    },
+    options: {
+        maintainAspectRatio: false,
+        layout: {
+            padding: {
+                left: 10,
+                right: 25,
+                top: 25,
+                bottom: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                time: {
+                    unit: 'date'
+                },
+                gridLines: {
+                    display: false,
+                    drawBorder: false
+                },
+                ticks: {
+                    maxTicksLimit: 7
+                }
+            }],
+            yAxes: [{
+                ticks: {
+                    maxTicksLimit: 5,
+                    padding: 10,
+                    callback: function(value, index, values) {
+                        return '$' + value;
+                    }
+                },
+                gridLines: {
+                    color: "rgb(234, 236, 244)",
+                    zeroLineColor: "rgb(234, 236, 244)",
+                    drawBorder: false,
+                    borderDash: [2],
+                    zeroLineBorderDash: [2]
+                }
+            }],
+        },
+        legend: {
+            display: false
+        },
+        tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            titleMarginBottom: 10,
+            titleFontColor: '#6e707e',
+            titleFontSize: 14,
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            intersect: false,
+            mode: 'index',
+            caretPadding: 10,
+            callbacks: {
+                label: function(tooltipItem, chart) {
+                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                    return datasetLabel + ': $' + tooltipItem.yLabel;
+                }
+            }
+        }
+    }
+});
+
+// Configuración de la gráfica de pastel (productos más vendidos)
+var ctx2 = document.getElementById("myPieChart");
+var myPieChart = new Chart(ctx2, {
+    type: 'doughnut',
+    data: {
+        labels: ["Hamburguesa Doble", "Combo Familiar", "Hamburguesa Especial", "Otros"],
+        datasets: [{
+            data: [42, 28, 15, 15],
+            backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e'],
+            hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#dda20a'],
+            hoverBorderColor: "rgba(234, 236, 244, 1)",
+        }],
+    },
+    options: {
+        maintainAspectRatio: false,
+        tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            caretPadding: 10,
+        },
+        legend: {
+            display: false
+        },
+        cutoutPercentage: 80,
+    },
+});
+
+// Configuración de la gráfica de barras (categorías)
+var ctx3 = document.getElementById("categoryBarChart");
+var myBarChart = new Chart(ctx3, {
+    type: 'bar',
+    data: {
+        labels: ["Hamburguesas", "Combos", "Promociones", "Adicionales", "Bebidas"],
+        datasets: [{
+            label: "Ventas ($)",
+            backgroundColor: "#4e73df",
+            hoverBackgroundColor: "#2e59d9",
+            borderColor: "#4e73df",
+            data: [25250, 18750, 5500, 4800, 4450],
+        }],
+    },
+    options: {
+        maintainAspectRatio: false,
+        layout: {
+            padding: {
+                left: 10,
+                right: 25,
+                top: 25,
+                bottom: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                gridLines: {
+                    display: false,
+                    drawBorder: false
+                },
+                ticks: {
+                    maxTicksLimit: 6
+                },
+                maxBarThickness: 25,
+            }],
+            yAxes: [{
+                ticks: {
+                    min: 0,
+                    max: 30000,
+                    maxTicksLimit: 5,
+                    padding: 10,
+                    callback: function(value, index, values) {
+                        return '$' + value;
+                    }
+                },
+                gridLines: {
+                    color: "rgb(234, 236, 244)",
+                    zeroLineColor: "rgb(234, 236, 244)",
+                    drawBorder: false,
+                    borderDash: [2],
+                    zeroLineBorderDash: [2]
+                }
+            }],
+        },
+        legend: {
+            display: false
+        },
+        tooltips: {
+            titleMarginBottom: 10,
+            titleFontColor: '#6e707e',
+            titleFontSize: 14,
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            caretPadding: 10,
+            callbacks: {
+                label: function(tooltipItem, chart) {
+                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                    return datasetLabel + ': $' + tooltipItem.yLabel;
+                }
+            }
+        },
+    }
+});
+
+// Configuración de la gráfica de barras (ventas por hora)
+var ctx4 = document.getElementById("hourlyBarChart");
+var hourlyBarChart = new Chart(ctx4, {
+    type: 'bar',
+    data: {
+        labels: ["11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"],
+        datasets: [{
+            label: "Ventas ($)",
+            backgroundColor: "#1cc88a",
+            hoverBackgroundColor: "#17a673",
+            borderColor: "#1cc88a",
+            data: [1200, 3500, 5800, 4200, 3800, 2900, 3100, 4500, 6200, 5800, 4100, 2200],
+        }],
+    },
+    options: {
+        maintainAspectRatio: false,
+        layout: {
+            padding: {
+                left: 10,
+                right: 25,
+                top: 25,
+                bottom: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                gridLines: {
+                    display: false,
+                    drawBorder: false
+                },
+                ticks: {
+                    maxTicksLimit: 12
+                },
+                maxBarThickness: 20,
+            }],
+            yAxes: [{
+                ticks: {
+                    min: 0,
+                    max: 7000,
+                    maxTicksLimit: 5,
+                    padding: 10,
+                    callback: function(value, index, values) {
+                        return '$' + value;
+                    }
+                },
+                gridLines: {
+                    color: "rgb(234, 236, 244)",
+                    zeroLineColor: "rgb(234, 236, 244)",
+                    drawBorder: false,
+                    borderDash: [2],
+                    zeroLineBorderDash: [2]
+                }
+            }],
+        },
+        legend: {
+            display: false
+        },
+        tooltips: {
+            titleMarginBottom: 10,
+            titleFontColor: '#6e707e',
+            titleFontSize: 14,
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            caretPadding: 10,
+            callbacks: {
+                label: function(tooltipItem, chart) {
+                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                    return datasetLabel + ': $' + tooltipItem.yLabel;
+                }
+            }
+        },
+    }
+});
+</script>
 {% endblock %}

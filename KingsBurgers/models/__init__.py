@@ -8,6 +8,8 @@ from .Carrito import Carrito
 from .CarritoItem import CartItem
 from .Pago import Pago
 from .Pedido import Pedido
+from .Inventario import Inventario
 
 
-__all__ = ['Usuario', 'Cliente', 'Empleado', 'Administrador', 'Categoria', 'Producto', 'Carrito', 'CartItem', 'Pago', 'Pedido']
+__all__ = ['Usuario', 'Cliente', 'Empleado', 'Administrador', 'Categoria', 'Producto', 'Carrito', 'CartItem', 'Pago', 'Pedido', 'Inventario']
+
