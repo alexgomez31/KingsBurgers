@@ -42,7 +42,7 @@
                         <td>{{ inv.hasta }}</td>
                      
                         <td>
-                            <button class="btn btn-sm btn-warning btn-editar" 
+                            <button class="btn btn-sm btn-outline-secondary btn-editar" 
                                     data-id="{{ inv.id }}"
                                     data-producto="{{ inv.producto.id }}"
                                     data-cantidad="{{ inv.cantidad_disponible }}"
@@ -50,7 +50,7 @@
                                     data-hasta="{{ inv.hasta|date:'Y-m-d\\TH:i' }}">
                                 Editar
                             </button>
-                            <a href="{% url 'eliminar_inventario' inv.id %}" class="btn btn-sm btn-danger"
+                            <a href="{% url 'eliminar_inventario' inv.id %}" class="btn btn-sm btn-outline-danger btn-eliminar"
                                onclick="return confirm('¿Estás seguro de eliminar este producto?');">Eliminar</a>
                         </td>
                     </tr>

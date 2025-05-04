@@ -56,15 +56,17 @@
                             {% endif %}
                         </td>
                         <td>
-                            <button class="btn btn-sm btn-warning btn-editar" 
-                                    data-id="{{ producto.id }}">
-                                Editar
-                            </button>
-                            <button class="btn btn-sm btn-danger btn-eliminar"
-                                    data-id="{{ producto.id }}"
-                                    data-nombre="{{ producto.nombre }}">
-                                Eliminar
-                            </button>
+                            <div class="d-flex">
+                                <button class="btn btn-sm btn-outline-secondary me-2 btn-editar"
+                                        data-id="{{ producto.id }}">
+                                    Editar
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger btn-eliminar"
+                                        data-id="{{ producto.id }}"
+                                        data-nombre="{{ producto.nombre }}">
+                                    Eliminar
+                                </button>
+                            </div>
                         </td>
                     </tr>
                     {% empty %}
