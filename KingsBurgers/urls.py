@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from KingsBurgers.views.carrito_controller import CarritoController
+from KingsBurgers.views.pago_controller import PagoController
 from KingsBurgers.views.usuario_controller import UsuarioController
 from KingsBurgers.views.bienvenida_controller import BienvenidaController
 from django.contrib.auth.views import LogoutView
@@ -23,5 +24,10 @@ urlpatterns = [
     path('carrito/actualizar/', CarritoController.actualizar_cantidad, name='carrito_actualizar'),
     path('carrito/estado/', CarritoController.obtener_carrito, name='carrito_estado'),
     path('carrito/vaciar/', CarritoController.vaciar, name='carrito_vaciar'),
+
+    #pagos
+    path('carrito/generar-preferencia/', PagoController.generar_preferencia_pago, name='generar_preferencia_pago'),
+    path('pago/exito/', PagoController.pago_exitoso, name='pago_exitoso'),
+    path('pago/error/', PagoController.pago_error, name='pago_error'),
 
 ]

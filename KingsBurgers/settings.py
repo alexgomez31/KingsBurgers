@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 
+MERCADOPAGO_ACCESS_TOKEN = 'TEST-926594733950043-050415-0f4a4235907648c3f691cf0fc0273075-1503682778'
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
