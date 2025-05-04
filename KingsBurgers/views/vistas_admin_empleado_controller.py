@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from KingsBurgers.models.Usuario import Usuario
 from KingsBurgers.forms import InventarioForm
+from django.contrib import messages
 
 from KingsBurgers.models import Categoria, Producto , Inventario, Administrador, Empleado
 
@@ -106,22 +107,23 @@ class VistasAdminEmpleadoController:
             return redirect('bienvenida')
     @login_required
     def panel_gestion_productos_view(request):
-        if not request.user.is_authenticated:
-            return redirect('login')
-        
         try:
             usuario = Usuario.objects.get(id=request.user.id)
             
             if usuario.tipo_usuario not in ['EMPLEADO', 'ADMIN']:
+                messages.warning(request, 'No tienes permisos para acceder a esta sección')
                 return redirect('bienvenida')
             
-            Productos = Producto.objects.all()
+            productos = Producto.objects.all().order_by('-id')
+            categorias = Categoria.objects.all()
             
             return render(request, 'admin/productos.html', {
                 'usuario': usuario,
-                'productos': Productos,
+                'productos': productos,
+                'categorias': categorias,
             })
         except Usuario.DoesNotExist:
+            messages.error(request, 'Usuario no encontrado')
             return redirect('bienvenida')
         
     @login_required

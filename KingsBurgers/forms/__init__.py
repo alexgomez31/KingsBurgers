@@ -50,3 +50,24 @@ class InventarioForm(forms.ModelForm):
     class Meta:
         model = Inventario
         fields = ['producto', 'cantidad_disponible', 'desde', 'hasta']
+
+
+class ProductoForm(forms.ModelForm):
+    class Meta:
+        model = Producto
+        fields = ['nombre', 'descripcion', 'precio', 'imagen', 'habilitado', 'categoria']
+        widgets = {
+            'descripcion': forms.Textarea(attrs={'rows': 4}),
+            'precio': forms.NumberInput(attrs={'step': '0.01', 'min': '0'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if kwargs.get('instance'):
+            self.fields['imagen'].required = False
+
+    def clean_precio(self):
+        precio = self.cleaned_data.get('precio')
+        if precio <= 0:
+            raise forms.ValidationError("El precio debe ser mayor que cero")
+        return precio
