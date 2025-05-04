@@ -807,3 +807,9 @@ input:checked + .slider:before {
     border-color: var(--primary-color);
     box-shadow: 0 3px 8px rgba(230, 57, 70, 0.3);
 }
+#sidebar .sidebar-brand .logoo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: red !important;
+}
