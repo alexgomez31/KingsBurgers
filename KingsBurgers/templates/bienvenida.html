@@ -128,194 +128,32 @@
     <section id="menu" class="py-5">
         <div class="container">
             <h2 class="section-title text-center">Nuestro Menú</h2>
-            
-            <!-- Categories Menu -->
             <div class="category-menu text-center">
                 <button class="category-btn active" data-category="all">Todos</button>
-                <button class="category-btn" data-category="hamburguesas">Hamburguesas</button>
-                <button class="category-btn" data-category="combos">Combos</button>
-                <button class="category-btn" data-category="promociones">Promociones</button>
-                <button class="category-btn" data-category="adicionales">Adicionales</button>
-                <button class="category-btn" data-category="bebidas">Bebidas</button>
+                {% for categoria in categorias %}
+                    <button class="category-btn" data-category="{{ categoria.nombre|lower }}">{{ categoria.nombre }}</button>
+                {% endfor %}
             </div>
             
-            <!-- Products Grid -->
+            <!-- Productos dinámicos -->
             <div class="row product-container">
-                <!-- Hamburguesas -->
-                <div class="col-lg-4 col-md-6 product-item" data-category="hamburguesas">
-                    <div class="product-card">
-                        {% load static %}
-                        <div class="product-img" style="background-image: url('{% static "KingsBurgers/img/11.png" %}'); background-size: cover; background-position: center;">
-                            <div class="product-label">Bestseller</div>
-                        </div>
-                        <div class="product-info">
-                            <h4 class="product-title">Fire King Burger</h4>
-                            <p class="product-desc">Nuestra hamburguesa estrella con carne Angus a la parrilla, queso cheddar, bacon ahumado, cebolla caramelizada y nuestra salsa secreta.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$18.900</span>
+                {% for producto in productos %}
+                    <div class="col-lg-4 col-md-6 product-item" data-category="{{ producto.categoria.nombre|lower }}">
+                        <div class="product-card">
+                            <div class="product-img" style="background-image: url('{{ producto.imagen}}'); background-size: cover; background-position: center;"></div>
+                            <div class="product-info">
+                                <h4 class="product-title">{{ producto.nombre }}</h4>
+                                <p class="product-desc">{{ producto.descripcion }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="product-price">${{ producto.precio }}</span>
+                                    </div>
+                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i> Añadir</button>
                                 </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 product-item " data-category="hamburguesas">
-                    <div class="product-card">
-                        {% load static %}
-                        <div class="product-img" style="background-image: url('{% static "KingsBurgers/img/11.png" %}'); background-size: cover; background-position: center;"></div>
-                        <div class="product-info">
-                            <h4 class="product-title">Double Flame</h4>
-                            <p class="product-desc">Doble carne, doble queso, bacon crujiente, jalapeños y nuestra salsa picante de la casa para los amantes del auténtico sabor.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$22.900</span>
-                                </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 product-item" data-category="hamburguesas">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');"></div>
-                        <div class="product-info">
-                            <h4 class="product-title">Smoky BBQ</h4>
-                            <p class="product-desc">Carne madurada, queso ahumado, aros de cebolla crujientes y nuestra legendaria salsa BBQ casera con un toque de bourbon.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$19.900</span>
-                                </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Combos -->
-                <div class="col-lg-4 col-md-6 product-item" data-category="combos">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');">
-                            <div class="product-label">Popular</div>
-                        </div>
-                        <div class="product-info">
-                            <h4 class="product-title">Combo Kings Inferno</h4>
-                            <p class="product-desc">Fire King Burger con papas fritas rústicas, salsa de queso cheddar y bebida a elección. ¡El combo perfecto!</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$25.900</span>
-                                    <span class="old-price">$28.900</span>
-                                </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 product-item" data-category="combos">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');"></div>
-                        <div class="product-info">
-                            <h4 class="product-title">Combo Familiar Flames</h4>
-                            <p class="product-desc">4 hamburguesas a elección, 2 porciones grandes de papas, 4 bebidas y 2 postres. ¡Perfecto para compartir!</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$69.900</span>
-                                    <span class="old-price">$75.900</span>
-                                </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Promociones -->
-                <div class="col-lg-4 col-md-6 product-item" data-category="promociones">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');">
-                            <div class="product-label">Oferta</div>
-                        </div>
-                        <div class="product-info">
-                            <h4 class="product-title">2x1 Jueves de Fuego</h4>
-                            <p class="product-desc">Todos los jueves, lleva 2 Fire King Burger por el precio de 1. La mejor forma de encender tu semana.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$18.900</span>
-                                    <span class="old-price">$37.800</span>
-                                </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Adicionales -->
-                <div class="col-lg-4 col-md-6 product-item" data-category="adicionales">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');"></div>
-                        <div class="product-info">
-                            <h4 class="product-title">Papas Fuego</h4>
-                            <p class="product-desc">Papas fritas rústicas con queso cheddar derretido, bacon crujiente, jalapeños y nuestra salsa picante especial.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$12.900</span>
-                                </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 product-item" data-category="adicionales">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');"></div>
-                        <div class="product-info">
-                            <h4 class="product-title">Aros de Cebolla Inferno</h4>
-                            <p class="product-desc">Aros de cebolla crujientes rebozados en nuestra masa especial con especias picantes y salsa ranch para dipear.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$10.900</span>
-                                </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Bebidas -->
-                <div class="col-lg-4 col-md-6 product-item" data-category="bebidas">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');"></div>
-                        <div class="product-info">
-                            <h4 class="product-title">Milkshake de Chocolate Explosivo</h4>
-                            <p class="product-desc">Cremoso batido de chocolate belga con crema batida, salsa de chocolate y chispas de chocolate crujiente.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$8.900</span>
-                                </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 product-item" data-category="bebidas">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image: url('/api/placeholder/400/300');"></div>
-                        <div class="product-info">
-                            <h4 class="product-title">Limonada de Fuego</h4>
-                            <p class="product-desc">Refrescante limonada con un toque de jengibre, menta fresca y un ligero picor de chile que despertará tus sentidos.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="product-price">$7.900</span>
-                                </div>
-                                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i>Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
