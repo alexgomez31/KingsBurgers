@@ -1,0 +1,258 @@
+{% extends "admin/panel_admin.html" %}
+
+{% block title %}Gestión de Categorias - KingsBurgers{% endblock %}
+
+{% block header_title %}Gestión de Categorias{% endblock %}
+
+{% block header_buttons %}
+<div class="btn-group me-2">
+    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoUsuarioModal">
+        Nueva Categoria
+    </button>
+    <button type="button" class="btn btn-sm btn-outline-secondary">Exportar Lista</button>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        Listado de Categorias
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Habilitado</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for categoria in categorias %}
+                    <tr>
+                        <td>{{ categoria.id }}</td>
+                        <td>{{ categoria.nombre }}</td>
+                        <td>{{ categoria.descripcion }}</td>
+                        <td>
+                            {% if categoria.habilitado %}
+                                <span class="badge bg-success">Activo</span>
+                            {% else %}
+                                <span class="badge bg-danger">Inactivo</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editarModal{{ categoria.id }}">
+                                <i class="bi bi-pencil"></i> Editar
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" 
+                                    data-bs-target="#eliminarUsuarioModal" data-id="{{ categoria.id }}">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center">No hay categorias registradas</td>
+                    </tr> 
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Nueva Categoría -->
+<div class="modal fade" id="nuevoUsuarioModal" tabindex="-1" aria-labelledby="nuevoUsuarioModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="formCrearCategoria" method="post">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nuevoUsuarioModalLabel">Nueva Categoría</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" name="descripcion" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="habilitado" class="form-label">¿Está habilitado?</label>
+                        <select class="form-select" name="habilitado" required>
+                            <option value="SI">SI</option>
+                            <option value="NO">NO</option>
+                        </select>
+                    </div>
+                    
+                    <input type="hidden" name="administrador" value="{{ id_especifico }}">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Eliminar Categoría -->
+<div class="modal fade" id="eliminarUsuarioModal" tabindex="-1" aria-labelledby="eliminarUsuarioModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="post" id="eliminarForm">
+          {% csrf_token %}
+          <div class="modal-header">
+            <h5 class="modal-title" id="eliminarUsuarioModalLabel">Eliminar Categoría</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            ¿Estás seguro que deseas eliminar esta categoría?
+            <input type="hidden" id="delete-id" name="id">
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+<!-- Modales de edición -->
+{% for categoria in categorias %}
+<div class="modal fade" id="editarModal{{ categoria.id }}" tabindex="-1" aria-labelledby="editarModalLabel{{ categoria.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="formEditarCategoria{{ categoria.id }}" class="form-editar-categoria" data-categoria-id="{{ categoria.id }}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarModalLabel{{ categoria.id }}">Editar Categoría</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="nombre{{ categoria.id }}" class="form-label">Nombre</label>
+                        <input type="text" name="nombre" class="form-control" id="nombre{{ categoria.id }}" value="{{ categoria.nombre }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion{{ categoria.id }}" class="form-label">Descripción</label>
+                        <textarea name="descripcion" class="form-control" id="descripcion{{ categoria.id }}" rows="3" required>{{ categoria.descripcion }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="habilitado{{ categoria.id }}" class="form-label">Habilitado</label>
+                        <select name="habilitado" class="form-select" id="habilitado{{ categoria.id }}">
+                            <option value="SI" {% if categoria.habilitado == 'SI' %}selected{% endif %}>Sí</option>
+                            <option value="NO" {% if categoria.habilitado == 'NO' %}selected{% endif %}>No</option>
+                        </select>
+                    </div>
+                    <input type="hidden" name="administrador" value="{{ id_especifico }}">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Formulario de creación de categoría
+    const formCrear = document.getElementById('formCrearCategoria');
+    if(formCrear) {
+        formCrear.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(formCrear);
+            
+            fetch("{% url 'crear_categoria' %}", {
+                method: "POST",
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                },
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) return response.json().then(err => Promise.reject(err));
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    location.reload();  // Recarga para ver la nueva categoría en la tabla
+                } else {
+                    alert("Error al crear categoría: " + (data.message || "Error desconocido"));
+                }
+            })
+            .catch(error => {
+                console.error('Error al guardar la categoría:', error);
+                alert("Ocurrió un error. Revisa los campos.");
+            });
+        });
+    }
+
+    // Formularios de edición de categoría
+    document.querySelectorAll('.form-editar-categoria').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const categoriaId = this.getAttribute('data-categoria-id');
+            const formData = new FormData(this);
+            
+            fetch(`/categorias/editar/${categoriaId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                },
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Cerrar modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById(`editarModal${categoriaId}`));
+                    if (modal) {
+                        modal.hide();
+                    }
+                    
+                    // Recargar página para mostrar cambios
+                    location.reload();
+                } else {
+                    alert("Error al actualizar la categoría: " + (data.message || "Error desconocido"));
+                }
+            })
+            .catch(error => {
+                console.error('Error al actualizar la categoría:', error);
+                alert("Ocurrió un error al actualizar. Por favor, inténtalo de nuevo.");
+            });
+        });
+    });
+
+    // Configurar el modal de eliminar
+    const eliminarModal = document.getElementById('eliminarUsuarioModal');
+    if (eliminarModal) {
+        eliminarModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const id = button.getAttribute('data-id');
+            document.getElementById('delete-id').value = id;
+            document.getElementById('eliminarForm').action = `/categorias/eliminar/${id}/`;
+        });
+    }
+});
+</script>
+{% endblock %}

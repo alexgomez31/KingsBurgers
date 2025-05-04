@@ -1,5 +1,6 @@
 from django import forms
 from KingsBurgers.models.Usuario import Usuario
+from KingsBurgers.models import Categoria, Producto, Inventario
 
 class RegistroUsuarioForm(forms.Form):
     TIPO_USUARIO_CHOICES = [
@@ -37,3 +38,8 @@ class LoginForm(forms.Form):
     contraseña = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
 
     print("LoginForm initialized", correo, contraseña)
+
+class CategoriaForm(forms.ModelForm):
+    class Meta:
+        model = Categoria
+        fields = ['nombre', 'descripcion', 'habilitado', 'administrador']

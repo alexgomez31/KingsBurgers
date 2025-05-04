@@ -6,7 +6,7 @@
     <title>{% block title %}Panel Administrativo - Kings Burguers{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="static/KingsBurgers/css/panelAdmin.css">
+    <link rel="stylesheet" href="/static/kingsburgers/css/panelAdmin.css">
 
     <!-- <style>
       
@@ -80,33 +80,30 @@
             <p class="menu-category">Catálogo</p>
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'productos' %}active{% endif %}">
-                        <i class="fas fa-hamburger"></i>
-                        Productos
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'categorias' %}active{% endif %}">
+                    <a href="{% url 'categorias' %}" class="nav-link {% if seccion_activa == 'categorias' %}active{% endif %}">
                         <i class="fas fa-tags"></i>
                         Categorías
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'ingredientes' %}active{% endif %}">
-                        <i class="fas fa-cheese"></i>
-                        Ingredientes
+                    <a href="{% url 'productos' %}" class="nav-link {% if seccion_activa == 'productos' %}active{% endif %}">
+                        <i class="fas fa-hamburger"></i>
+                        Productos
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'combos' %}active{% endif %}">
-                        <i class="fas fa-utensils"></i>
-                        Combos
-                    </a>
-                </li>
+               
+                
             </ul>
             
             <p class="menu-category">Operaciones</p>
             <ul class="nav flex-column">
+
+                <li class="nav-item">
+                    <a href="{% url 'inventario' %}" class="nav-link {% if seccion_activa == 'inventario' %}active{% endif %}">
+                        <i class="fas fa-boxes"></i>
+                        Inventario
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'ventas' %}active{% endif %}">
                         <i class="fas fa-cash-register"></i>
@@ -119,12 +116,7 @@
                         Pedidos
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'inventario' %}active{% endif %}">
-                        <i class="fas fa-boxes"></i>
-                        Inventario
-                    </a>
-                </li>
+             
                 <li class="nav-item">
                     <a href="{% url 'panel_admin' %}" class="nav-link {% if seccion_activa == 'promociones' %}active{% endif %}">
                         <i class="fas fa-percentage"></i>
@@ -219,6 +211,7 @@
                 {{ usuario.nombre.0|upper }}
             </div>
             <div class="user-info">
+                <p class="user-name">{{ usuario.id}}</p>
                 <p class="user-name">{{ usuario.nombre }}</p>
                 <span class="user-role">{{ usuario.get_tipo_usuario_display }}</span>
             </div>
