@@ -450,6 +450,29 @@
             });
         });
 
+        $('#cart-items-list').on('click', '.btn-eliminar-item', function () {
+                const itemId = $(this).data('id');
+
+                $.ajax({
+                    url: '/carrito/eliminar/',  // Debes implementar esta vista en tu backend
+                    type: 'POST',
+                    data: {
+                        item_id: itemId,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            cargarEstadoCarrito(); // Vuelve a cargar el dropdown con los productos actualizados
+                        } else {
+                            alert(response.error || 'Error al eliminar el producto');
+                        }
+                    },
+                    error: function () {
+                        alert('Error al eliminar el producto del carrito');
+                    }
+                });
+            });
+
         
         function cargarEstadoCarrito() {
             $.ajax({
@@ -481,11 +504,20 @@
             items.forEach(item => {
                 dropdown.append(`
                     <li class="dropdown-item d-flex justify-content-between align-items-center">
-                        <span>${item.nombre} (${item.cantidad})</span>
-                        <span>$${item.subtotal.toFixed(2)}</span>
+                        <div class="d-flex align-items-center gap-2">
+                            <span>${item.nombre} (${item.cantidad})</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <span>$${item.subtotal.toFixed(2)}</span>
+                            <button class="btn btn-sm btn-danger btn-eliminar-item" data-id="${item.id}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
                     </li>
                 `);
             });
+
+
             console.log("Agregando botón de pagar al dropdown");
 
             
@@ -510,8 +542,6 @@
         cargarEstadoCarrito();
 
         });
-
-        $(document).ready(function () {
           
             $('#cart-items-list').on('click', '#btn-pagar', function (e) {
                 console.log("Botón de pagar clickeado");
@@ -539,40 +569,8 @@
                     }
                 });
             });
-        });
 
-function mostrarProductosEnDropdown(items, total) {
-    const dropdown = $('#cart-items-list');
-    dropdown.empty();
-
-    if (items.length === 0) {
-        dropdown.append('<li class="dropdown-item">Tu carrito está vacío</li>');
-        return;
-    }
-
-    // Agregar productos
-    items.forEach(item => {
-        dropdown.append(`
-            <li class="dropdown-item d-flex justify-content-between align-items-center">
-                <span>${item.nombre} (${item.cantidad})</span>
-                <span>$${item.subtotal.toFixed(2)}</span>
-            </li>
-        `);
-    });
-    console.log("Agregando botón de pagar al dropdown");
-
-    // Agregar línea divisoria
-    dropdown.append('<li><hr class="dropdown-divider"></li>');
-    
-    // Agregar botón de pagar
-    dropdown.append(`
-        <li class="dropdown-item text-center">
-            <button id="btn-pagar" class="btn btn-flame btn-danger w-100">Pagar</button>
-        </li>
-    `);
-}
-
-    
+           
 
     </script>
 

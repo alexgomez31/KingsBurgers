@@ -24,16 +24,19 @@ class MercadoPagoProxy:
             "back_urls": {
                 "success": success_url,
                 "failure": failure_url,
-            },
+            }, 
             "payer": {
                 "name": carrito.usuario.nombre,
                 "email": carrito.usuario.correo,
             },
+             
             
         }
 
       
         resultado = self.client.preference().create(preference_data)
+        # print("Resultado completo:", resultado)
+
         response = resultado.get("response", {})
 
         
@@ -51,4 +54,10 @@ class MercadoPagoProxy:
             "init_point": init_point,
             "productos": productos,
             "total": total,
+            "preference":preference_data
         }
+
+    def consultar_pago(self, payment_id):
+        """Consulta el estado del pago usando el payment_id."""
+        resultado = self.client.payment().get(payment_id)
+        return resultado.get("response", {})
