@@ -27,11 +27,19 @@ class ProductoController:
             form = ProductoForm(request.POST, request.FILES, instance=producto)
             if form.is_valid():
                 if 'imagen' in request.FILES:
-                    # Eliminar la imagen anterior si existe
+                    # Guardar sin imagen primero para liberar el archivo
                     if producto.imagen:
                         ruta_anterior = os.path.join(settings.MEDIA_ROOT, producto.imagen.name)
+                        producto.imagen = None
+                        producto.save()
+
+                        # Ahora eliminar la imagen
                         if os.path.exists(ruta_anterior):
-                            os.remove(ruta_anterior)
+                            try:
+                                os.remove(ruta_anterior)
+                            except PermissionError:
+                                messages.warning(request, 'La imagen anterior no se pudo eliminar porque está en uso.')
+
                 form.save()
                 messages.success(request, 'Producto actualizado correctamente')
             else:
