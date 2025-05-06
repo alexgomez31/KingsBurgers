@@ -1,4 +1,3 @@
-# models/Pago.py
 from django.db import models
 from KingsBurgers.models.Pedido import Pedido
 

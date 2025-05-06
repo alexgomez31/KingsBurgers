@@ -1,4 +1,3 @@
-# views/pago_controller.py
 
 from django.views.decorators.http import require_POST, require_GET
 from django.utils.decorators import method_decorator
@@ -13,21 +12,20 @@ from KingsBurgers.proxies.MercadoPagoProxy import MercadoPagoProxy
 
 class PagoController:
 
-   
     @login_required
-    @require_POST
+    @require_POST   
     def generar_preferencia_pago(request):
         try:
             carrito = CarritoRepository.obtener_carrito_activo(request.user)
             proxy = MercadoPagoProxy()
             urls = {
-                "success_url": request.build_absolute_uri("/pago/exito/"),
-                "failure_url": request.build_absolute_uri("/pago/error/")
+                "success_url": "https://7640-2800-484-aa7e-f100-183a-5bdb-4693-3d3a.ngrok-free.app/pago/exito/",
+                "failure_url": "https://7640-2800-484-aa7e-f100-183a-5bdb-4693-3d3a.ngrok-free.app/pago/error/"
             }
+
             data = proxy.crear_preferencia(carrito, **urls)
             return JsonResponse(data)
         except Exception as e:
-            # Loggea e imprime e para depuración
             print("Error en generar_preferencia_pago:", e)
             return JsonResponse({"error": str(e)}, status=500)
   
@@ -37,18 +35,21 @@ class PagoController:
         payment_id = request.GET.get("payment_id")
         status = request.GET.get("status")
 
+        # Consultar el estado actualizado del pago
+        proxy = MercadoPagoProxy()
+        payment_data = proxy.consultar_pago(payment_id)
+        status_actual = payment_data.get("status", status)  # El estado actualizado del pago
+
         carrito = CarritoRepository.obtener_carrito_activo(request.user)
         PedidoService.registrar_pedido(request.user, carrito, {
             "payment_id": payment_id,
-            "status": status
+            "status": status_actual
         })
 
-        return redirect("pagina_confirmacion")
+        return redirect('bienvenida')
 
     @staticmethod
     def pago_error(request):
-        return render(request, 'pago_error.html')
+        return render(request, 'bienvenida.html')
 
-    @staticmethod
-    def pagina_confirmacion(request):
-        return render(request, 'pago_exito.html')
+ 

@@ -1,4 +1,3 @@
-# services/PedidoService.py
 from KingsBurgers.models import Pedido, Pago, Usuario, Carrito
 
 class PedidoService:

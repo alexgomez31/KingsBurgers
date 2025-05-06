@@ -1,4 +1,3 @@
-# KingsBurgers/views/carrito_controller.py
 from KingsBurgers.repositories.CarritoRepository import CarritoRepository
 
 from django.http import JsonResponse
@@ -45,4 +44,14 @@ class CarritoController:
         servicio = CarritoService(request.user)
         servicio.vaciar_carrito()
         return JsonResponse({'success': True, 'message': 'Carrito vaciado correctamente'})
+    
+    @require_POST
+    @login_required
+    def eliminar_item(request):
+        item_id = int(request.POST.get('item_id'))
+
+        servicio = CarritoService(request.user)
+        resultado = servicio.actualizar_cantidad(item_id, 0)  # Ya maneja la eliminación si cantidad <= 0
+
+        return JsonResponse(resultado)
 

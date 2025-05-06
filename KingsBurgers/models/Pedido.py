@@ -1,4 +1,3 @@
-# models/Pedido.py
 from django.db import models
 from KingsBurgers.models import Usuario, Carrito
 
