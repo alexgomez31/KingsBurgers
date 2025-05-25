@@ -14,22 +14,24 @@ class CarritoRepository:
 
     @classmethod
     @transaction.atomic
-    def agregar_producto(cls, carrito: Carrito, producto: Producto, cantidad: int = 1) -> CartItem:
-        """Agrega un producto al carrito o incrementa su cantidad si ya existe"""
+    def agregar_producto(cls, carrito: Carrito, producto: Producto, cantidad: int = 1, padre: CartItem = None, descripcion: str = '') -> CartItem:
         item, created = CartItem.objects.get_or_create(
             carrito=carrito,
             producto=producto,
+            adicionales=padre,  
             defaults={
                 'cantidad': cantidad,
-                'precio_unitario': producto.precio
+                'precio_unitario': producto.precio,
+                'descripcion': descripcion 
             }
         )
-        
+
         if not created:
             item.cantidad += cantidad
             item.save()
-        
+
         return item
+
 
     @classmethod
     @transaction.atomic

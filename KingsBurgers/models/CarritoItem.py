@@ -12,11 +12,12 @@ class CartItem(models.Model):
         'Producto',
         on_delete=models.CASCADE
     )
+    adicionales = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='adiciones')
+    descripcion = models.TextField(blank=True, null=True) 
     cantidad = models.PositiveIntegerField(default=1)
     precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
     class Meta:
         verbose_name = 'Item del Carrito'
         verbose_name_plural = 'Items del Carrito'
