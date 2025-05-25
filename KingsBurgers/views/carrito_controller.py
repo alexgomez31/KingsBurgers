@@ -17,11 +17,19 @@ class CarritoController:
     def agregar_producto(request):
         producto_id = int(request.POST.get('producto_id'))
         cantidad = int(request.POST.get('cantidad', 1))
+        adiciones = request.POST.get('adiciones', '[]')
+        bebidas = request.POST.get('bebidas', '[]')
+        descripcion = request.POST.get('descripcion', '')
+
+        import json
+        adiciones_ids = json.loads(adiciones)
+        bebidas_ids = json.loads(bebidas)
 
         servicio = CarritoService(request.user)
-        resultado = servicio.agregar_producto(producto_id, cantidad)
+        resultado = servicio.agregar_producto(producto_id, cantidad, adiciones_ids, bebidas_ids, descripcion)
 
         return JsonResponse(resultado)
+       
 
     @require_POST
     @login_required
@@ -101,3 +109,15 @@ class CarritoController:
             })
 
         return JsonResponse({'carritos': resultado})
+    @require_POST
+    @login_required
+    def obtener_productos_categoria(request):
+        categoria = request.POST.get('categoria')
+        
+        if not categoria:
+            return JsonResponse({'success': False, 'error': 'Categoría no especificada'})
+        
+        servicio = CarritoService(request.user)
+        productos = servicio.obtener_productos_habilitados(categoria)
+        
+        return JsonResponse({'success': True, 'productos': productos})

@@ -47,9 +47,8 @@
                                 <i class="fas fa-shopping-cart"></i>
                                 <span class="cart-badge">0</span>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown" id="cart-items-list">
-                                <!-- Productos se cargarán aquí -->
-                                <!-- La línea divisoria, total y botón se agregarán dinámicamente -->
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown" id="cart-items-list" style="max-height: 300px; overflow-y: auto;">
+                                
                             </ul>
                         </li>
                     
@@ -144,7 +143,11 @@
             <!-- Productos dinámicos -->
             <div class="row product-container">
                 {% for producto in productos %}
-                    <div class="col-lg-4 col-md-6 product-item" data-category="{{ producto.categoria.nombre|lower }}">
+                    <div class="col-lg-4 col-md-6 product-item abrir-modal-producto" data-category="{{ producto.categoria.nombre|lower }}"
+                      data-category="{{ producto.categoria.nombre|lower }}" data-id="{{ producto.id }}"
+                        data-nombre="{{ producto.nombre }}" data-descripcion="{{ producto.descripcion }}"
+                        data-precio="{{ producto.precio }}" data-imagen="{{ producto.imagen }}" data-toggle="modal"
+                        data-target="#productoModal">
                         <div class="product-card">
                             <div class="product-img" style="background-image: url('{{ producto.imagen.url }}'); background-size: cover; background-position: center;"></div>
                             <div class="product-info">
@@ -154,7 +157,6 @@
                                     <div>
                                         <span class="product-price">${{ producto.precio }}</span>
                                     </div>
-                                    <button class="add-to-cart btn-agregar" data-id="{{ producto.id }}"><i class="fas fa-shopping-cart"></i> Añadir</button>
                                 </div>
                             </div>
                         </div>
@@ -333,6 +335,51 @@
                 </div>
             </div>
         </div>
+
+         <!-- modal -->
+        <div class="modal modal-xl" id="productoModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title product-title modalProductoNombre" style="color: black;"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="" style="max-width: auto;">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="" class="img-fluid rounded-start" id="modalProductoImagen" alt="">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body " style="color: black;">
+                                        <h5 class="card-title  mb-3" id="modalProductoPrecio"></h5>
+                                        <p class="card-text " id="modalProductoDescripcion"></p>
+                                        <div class="list-group">
+                                            <button type="button" id="adicionescc"
+                                                class="list-group-item list-group-item-action "
+                                                style="height: 80px; border-radius: 0;;">Elige tus adiciones</button>
+                                            <button type="button" id="bebidasss"
+                                                class="list-group-item list-group-item-action"
+                                                style="height: 80px; border-radius: 0;">Elige tus bebidas</button>
+                                            <button type="button" id="descripcion"
+                                                class="list-group-item list-group-item-action "
+                                                style="height: 80px; border-radius: 0;;">Agregar descripcion</button>
+                                               
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer mt-3">
+                        <button class="add-to-cart btn-agregar" data-id=""><i class="fas fa-shopping-cart"></i>
+                            Añadir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- Footer -->
@@ -423,70 +470,170 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    <script>
-        $(document).ready(function() {
+<script>
+    $(document).ready(function () {
 
-       
-        $('.btn-agregar').click(function() {
+
+
+        $('.abrir-modal-producto').on('click', function () {
             const productoId = $(this).data('id');
+            const nombre = $(this).attr('data-nombre');
+            const descripcion = $(this).data('descripcion');
+            const precio = $(this).data('precio');
+            const imagen = $(this).data('imagen');
+
+        
+            $('.modalProductoNombre').text(nombre);
+            $('#modalProductoDescripcion').text(descripcion);
+            $('#modalProductoPrecio').text(precio);
+            $('#modalProductoImagen').attr('src', imagen);
+
+            $('#productoModal').modal('show');
+            $('.opciones-checkbox').remove();
+            $('.cuadro-textooo').remove();
+            $('.btn-agregar').attr('data-id', productoId);
+        });
+
+        $('#adicionescc').on('click', function () {
+            const categoria = "Adicionales";
+            traerCategoria(categoria, $(this));
+        });
+
+       $('#descripcion').on('click', function () {
+            if ($('#descripcion').next('textarea').length === 0) {
+                $('<textarea class="form-control mt-2 cuadro-textooo" aria-label="With textarea" placeholder="Escribe una descripción..." style=" background: none; border: 1px solid #ced4da; color:black;"></textarea>')
+                    .insertAfter('#descripcion');
+            }
+        });
+
+
+        $('#bebidasss').on('click', function () {
+            const categoria = "Bebidas";
+            traerCategoria(categoria, $(this));
+        });
+
+        function traerCategoria(categoria, boton) {
+            const existente = boton.next('.opciones-checkbox[data-categoria="' + categoria + '"]');
+
+            if (existente.length > 0) {
+                return;
+            }
+
+
+            $.ajax({
+                url: '/carrito/obtener-productos-categoria/',
+                type: 'POST',
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    categoria: categoria
+                },
+                success: function (response) {
+                    if (response.success && response.productos.length > 0) {
+                        let checkboxesHTML = `
+                            <ul class="list-group opciones-checkbox" data-categoria="${categoria}" ">
+                        `;
+
+                        response.productos.forEach(function (producto) {
+                            checkboxesHTML += `
+                                <li class="list-group-item" style="height: 80px; border-radius: 0;">
+                                    <input class="form-check-input me-1" type="checkbox" id="prod_${producto.id}" value="${producto.id}">
+                                    <label class="form-check-label" for="prod_${producto.id}">
+                                        ${producto.nombre} - $${producto.precio}
+                                    </label>
+                                </li>
+                            `;
+                        });
+
+                        checkboxesHTML += '</ul>';
+
+                        boton.after(checkboxesHTML);
+                    } else {
+                        boton.after(`<p class="opciones-checkbox" data-categoria="${categoria}">No hay productos disponibles.</p>`);
+                    }
+                },
+                error: function () {
+                    alert('Error al obtener productos de la categoría');
+                }
+            });
+        }
+
+
+        $('.btn-agregar').click(function () {
+            const productoId = $(this).data('id');
+            const descripcion = $('textarea.cuadro-textooo').val();
+
+            const adicionesSeleccionadas = [];
+            $('.opciones-checkbox[data-categoria="Adicionales"] input[type="checkbox"]:checked').each(function () {
+                adicionesSeleccionadas.push($(this).val());
+            });
+
+            const bebidasSeleccionadas = [];
+            $('.opciones-checkbox[data-categoria="Bebidas"] input[type="checkbox"]:checked').each(function () {
+                bebidasSeleccionadas.push($(this).val());
+            });
 
             $.ajax({
                 url: '/carrito/agregar/',
                 type: 'POST',
                 data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
                     producto_id: productoId,
                     cantidad: 1,
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                    adiciones: JSON.stringify(adicionesSeleccionadas),
+                    bebidas: JSON.stringify(bebidasSeleccionadas),
+                    descripcion: descripcion
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
-                          cargarEstadoCarrito();
+                        cargarEstadoCarrito();
+                        $('#productoModal').modal('hide');
                     } else {
                         alert(response.error);
                     }
                 },
-                error: function() {
+                error: function () {
                     alert('Error al agregar al carrito');
                 }
             });
+
         });
 
         $('#cart-items-list').on('click', '.btn-eliminar-item', function () {
-                const itemId = $(this).data('id');
+            const itemId = $(this).data('id');
 
-                $.ajax({
-                    url: '/carrito/eliminar/',  // Debes implementar esta vista en tu backend
-                    type: 'POST',
-                    data: {
-                        item_id: itemId,
-                        csrfmiddlewaretoken: '{{ csrf_token }}'
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            cargarEstadoCarrito(); // Vuelve a cargar el dropdown con los productos actualizados
-                        } else {
-                            alert(response.error || 'Error al eliminar el producto');
-                        }
-                    },
-                    error: function () {
-                        alert('Error al eliminar el producto del carrito');
+            $.ajax({
+                url: '/carrito/eliminar/', 
+                type: 'POST',
+                data: {
+                    item_id: itemId,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    if (response.success) {
+                        cargarEstadoCarrito(); 
+                    } else {
+                        alert(response.error || 'Error al eliminar el producto');
                     }
-                });
+                },
+                error: function () {
+                    alert('Error al eliminar el producto del carrito');
+                }
             });
+        });
+        cargarEstadoCarrito();
 
-        
         function cargarEstadoCarrito() {
             $.ajax({
                 url: '/carrito/estado/',
                 type: 'POST',
-                data: {     
+                data: {
                     csrfmiddlewaretoken: '{{ csrf_token }}'
                 },
-                success: function(response) {
+                success: function (response) { 
                     actualizarResumenCarrito(response.cart_count, response.total);
-                    mostrarProductosEnDropdown(response.items);
+                    mostrarProductosEnDropdown(response.items, response.total);
                 },
-                error: function() {
+                error: function () {
                     console.log('No se pudo cargar el estado del carrito');
                 }
             });
@@ -501,7 +648,7 @@
                 return;
             }
 
-          
+
             items.forEach(item => {
                 dropdown.append(`
                     <li class="dropdown-item d-flex justify-content-between align-items-center">
@@ -518,13 +665,17 @@
                 `);
             });
 
+         
+         
 
-            console.log("Agregando botón de pagar al dropdown");
-
-            
             dropdown.append('<li><hr class="dropdown-divider"></li>');
-            
-           
+            dropdown.append(`
+                <li class="dropdown-item d-flex justify-content-between align-items-center">
+                    <strong>Total:</strong>
+                    <span>$${total.toFixed(2)}</span>
+                </li>
+            `);
+
             dropdown.append(`
                 <li class="dropdown-item text-center">
                     <button id="btn-pagar" class="btn btn-flame btn-danger w-100">Pagar</button>
@@ -533,47 +684,48 @@
         }
 
 
-       
+
         function actualizarResumenCarrito(cantidad, total) {
-            $('.cart-count').text(cantidad);
-            $('#cart-total').text(parseFloat(total).toFixed(2));
+          $('.cart-badge').text(cantidad); 
+            
         }
 
-      
-        cargarEstadoCarrito();
 
+       
+
+    });
+
+    $('#cart-items-list').on('click', '#btn-pagar', function (e) {
+        console.log("Botón de pagar clickeado");
+
+        e.preventDefault();
+
+        $.ajax({
+            url: '/carrito/generar-preferencia/',
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (response) {
+                console.log(response);
+
+                if (response.init_point) {
+
+                    window.location.href = response.init_point;
+                } else {
+                    alert('No se pudo generar la preferencia de pago');
+                }
+            },
+            error: function () {
+                alert('Error al conectar con el servidor. Intenta nuevamente.');
+            }
         });
-          
-            $('#cart-items-list').on('click', '#btn-pagar', function (e) {
-                console.log("Botón de pagar clickeado");
+    });
 
-                e.preventDefault();
 
-                $.ajax({
-                    url: '/carrito/generar-preferencia/', 
-                    type: 'POST',
-                    data: {
-                        csrfmiddlewaretoken: '{{ csrf_token }}'
-                    },
-                    success: function (response) {
-                        console.log(response);
-                        
-                        if (response.init_point) {
-                          
-                            window.location.href = response.init_point;
-                        } else {
-                            alert('No se pudo generar la preferencia de pago');
-                        }
-                    },
-                    error: function () {
-                        alert('Error al conectar con el servidor. Intenta nuevamente.');
-                    }
-                });
-            });
 
-           
+</script>
 
-    </script>
 
     <script>
         // Script para el menú de categorías

@@ -52,6 +52,7 @@ urlpatterns = [
     path('carrito/estado/', CarritoController.obtener_carrito, name='carrito_estado'),
     path('carrito/vaciar/', CarritoController.vaciar, name='carrito_vaciar'),
     path('carrito/eliminar/', CarritoController.eliminar_item, name='carrito_eliminar_item'),
+    path('carrito/obtener-productos-categoria/', CarritoController.obtener_productos_categoria, name='obtener_productos_categoria'),
 
     #pagos
     path('carrito/generar-preferencia/', PagoController.generar_preferencia_pago, name='generar_preferencia_pago'),
