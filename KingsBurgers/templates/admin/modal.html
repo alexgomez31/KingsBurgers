@@ -1,0 +1,1165 @@
+{% extends "admin/panel_admin.html" %}
+{% block title %}Dashboard - KingsBurgers{% endblock %}
+{% block header_title %}Dashboard Administrativo{% endblock %}
+
+{% block content %}
+
+<button>
+    <a href="{% url 'carritos_pagados' %}" class="btn btn-primary">
+        <i class="fas fa-arrow-left me-2"></i>carritos
+    </a>
+</button>
+
+    <div class="container main-container" style="margin-top: 100px;">
+        <!-- Header con estadísticas -->
+        <div class="orders-header">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h2 class="mb-0">
+                        <i class="fas fa-clipboard-list me-3 text-primary"></i>
+                        Gestión de Pedidos
+                    </h2>
+                    <p class="text-muted mb-0">Panel de control para empleados</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="stats-card">
+                                <div class="stats-number">8</div>
+                                <small class="text-muted">Pendientes</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="stats-card">
+                                <div class="stats-number">3</div>
+                                <small class="text-muted">En Proceso</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="stats-card">
+                                <div class="stats-number">12</div>
+                                <small class="text-muted">Completados</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Pedidos -->
+        <div class="row">
+            <div class="col-12">
+                <!-- Pedido 1 -->
+                <div class="order-card" data-bs-toggle="modal" data-bs-target="#orderModal1">
+                    <div class="order-card-header">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 class="order-number">Pedido #001</h5>
+                                <p class="order-time mb-0">
+                                    <i class="fas fa-clock me-2"></i>14:30 - Hace 5 minutos
+                                </p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="status-badge status-pendiente">
+                                    <i class="fas fa-hourglass-start me-1"></i>Pendiente
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h6><i class="fas fa-user me-2"></i>Carlos Rodríguez</h6>
+                                <p class="text-muted mb-2">
+                                    <i class="fas fa-map-marker-alt me-2"></i>Calle 123 #45-67, Barrio Centro
+                                </p>
+                                <p class="mb-0"><strong>Productos:</strong> Hamburguesa Clásica (x2), Papas Grandes, Coca-Cola</p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="price-tag">$45.000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pedido 2 -->
+                <div class="order-card" data-bs-toggle="modal" data-bs-target="#orderModal2">
+                    <div class="order-card-header">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 class="order-number">Pedido #002</h5>
+                                <p class="order-time mb-0">
+                                    <i class="fas fa-clock me-2"></i>14:25 - Hace 10 minutos
+                                </p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="status-badge status-preparacion">
+                                    <i class="fas fa-utensils me-1"></i>En Preparación
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h6><i class="fas fa-user me-2"></i>María González</h6>
+                                <p class="text-muted mb-2">
+                                    <i class="fas fa-map-marker-alt me-2"></i>Carrera 50 #12-34, Barrio Norte
+                                </p>
+                                <p class="mb-0"><strong>Productos:</strong> Hamburguesa BBQ, Papas Medianas, Sprite</p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="price-tag">$38.500</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pedido 3 -->
+                <div class="order-card" data-bs-toggle="modal" data-bs-target="#orderModal3">
+                    <div class="order-card-header">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 class="order-number">Pedido #003</h5>
+                                <p class="order-time mb-0">
+                                    <i class="fas fa-clock me-2"></i>14:20 - Hace 15 minutos
+                                </p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="status-badge status-listo">
+                                    <i class="fas fa-check-circle me-1"></i>Listo
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h6><i class="fas fa-user me-2"></i>Ana Martínez</h6>
+                                <p class="text-muted mb-2">
+                                    <i class="fas fa-map-marker-alt me-2"></i>Avenida 80 #23-45, Barrio Sur
+                                </p>
+                                <p class="mb-0"><strong>Productos:</strong> Hamburguesa Deluxe, Aros de Cebolla, Malteada</p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="price-tag">$52.000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pedido 4 -->
+                <div class="order-card" data-bs-toggle="modal" data-bs-target="#orderModal4">
+                    <div class="order-card-header">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 class="order-number">Pedido #004</h5>
+                                <p class="order-time mb-0">
+                                    <i class="fas fa-clock me-2"></i>14:15 - Hace 20 minutos
+                                </p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="status-badge status-enviado">
+                                    <i class="fas fa-shipping-fast me-1"></i>Enviado
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h6><i class="fas fa-user me-2"></i>Pedro López</h6>
+                                <p class="text-muted mb-2">
+                                    <i class="fas fa-map-marker-alt me-2"></i>Calle 90 #15-20, Barrio Este
+                                </p>
+                                <p class="mb-0"><strong>Productos:</strong> Combo Familiar (x4 hamburguesas)</p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="price-tag">$85.000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalle Pedido 1 -->
+    <div class="modal fade" id="orderModal1" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-hamburger me-2"></i>Pedido #001 - Detalles
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="customer-info">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-user me-2"></i>Información del Cliente</h6>
+                                <p><strong>Nombre:</strong> Carlos Rodríguez</p>
+                                <p><strong>Teléfono:</strong> +57 300 123 4567</p>
+                                <p><strong>Email:</strong> carlos@email.com</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-map-marker-alt me-2"></i>Dirección de Entrega</h6>
+                                <p>Calle 123 #45-67, Barrio Centro</p>
+                                <p><strong>Instrucciones:</strong> Casa color azul, portón negro</p>
+                                <p><strong>Tiempo estimado:</strong> 25-30 minutos</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6><i class="fas fa-shopping-cart me-2"></i>Productos a Preparar</h6>
+                    
+                    <div class="product-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h6 class="mb-1">Hamburguesa Clásica (x2)</h6>
+                                <small class="text-muted">
+                                    <strong>Ingredientes:</strong> Carne 150g, lechuga, tomate, cebolla, queso, salsa especial
+                                </small><br>
+                                <small class="text-info">
+                                    <strong>Nota:</strong> Sin cebolla en una hamburguesa
+                                </small>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="badge bg-primary">$30.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h6 class="mb-1">Papas Grandes</h6>
+                                <small class="text-muted">Papas fritas corte tradicional, porción grande</small>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="badge bg-primary">$8.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h6 class="mb-1">Coca-Cola 500ml</h6>
+                                <small class="text-muted">Bebida gaseosa</small>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="badge bg-primary">$7.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <p><strong>Subtotal:</strong> $45.000</p>
+                            <p><strong>Domicilio:</strong> $0</p>
+                            <p><strong>Total:</strong> $45.000</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Método de Pago:</strong> Efectivo</p>
+                            <p><strong>Hora del Pedido:</strong> 14:30</p>
+                            <p><strong>Estado Actual:</strong> 
+                                <span class="status-badge status-pendiente">Pendiente</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-status btn-preparacion">
+                        <i class="fas fa-utensils me-2"></i>Iniciar Preparación
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalle Pedido 2 -->
+    <div class="modal fade" id="orderModal2" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-hamburger me-2"></i>Pedido #002 - Detalles
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="customer-info">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-user me-2"></i>Información del Cliente</h6>
+                                <p><strong>Nombre:</strong> María González</p>
+                                <p><strong>Teléfono:</strong> +57 301 987 6543</p>
+                                <p><strong>Email:</strong> maria@email.com</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-map-marker-alt me-2"></i>Dirección de Entrega</h6>
+                                <p>Carrera 50 #12-34, Barrio Norte</p>
+                                <p><strong>Instrucciones:</strong> Apartamento 301, tocar timbre</p>
+                                <p><strong>Tiempo estimado:</strong> 20-25 minutos</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6><i class="fas fa-shopping-cart me-2"></i>Productos a Preparar</h6>
+                    
+                    <div class="product-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h6 class="mb-1">Hamburguesa BBQ</h6>
+                                <small class="text-muted">
+                                    <strong>Ingredientes:</strong> Carne 180g, lechuga, tomate, bacon, queso cheddar, salsa BBQ
+                                </small>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="badge bg-primary">$25.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h6 class="mb-1">Papas Medianas</h6>
+                                <small class="text-muted">Papas fritas corte tradicional, porción mediana</small>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="badge bg-primary">$6.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h6 class="mb-1">Sprite 500ml</h6>
+                                <small class="text-muted">Bebida gaseosa</small>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="badge bg-primary">$7.500</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <p><strong>Subtotal:</strong> $38.500</p>
+                            <p><strong>Domicilio:</strong> $0</p>
+                            <p><strong>Total:</strong> $38.500</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Método de Pago:</strong> Tarjeta</p>
+                            <p><strong>Hora del Pedido:</strong> 14:25</p>
+                            <p><strong>Estado Actual:</strong> 
+                                <span class="status-badge status-preparacion">En Preparación</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-status btn-listo">
+                        <i class="fas fa-check me-2"></i>Marcar como Listo
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalle Pedido 3 -->
+    <div class="modal fade" id="orderModal3" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-hamburger me-2"></i>Pedido #003 - Detalles
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="customer-info">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-user me-2"></i>Información del Cliente</h6>
+                                <p><strong>Nombre:</strong> Ana Martínez</p>
+                                <p><strong>Teléfono:</strong> +57 302 456 7890</p>
+                                <p><strong>Email:</strong> ana@email.com</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-map-marker-alt me-2"></i>Dirección de Entrega</h6>
+                                <p>Avenida 80 #23-45, Barrio Sur</p>
+                                <p><strong>Instrucciones:</strong> Local comercial, frente a la farmacia</p>
+                                <p><strong>Tiempo estimado:</strong> 15-20 minutos</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6><i class="fas fa-shopping-cart me-2"></i>Productos Listos para Envío</h6>
+                    
+                    <div class="product-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h6 class="mb-1">Hamburguesa Deluxe</h6>
+                                <small class="text-muted">
+                                    <strong>Ingredientes:</strong> Carne premium 200g, rúcula, tomate cherry, queso suizo, salsa deluxe
+                                </small>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="badge bg-success">✓ $32.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h6 class="mb-1">Aros de Cebolla</h6>
+                                <small class="text-muted">Aros de cebolla empanizados y fritos</small>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="badge bg-success">✓ $12.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h6 class="mb-1">Malteada de Vainilla</h6>
+                                <small class="text-muted">Malteada cremosa de vainilla</small>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="badge bg-success">✓ $8.000</span>
+                            </div>
+                        </div>
+                        </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <p><strong>Subtotal:</strong> $52.000</p>
+                            <p><strong>Domicilio:</strong> $0</p>
+                            <p><strong>Total:</strong> $52.000</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Método de Pago:</strong> Transferencia</p>
+                            <p><strong>Hora del Pedido:</strong> 14:20</p>
+                            <p><strong>Estado Actual:</strong> 
+                                <span class="status-badge status-listo">Listo</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-status btn-enviado">
+                        <i class="fas fa-shipping-fast me-2"></i>Enviar Pedido
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalle Pedido 4 -->
+    <div class="modal fade" id="orderModal4" tabindex="-1">
+        <div class="modal-dialog modal-xl-customm">
+            <div class="modal-contentt">
+                <div class="modal-headerr">
+                    <div class="w-100">
+                        <h5 class="modal-titlee">
+                            <i class="fas fa-clipboard-list me-3"></i>Pedido #004 - Preparación de Cocina
+                        </h5>
+                        <div class="order-progress">
+                            <span id="progressText">Producto 1 de 3</span>
+                            <div class="progress-dots">
+                                <div class="progress-dot active" data-product="0"></div>
+                                <div class="progress-dot" data-product="1"></div>
+                                <div class="progress-dot" data-product="2"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                
+                <div class="modal-body p-0">
+                    <!-- Información del Cliente -->
+                    <div class="customer-info">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h6><i class="fas fa-user-circle me-2"></i>Pedro López</h6>
+                                <p><i class="fas fa-phone me-2"></i>+57 303 789 0123</p>
+                            </div>
+                            <div class="col-md-5">
+                                <h6><i class="fas fa-map-marker-alt me-2"></i>Calle 90 #15-20, Barrio Este</h6>
+                                <p><i class="fas fa-info-circle me-2"></i>Casa esquina, timbre rojo</p>
+                            </div>
+                            <div class="col-md-3">
+                                <h6><i class="fas fa-clock me-2"></i>Pedido: 14:15</h6>
+                                <p><i class="fas fa-motorcycle me-2"></i>Repartidor: Juan Carlos</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Carrusel de Productos -->
+                    <div class="carousel-container">
+                        <!-- Producto 1: Hamburguesa -->
+                        <div class="product-slide active" data-product="0">
+                            <div class="product-layout">
+                                <!-- Columna Izquierda: Imagen + Nota Especial -->
+                                <div class="left-column">
+                                    <div class="product-image-section" id="card-0">
+                                        <div class="completion-status" id="status-0">
+                                            <i class="fas fa-check me-1"></i>Completado
+                                        </div>
+                                        <div class="quantity-badge">x4</div>
+                                        
+                                        <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&h=400&fit=crop&crop=center" 
+                                             alt="Hamburguesa Clásica" class="product-image">
+                                        
+                                        <h4 class="product-title">Hamburguesa Clásica</h4>
+                                        <p class="product-subtitle">Combo Familiar</p>
+                                    </div>
+                                    
+                                    <div class="special-notes">
+                                        <h6>Notas Especiales de Preparación</h6>
+                                        <ul>
+                                            <li><strong>2 hamburguesas:</strong> Preparar sin cebolla</li>
+                                            <li><strong>1 hamburguesa:</strong> Doble porción de queso</li>
+                                            <li><strong>Todas las carnes:</strong> Término medio</li>
+                                            <li><strong>Pan:</strong> Ligeramente tostado</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="completion-section">
+                                        <input type="checkbox" class="completion-checkbox" id="check-0">
+                                        <label for="check-0" class="completion-label">Producto Terminado</label>
+                                    </div>
+                                </div>
+                                
+                                <!-- Columna Derecha: Descripción + Ingredientes -->
+                                <div class="right-column">
+                                    <div class="description-box">
+                                        <h6 class="description-title">
+                                            <i class="fas fa-align-left me-2"></i>Descripción del Producto
+                                        </h6>
+                                        <p class="description-text">
+                                            Hamburguesa clásica de carne de res de 150g, servida en pan brioche artesanal con vegetales frescos. 
+                                            Incluye lechuga iceberg, tomate maduro, cebolla blanca y queso americano fundido. 
+                                            Acompañada de salsa especial de la casa.
+                                        </p>
+                                    </div>
+                                    
+                                    <div class="ingredients-section">
+                                        <h6 class="section-title">
+                                            <i class="fas fa-list-ul me-2"></i>Ingredientes Base
+                                        </h6>
+                                        <div class="ingredients-list">
+                                            <span class="ingredient-tag">Carne de res 150g</span>
+                                            <span class="ingredient-tag">Pan brioche</span>
+                                            <span class="ingredient-tag">Lechuga iceberg</span>
+                                            <span class="ingredient-tag">Tomate fresco</span>
+                                            <span class="ingredient-tag">Cebolla blanca</span>
+                                            <span class="ingredient-tag">Queso americano</span>
+                                            <span class="ingredient-tag">Salsa especial</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="additions-section">
+                                        <h6 class="section-title">
+                                            <i class="fas fa-plus-circle me-2"></i>Adiciones
+                                        </h6>
+                                        <div class="ingredients-list">
+                                            <span class="addition-tag">Extra queso (x1)</span>
+                                            <span class="addition-tag">Sin cebolla (x2)</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="drinks-section">
+                                        <h6 class="section-title">
+                                            <i class="fas fa-glass-water me-2"></i>Bebidas del Combo
+                                        </h6>
+                                        <div class="ingredients-list">
+                                            <span class="drink-tag">Coca-Cola 500ml</span>
+                                            <span class="drink-tag">Sprite 500ml</span>
+                                            <span class="drink-tag">Fanta 500ml</span>
+                                            <span class="drink-tag">Pepsi 500ml</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Producto 2: Papas -->
+                        <div class="product-slide" data-product="1">
+                            <div class="product-layout">
+                                <div class="left-column">
+                                    <div class="product-image-section" id="card-1">
+                                        <div class="completion-status" id="status-1">
+                                            <i class="fas fa-check me-1"></i>Completado
+                                        </div>
+                                        <div class="quantity-badge">x2</div>
+                                        
+                                        <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=400&fit=crop&crop=center" 
+                                             alt="Papas Fritas" class="product-image">
+                                        
+                                        <h4 class="product-title">Papas Familiares</h4>
+                                        <p class="product-subtitle">Porción Grande</p>
+                                    </div>
+                                    
+                                    <div class="special-notes">
+                                        <h6>Notas Especiales de Preparación</h6>
+                                        <ul>
+                                            <li><strong>Sal:</strong> Poca cantidad en ambas porciones</li>
+                                            <li><strong>Textura:</strong> Crujientes por fuera, suaves por dentro</li>
+                                            <li><strong>Temperatura:</strong> Servir bien calientes</li>
+                                            <li><strong>Tiempo de fritura:</strong> 4-5 minutos a 180°C</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="completion-section">
+                                        <input type="checkbox" class="completion-checkbox" id="check-1">
+                                        <label for="check-1" class="completion-label">Producto Terminado</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="right-column">
+                                    <div class="description-box">
+                                        <h6 class="description-title">
+                                            <i class="fas fa-align-left me-2"></i>Descripción del Producto
+                                        </h6>
+                                        <p class="description-text">
+                                            Papas fritas familiares cortadas en bastones gruesos, fritas en aceite vegetal de alta calidad. 
+                                            Porción generosa para compartir, con el punto perfecto de cocción para obtener 
+                                            la textura ideal: crujientes por fuera y suaves por dentro.
+                                        </p>
+                                    </div>
+                                    
+                                    <div class="ingredients-section">
+                                        <h6 class="section-title">
+                                            <i class="fas fa-list-ul me-2"></i>Ingredientes
+                                        </h6>
+                                        <div class="ingredients-list">
+                                            <span class="ingredient-tag">Papas frescas</span>
+                                            <span class="ingredient-tag">Aceite vegetal</span>
+                                            <span class="ingredient-tag">Sal marina</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="additions-section">
+                                        <h6 class="section-title">
+                                            <i class="fas fa-plus-circle me-2"></i>Adiciones
+                                        </h6>
+                                        <div class="ingredients-list">
+                                            <span class="addition-tag">Sal reducida</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Producto 3: Gaseosas -->
+                        <div class="product-slide" data-product="2">
+                            <div class="product-layout">
+                                <div class="left-column">
+                                    <div class="product-image-section" id="card-2">
+                                        <div class="completion-status" id="status-2">
+                                            <i class="fas fa-check me-1"></i>Completado
+                                        </div>
+                                        <div class="quantity-badge">x4</div>
+                                        
+                                        <img src="https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=400&h=400&fit=crop&crop=center" 
+                                             alt="Gaseosas" class="product-image">
+                                        
+                                        <h4 class="product-title">Gaseosas Surtidas</h4>
+                                        <p class="product-subtitle">Bebidas del Combo</p>
+                                    </div>
+                                    
+                                    <div class="special-notes">
+                                        <h6>Notas Especiales de Preparación</h6>
+                                        <ul>
+                                            <li><strong>Temperatura:</strong> Bien frías (2-4°C)</li>
+                                            <li><strong>Servicio:</strong> Incluir vasos con hielo</li>
+                                            <li><strong>Presentación:</strong> Limpiar las latas antes de servir</li>
+                                            <li><strong>Verificar:</strong> Fecha de vencimiento de cada bebida</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="completion-section">
+                                        <input type="checkbox" class="completion-checkbox" id="check-2">
+                                        <label for="check-2" class="completion-label">Producto Terminado</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="right-column">
+                                    <div class="description-box">
+                                        <h6 class="description-title">
+                                            <i class="fas fa-align-left me-2"></i>Descripción del Producto
+                                        </h6>
+                                        <p class="description-text">
+                                            Surtido de gaseosas para acompañar el combo familiar. Incluye las bebidas más populares 
+                                            en presentación de 500ml cada una. Servidas bien frías para complementar 
+                                            perfectamente las hamburguesas y papas del combo.
+                                        </p>
+                                    </div>
+                                    
+                                    <div class="drinks-section">
+                                        <h6 class="section-title">
+                                            <i class="fas fa-glass-water me-2"></i>Bebidas Incluidas
+                                        </h6>
+                                        <div class="ingredients-list">
+                                            <span class="drink-tag">1x Coca-Cola 500ml</span>
+                                            <span class="drink-tag">1x Sprite 500ml</span>
+                                            <span class="drink-tag">1x Fanta 500ml</span>
+                                            <span class="drink-tag">1x Pepsi 500ml</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="additions-section">
+                                        <h6 class="section-title">
+                                            <i class="fas fa-plus-circle me-2"></i>Complementos
+                                        </h6>
+                                        <div class="ingredients-list">
+                                            <span class="addition-tag">4x Vasos plásticos</span>
+                                            <span class="addition-tag">Hielo en bolsa</span>
+                                            <span class="addition-tag">Servilletas</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Resumen Final -->
+                        <div class="final-summary" id="finalSummary">
+                            <div class="summary-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h3 class="summary-title">¡Pedido Completado!</h3>
+                            <p class="summary-text">
+                                Todos los productos han sido preparados correctamente según las especificaciones.<br>
+                                El pedido está listo para ser empacado y enviado al cliente.
+                            </p>
+                            <div class="mt-4">
+                                <p><strong>Cliente:</strong> Pedro López (+57 303 789 0123)</p>
+                                <p><strong>Dirección:</strong> Calle 90 #15-20, Barrio Este</p>
+                                <p><strong>Repartidor:</strong> Juan Carlos</p>
+                                <p><strong>Instrucciones de entrega:</strong> Casa esquina, timbre rojo</p>
+                            </div>
+                        </div>
+
+                        <!-- Navegación del Carrusel -->
+                        <div class="carousel-navigation">
+                            <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer justify-content-center" style="padding: 25px 30px;">
+                    <button type="button" class="btn btn-success-custom btn-custom" id="completeOrderBtn" disabled>
+                        <i class="fas fa-check-circle me-2"></i>Enviar Pedido Completado
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Botón flotante para actualizar -->
+    <button class="floating-btn" onclick="location.reload()">
+        <i class="fas fa-sync-alt"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script>
+        // Función para cambiar estado del pedido
+        function changeOrderStatus(orderId, newStatus) {
+            // Aquí iría la lógica para actualizar el estado en la base de datos
+            console.log(`Cambiando estado del pedido ${orderId} a ${newStatus}`);
+            
+            // Actualizar la interfaz (simulación)
+            const statusBadge = document.querySelector(`#orderModal${orderId.slice(-1)} .status-badge`);
+            if (statusBadge) {
+                statusBadge.className = `status-badge status-${newStatus}`;
+                statusBadge.innerHTML = getStatusIcon(newStatus) + getStatusText(newStatus);
+            }
+            
+            // Cerrar modal
+            const modalEl = document.querySelector(`#orderModal${orderId.slice(-1)}`);
+            const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+            modalInstance.hide();
+
+            // Mostrar notificación
+            showNotification(`Pedido ${orderId} actualizado a ${getStatusText(newStatus)}`);
+
+            // Esperar a que el modal termine de cerrarse y recargar la página
+            setTimeout(() => {
+                location.reload();
+            }, 500);
+        }
+
+        function getStatusIcon(status) {
+            const icons = {
+                'pendiente': '<i class="fas fa-hourglass-start me-1"></i>',
+                'preparacion': '<i class="fas fa-utensils me-1"></i>',
+                'listo': '<i class="fas fa-check-circle me-1"></i>',
+                'enviado': '<i class="fas fa-shipping-fast me-1"></i>'
+            };
+            return icons[status] || '';
+        }
+
+        function getStatusText(status) {
+            const texts = {
+                'pendiente': 'Pendiente',
+                'preparacion': 'En Preparación',
+                'listo': 'Listo',
+                'enviado': 'Enviado'
+            };
+            return texts[status] || status;
+        }
+
+        function showNotification(message) {
+            // Crear notificación temporal
+            const notification = document.createElement('div');
+            notification.className = 'alert alert-success position-fixed';
+            notification.style.cssText = 'top: 100px; right: 20px; z-index: 9999; animation: slideIn 0.3s ease;';
+            notification.innerHTML = `<i class="fas fa-check-circle me-2"></i>${message}`;
+            
+            document.body.appendChild(notification);
+            
+            // Remover después de 3 segundos
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Event listeners para los botones de cambio de estado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Botones de cambiar a preparación
+            document.querySelectorAll('.btn-preparacion').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const modal = this.closest('.modal');
+                    const orderId = modal.id.replace('orderModal', '#00');
+                    changeOrderStatus(orderId, 'preparacion');
+                });
+            });
+
+            // Botones de cambiar a listo
+            document.querySelectorAll('.btn-listo').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const modal = this.closest('.modal');
+                    const orderId = modal.id.replace('orderModal', '#00');
+                    changeOrderStatus(orderId, 'listo');
+                });
+            });
+
+            // Botones de cambiar a enviado
+            document.querySelectorAll('.btn-enviado').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const modal = this.closest('.modal');
+                    const orderId = modal.id.replace('orderModal', '#00');
+                    changeOrderStatus(orderId, 'enviado');
+                });
+            });
+        });
+
+        // Simulación de actualización de pedidos en tiempo real
+        function updateOrdersList() {
+            // Simulación de nuevos pedidos (en producción vendría del servidor)
+            const newOrdersData = [
+                {
+                    id: '005',
+                    customer: 'Laura Sánchez',
+                    time: 'Hace 2 minutos',
+                    status: 'pendiente',
+                    products: 'Hamburguesa Vegana, Papas',
+                    total: '$32.000'
+                }
+            ];
+            
+            // Aquí actualizarías la lista de pedidos dinámicamente
+            console.log('Verificando nuevos pedidos...', newOrdersData);
+        }
+
+        // Función para filtrar pedidos por estado
+        function filterOrders(status) {
+            const orderCards = document.querySelectorAll('.order-card');
+            orderCards.forEach(card => {
+                const cardStatus = card.querySelector('.status-badge').textContent.toLowerCase();
+                if (status === 'todos' || cardStatus.includes(status)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Función para buscar pedidos
+        function searchOrders(query) {
+            const orderCards = document.querySelectorAll('.order-card');
+            orderCards.forEach(card => {
+                const content = card.textContent.toLowerCase();
+                if (content.includes(query.toLowerCase()) || query === '') {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Actualización automática cada 30 segundos
+        setInterval(updateOrdersList, 30000);
+
+        // Función para reproducir sonido de notificación (opcional)
+        function playNotificationSound() {
+            // Crear y reproducir un sonido simple
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.1);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+
+        // Agregar animación CSS para las notificaciones
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+
+            .order-card.new-order {
+                animation: pulse 0.6s ease-in-out;
+                border: 2px solid #28a745;
+            }
+
+            .notification-sound {
+                animation: pulse 0.3s ease-in-out;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Función para marcar pedidos como nuevos
+        function markAsNewOrder(orderId) {
+            const orderCard = document.querySelector(`[data-bs-target="#orderModal${orderId}"]`);
+            if (orderCard) {
+                orderCard.classList.add('new-order');
+                setTimeout(() => {
+                    orderCard.classList.remove('new-order');
+                }, 3000);
+            }
+        }
+
+        // Funciones adicionales para mejorar la experiencia
+        document.addEventListener('DOMContentLoaded', function() {
+            // Agregar tooltips a los botones
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+
+            // Agregar confirmación antes de cambiar estados críticos
+            document.querySelectorAll('.btn-enviado').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    if (!confirm('¿Está seguro de que desea marcar este pedido como enviado?')) {
+                        e.stopPropagation();
+                        return false;
+                    }
+                });
+            });
+        });
+
+        // Función para imprimir ticket del pedido
+        function printOrderTicket(orderId) {
+            const orderModal = document.querySelector(`#orderModal${orderId}`);
+            const orderContent = orderModal.querySelector('.modal-body').innerHTML;
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                            <html>
+                                <head>
+                                    <title>Ticket Pedido ${orderId}</title>
+                                    <style>
+                                        body { font-family: Arial, sans-serif; font-size: 12px; }
+                                        .customer-info { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }
+                                        .product-item { border-bottom: 1px solid #eee; padding: 5px 0; }
+                                    </style>
+                                </head>
+                                <body>
+                                    <h2>BurgerHub - Ticket de Cocina</h2>
+                                    <h3>Pedido ${orderId}</h3>
+                                    ${orderContent}
+                                    <script>
+                                        window.print();
+                                        window.close();
+                                    <\/script>
+                                </body>
+                            </html>
+                        `);
+        }
+let currentSlide = 0;
+        const totalSlides = 3;
+        const completedProducts = new Set();
+
+        // Inicializar el modal
+        document.addEventListener('DOMContentLoaded', function() {
+            updateNavigation();
+            updateProgressText();
+            
+            // Eventos para los checkboxes
+            document.querySelectorAll('.completion-checkbox').forEach((checkbox, index) => {
+                checkbox.addEventListener('change', function() {
+                    handleProductCompletion(index, this.checked);
+                });
+            });
+        });
+
+        function changeSlide(direction) {
+            const slides = document.querySelectorAll('.product-slide');
+            
+            // Ocultar slide actual
+            slides[currentSlide].classList.remove('active');
+            
+            // Calcular nuevo slide
+            currentSlide += direction;
+            
+            // Limitar los rangos
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+            
+            // Mostrar nuevo slide
+            slides[currentSlide].classList.add('active');
+            
+            // Actualizar elementos
+            updateNavigation();
+            updateProgressText();
+            updateProgressDots();
+        }
+
+        function handleProductCompletion(productIndex, isCompleted) {
+            const card = document.getElementById(`card-${productIndex}`);
+            const status = document.getElementById(`status-${productIndex}`);
+            const progressDot = document.querySelector(`[data-product="${productIndex}"]`);
+            
+            if (isCompleted) {
+                // Marcar como completado
+                completedProducts.add(productIndex);
+                card.classList.add('completed');
+                status.classList.add('show');
+                progressDot.classList.add('completed');
+                
+                // Auto-avanzar si no es el último slide
+                setTimeout(() => {
+                    if (currentSlide < totalSlides - 1) {
+                        changeSlide(1);
+                    } else {
+                        // Si es el último producto, mostrar resumen
+                        checkAllCompleted();
+                    }
+                }, 1000);
+                
+            } else {
+                // Desmarcar
+                completedProducts.delete(productIndex);
+                card.classList.remove('completed');
+                status.classList.remove('show');
+                progressDot.classList.remove('completed');
+            }
+            
+            checkAllCompleted();
+        }
+
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = (currentSlide === 0);
+            nextBtn.disabled = (currentSlide === totalSlides - 1);
+        }
+
+        function updateProgressText() {
+            const progressText = document.getElementById('progressText');
+            progressText.textContent = `Producto ${currentSlide + 1} de ${totalSlides}`;
+        }
+
+        function updateProgressDots() {
+            const dots = document.querySelectorAll('.progress-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.remove('active');
+                if (index === currentSlide) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
+        function checkAllCompleted() {
+            const completeOrderBtn = document.getElementById('completeOrderBtn');
+            const finalSummary = document.getElementById('finalSummary');
+            
+            if (completedProducts.size === totalSlides) {
+                completeOrderBtn.disabled = false;
+                
+                // Si está en el último slide, mostrar resumen
+                if (currentSlide === totalSlides - 1) {
+                    setTimeout(() => {
+                        document.querySelector('.product-slide.active').style.display = 'none';
+                        finalSummary.classList.add('show');
+                        document.querySelector('.carousel-navigation').style.display = 'none';
+                    }, 1500);
+                }
+            } else {
+                completeOrderBtn.disabled = true;
+                finalSummary.classList.remove('show');
+            }
+        }
+
+        // Navegación con teclado
+        document.addEventListener('keydown', function(e) {
+            if (document.querySelector('#orderModal4').classList.contains('show')) {
+                if (e.key === 'ArrowLeft') changeSlide(-1);
+                if (e.key === 'ArrowRight') changeSlide(1);
+                if (e.key === ' ') {
+                    e.preventDefault();
+                    const currentCheckbox = document.getElementById(`check-${currentSlide}`);
+                    if (currentCheckbox) {
+                        currentCheckbox.checked = !currentCheckbox.checked;
+                        handleProductCompletion(currentSlide, currentCheckbox.checked);
+                    }
+                }
+            }
+        });
+
+    </script>
+{% endblock %}

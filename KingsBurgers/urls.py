@@ -19,6 +19,7 @@ urlpatterns = [
     path('admin/panel/', VistasAdminEmpleadoController.panel_admin_view, name='panel_admin'),
     path('admin/usuarios/', VistasAdminEmpleadoController.panel_gestion_usuarios_view, name='gestion_usuarios'),
     path('admin/dashboard/', VistasAdminEmpleadoController.dashborard_view, name='dashboard'),
+    path('admin/dashboardempleado/', VistasAdminEmpleadoController.dashborard_view, name='dashboardempleado'),
     path('admin/categorias/', VistasAdminEmpleadoController.panel_gestion_categorias_view, name='categorias'),
     path('admin/productos/', VistasAdminEmpleadoController.panel_gestion_productos_view, name='productos'),
     path('admin/inventario/', VistasAdminEmpleadoController.panel_gestion_inventario_view, name='inventario'),
@@ -57,4 +58,7 @@ urlpatterns = [
     path('pago/exito/', PagoController.pago_exitoso, name='pago_exitoso'),
     path('pago/error/', PagoController.pago_error, name='pago_error'),
 
+
+    # vista empleado carritos pagos
+    path('carritos-pagados/', CarritoController.getCarritoEmpleado, name='carritos_pagados'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

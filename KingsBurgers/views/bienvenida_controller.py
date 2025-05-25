@@ -32,8 +32,10 @@ class BienvenidaController:
                     'categorias': categorias,
                     'productos': productos
                 }
-                if usuario.tipo_usuario in ['EMPLEADO', 'ADMIN']:
+                if usuario.tipo_usuario == 'ADMIN':
                     return render(request, 'admin/dashboard.html', context)
+                elif usuario.tipo_usuario == 'EMPLEADO':
+                    return render(request, 'admin/dashboardempleado.html', context)
                 else:
                     return render(request, 'bienvenida.html', {'logueado': True, **context})
             except Usuario.DoesNotExist:

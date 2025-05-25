@@ -5,6 +5,10 @@ from django.views.decorators.http import require_POST
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from KingsBurgers.services.CarritoService import CarritoService
+from KingsBurgers.models import Carrito, Producto,Cliente, Usuario
+from django.views.decorators.http import require_GET
+from django.db.models import Prefetch
+from KingsBurgers.models.CarritoItem import CartItem 
 
 class CarritoController:
 
@@ -55,3 +59,45 @@ class CarritoController:
 
         return JsonResponse(resultado)
 
+    @require_GET
+    def getCarritoEmpleado(request):
+        carritos_pagados = Carrito.objects.filter(estado='PAGADO').select_related('usuario').prefetch_related(
+            Prefetch('items', queryset=CartItem.objects.select_related('producto'))
+        )
+
+        resultado = []
+
+        for carrito in carritos_pagados:
+            try:
+                cliente = Cliente.objects.get(usuario=carrito.usuario)
+            except Cliente.DoesNotExist:
+                cliente = None
+
+            items = []
+            for item in carrito.items.all():
+                items.append({
+                    'producto_id': item.producto.id,
+                    'nombre': item.producto.nombre,
+                    'descripcion': item.producto.descripcion,
+                    'imagen': item.producto.imagen.url if item.producto.imagen else None,
+                    'cantidad': item.cantidad,
+                })
+
+            resultado.append({
+                'carrito_id': carrito.id,
+                'estado': carrito.estado,
+                'fecha': carrito.created_at,
+                'usuario': {
+                    'id': carrito.usuario.id,
+                    'nombre': carrito.usuario.nombre,
+                    'correo': carrito.usuario.correo,
+                    'tipo_usuario': carrito.usuario.tipo_usuario,
+                },
+                'cliente': {
+                    'telefono': cliente.telefono if cliente else None,
+                    'direccion': cliente.direccion if cliente else None,
+                },
+                'productos': items
+            })
+
+        return JsonResponse({'carritos': resultado})

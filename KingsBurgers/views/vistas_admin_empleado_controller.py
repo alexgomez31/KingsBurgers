@@ -54,12 +54,12 @@ class VistasAdminEmpleadoController:
         try:
             usuario = Usuario.objects.get(id=request.user.id)
             
-            if usuario.tipo_usuario not in ['EMPLEADO', 'ADMIN']:
+            if usuario.tipo_usuario == 'ADMIN':
+                return render(request, 'admin/dashboard.html', {'usuario': usuario})
+            elif usuario.tipo_usuario == 'EMPLEADO':
+                return render(request, 'admin/dashboardempleado.html', {'usuario': usuario})
+            else:
                 return redirect('bienvenida')
-            
-            return render(request, 'admin/dashboard.html', {
-                'usuario': usuario,
-            })
         except Usuario.DoesNotExist:
             return redirect('bienvenida')
         

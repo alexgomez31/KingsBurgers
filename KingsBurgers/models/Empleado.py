@@ -26,4 +26,4 @@ class Empleado(models.Model):
         print(f"Cargando asignaciones para {self.usuario.nombre}")
 
     def obtener_url_dashboard(self):
-        return "/empleado/dashboard/"
+        return "/admin/dashboardempleado"
