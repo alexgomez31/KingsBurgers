@@ -146,7 +146,7 @@
                     <div class="col-lg-4 col-md-6 product-item abrir-modal-producto" data-category="{{ producto.categoria.nombre|lower }}"
                       data-category="{{ producto.categoria.nombre|lower }}" data-id="{{ producto.id }}"
                         data-nombre="{{ producto.nombre }}" data-descripcion="{{ producto.descripcion }}"
-                        data-precio="{{ producto.precio }}" data-imagen="{{ producto.imagen }}" data-toggle="modal"
+                        data-precio="{{ producto.precio }}" data-imagen="{{ producto.imagen.url }}" data-toggle="modal"
                         data-target="#productoModal">
                         <div class="product-card">
                             <div class="product-img" style="background-image: url('{{ producto.imagen.url }}'); background-size: cover; background-position: center;"></div>
@@ -338,48 +338,162 @@
 
          <!-- modal -->
         <div class="modal modal-xl" id="productoModal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title product-title modalProductoNombre" style="color: black;"></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="" style="max-width: auto;">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="" class="img-fluid rounded-start" id="modalProductoImagen" alt="">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body " style="color: black;">
-                                        <h5 class="card-title  mb-3" id="modalProductoPrecio"></h5>
-                                        <p class="card-text " id="modalProductoDescripcion"></p>
-                                        <div class="list-group">
-                                            <button type="button" id="adicionescc"
-                                                class="list-group-item list-group-item-action "
-                                                style="height: 80px; border-radius: 0;;">Elige tus adiciones</button>
-                                            <button type="button" id="bebidasss"
-                                                class="list-group-item list-group-item-action"
-                                                style="height: 80px; border-radius: 0;">Elige tus bebidas</button>
-                                            <button type="button" id="descripcion"
-                                                class="list-group-item list-group-item-action "
-                                                style="height: 80px; border-radius: 0;;">Agregar descripcion</button>
-                                               
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="modal-footer mt-3">
-                        <button class="add-to-cart btn-agregar" data-id=""><i class="fas fa-shopping-cart"></i>
-                            Añadir</button>
-                    </div>
-                </div>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content premium-modal">
+      <div class="modal-header premium-header">
+        <h5 class="modal-title product-title modalProductoNombre"></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body premium-body">
+        <div class="row g-0">
+          <!-- Columna de imagen -->
+          <div class="col-md-5 premium-img-col">
+            <img src="" class="img-fluid rounded-start" id="modalProductoImagen" alt="">
+            <div class="premium-price-badge">
+              <span id="modalProductoPrecio"></span>
             </div>
+          </div>
+          
+          <!-- Columna de contenido -->
+          <div class="col-md-7 premium-content-col">
+            <div class="card-body">
+              <p class="premium-desc" id="modalProductoDescripcion"></p>
+              
+              <!-- Adiciones (se muestran automáticamente) -->
+              <h6 class="premium-section-title">ADICIONES PREMIUM</h6>
+              <div id="adicionesContainer" class="premium-options-grid"></div>
+              
+              <!-- Bebidas (se muestran automáticamente) -->
+              <h6 class="premium-section-title mt-4">BEBIDAS SELECTAS</h6>
+              <div id="bebidasContainer" class="premium-options-grid"></div>
+              
+              <!-- Notas (siempre visible) -->
+              <h6 class="premium-section-title mt-4">NOTAS ESPECIALES</h6>
+              <textarea id="descripcion" class="premium-notes-input cuadro-textooo" placeholder="Ej: Sin cebolla, bien cocida..."></textarea>
+            </div>
+          </div>
         </div>
+      </div>
+      
+      <div class="modal-footer premium-footer">
+        <button class="add-to-cart btn-agregar premium-btn" data-id="">
+          <i class="fas fa-shopping-cart me-2"></i>AÑADIR AL PEDIDO
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<style>/* Estilos Premium */
+.premium-modal {
+  background: #1a1a1a;
+  border-radius: 16px;
+  border: 1px solid #333;
+  color: #fff;
+}
+
+.premium-header {
+  border-bottom: 1px solid #ff6b00;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+}
+
+.premium-img-col {
+  position: relative;
+}
+
+.premium-img-col img {
+  height: 100%;
+  min-height: 400px;
+  object-fit: cover;
+  border-right: 1px solid #333;
+}
+
+.premium-price-badge {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(255, 107, 0, 0.9);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.premium-content-col {
+  padding: 2rem;
+}
+
+.premium-desc {
+  color: #aaa;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.premium-section-title {
+  color: #ff6b00;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+}
+
+.premium-options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.premium-options-grid .form-check {
+  background: #2a2a2a;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  transition: all 0.3s;
+}
+
+.premium-options-grid .form-check:hover {
+  border-color: #ff6b00;
+}
+
+.premium-options-grid .form-check-label {
+  font-weight: 500;
+}
+
+.premium-notes-input {
+  width: 100%;
+  background: #2a2a2a;
+  border: 1px solid #333;
+  color: #fff;
+  padding: 12px;
+  border-radius: 6px;
+  min-height: 80px;
+  resize: none;
+}
+
+.premium-btn {
+  background: linear-gradient(135deg, #ff6b00, #ff8c00);
+  border: none;
+  width: 100%;
+  padding: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s;
+}
+
+.premium-btn:hover {
+  background: linear-gradient(135deg, #ff8c00, #ff6b00);
+  transform: translateY(-2px);
+}
+.list-group-item{
+    background: transparent;
+    color: #fff;
+   
+}
+
+</style>
     </section>
 
     <!-- Footer -->
@@ -471,91 +585,73 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 <script>
-    $(document).ready(function () {
+   $(document).ready(function() {
+  // Función para abrir el modal (ahora carga todo automáticamente)
+  $('.abrir-modal-producto').on('click', function() {
+    const productoId = $(this).data('id');
+    const nombre = $(this).data('nombre');
+    const descripcion = $(this).data('descripcion');
+    const precio = $(this).data('precio');
+    const imagen = $(this).data('imagen');
 
+    // Asignar valores básicos
+    $('.modalProductoNombre').text(nombre);
+    $('#modalProductoDescripcion').text(descripcion);
+    $('#modalProductoPrecio').text('$' + precio);
+    $('#modalProductoImagen').attr('src', imagen);
+    $('.btn-agregar').attr('data-id', productoId);
 
+    // Limpiar containers
+    $('#adicionesContainer').empty();
+    $('#bebidasContainer').empty();
+    
+    // Cargar adiciones y bebidas automáticamente
+    traerCategoria('Adicionales', $('#adicionesContainer'));
+    traerCategoria('Bebidas', $('#bebidasContainer'));
+    
+    // Mostrar textarea de notas
+    $('.cuadro-textooo').show();
 
-        $('.abrir-modal-producto').on('click', function () {
-            const productoId = $(this).data('id');
-            const nombre = $(this).attr('data-nombre');
-            const descripcion = $(this).data('descripcion');
-            const precio = $(this).data('precio');
-            const imagen = $(this).data('imagen');
+    $('#productoModal').modal('show');
+  });
 
-        
-            $('.modalProductoNombre').text(nombre);
-            $('#modalProductoDescripcion').text(descripcion);
-            $('#modalProductoPrecio').text(precio);
-            $('#modalProductoImagen').attr('src', imagen);
+  // Tu función traerCategoria ORIGINAL (solo cambia el target)
+  function traerCategoria(categoria, container) {
+    $.ajax({
+      url: '/carrito/obtener-productos-categoria/',
+      type: 'POST',
+      data: {
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        categoria: categoria
+      },
+      success: function(response) {
+        if (response.success && response.productos.length > 0) {
+          let checkboxesHTML = `
+            <ul class="list-group opciones-checkbox" data-categoria="${categoria}">
+          `;
 
-            $('#productoModal').modal('show');
-            $('.opciones-checkbox').remove();
-            $('.cuadro-textooo').remove();
-            $('.btn-agregar').attr('data-id', productoId);
-        });
+          response.productos.forEach(function(producto) {
+            checkboxesHTML += `
+              <li class="list-group-item" style="border-radius: 30px;">
+                <input class="form-check-input me-1" type="checkbox" id="prod_${producto.id}" value="${producto.id}">
+                <label class="form-check-label" for="prod_${producto.id}">
+                  ${producto.nombre} - $${producto.precio}
+                </label>
+              </li>
+            `;
+          });
 
-        $('#adicionescc').on('click', function () {
-            const categoria = "Adicionales";
-            traerCategoria(categoria, $(this));
-        });
-
-       $('#descripcion').on('click', function () {
-            if ($('#descripcion').next('textarea').length === 0) {
-                $('<textarea class="form-control mt-2 cuadro-textooo" aria-label="With textarea" placeholder="Escribe una descripción..." style=" background: none; border: 1px solid #ced4da; color:black;"></textarea>')
-                    .insertAfter('#descripcion');
-            }
-        });
-
-
-        $('#bebidasss').on('click', function () {
-            const categoria = "Bebidas";
-            traerCategoria(categoria, $(this));
-        });
-
-        function traerCategoria(categoria, boton) {
-            const existente = boton.next('.opciones-checkbox[data-categoria="' + categoria + '"]');
-
-            if (existente.length > 0) {
-                return;
-            }
-
-
-            $.ajax({
-                url: '/carrito/obtener-productos-categoria/',
-                type: 'POST',
-                data: {
-                    csrfmiddlewaretoken: '{{ csrf_token }}',
-                    categoria: categoria
-                },
-                success: function (response) {
-                    if (response.success && response.productos.length > 0) {
-                        let checkboxesHTML = `
-                            <ul class="list-group opciones-checkbox" data-categoria="${categoria}" ">
-                        `;
-
-                        response.productos.forEach(function (producto) {
-                            checkboxesHTML += `
-                                <li class="list-group-item" style="height: 80px; border-radius: 0;">
-                                    <input class="form-check-input me-1" type="checkbox" id="prod_${producto.id}" value="${producto.id}">
-                                    <label class="form-check-label" for="prod_${producto.id}">
-                                        ${producto.nombre} - $${producto.precio}
-                                    </label>
-                                </li>
-                            `;
-                        });
-
-                        checkboxesHTML += '</ul>';
-
-                        boton.after(checkboxesHTML);
-                    } else {
-                        boton.after(`<p class="opciones-checkbox" data-categoria="${categoria}">No hay productos disponibles.</p>`);
-                    }
-                },
-                error: function () {
-                    alert('Error al obtener productos de la categoría');
-                }
-            });
+          checkboxesHTML += '</ul>';
+          container.html(checkboxesHTML);
+        } else {
+          container.html(`<p class="opciones-checkbox" data-categoria="${categoria}">No hay productos disponibles.</p>`);
         }
+      },
+      error: function() {
+        alert('Error al obtener productos de la categoría');
+      }
+    });
+  }
 
 
         $('.btn-agregar').click(function () {
