@@ -116,7 +116,7 @@
 </div>
 
 <script>
-   let currentSlide = 0;
+let currentSlide = 0;
 let totalSlides = 0;
 let currentOrderData = null;
 
@@ -204,6 +204,10 @@ function openOrderModal(pedidoData) {
     carousel.innerHTML = '';
 
     pedidoData.productos.forEach((producto, index) => {
+        // Separar adiciones y bebidas
+        const adiciones = producto.adiciones ? producto.adiciones.filter(item => item.categoria === "Adicionales") : [];
+        const bebidas = producto.adiciones ? producto.adiciones.filter(item => item.categoria === "Bebidas") : [];
+
         const productSlide = `
             <div class="product-slide ${index === 0 ? 'active' : ''}" data-product="${index}">
                 <div class="product-layout">
@@ -218,12 +222,9 @@ function openOrderModal(pedidoData) {
                             <p class="product-subtitle">ID: ${producto.producto_id}</p>
                         </div>
                         <div class="special-notes">
-                            <h6>Notas Especiales de Preparación</h6>
-                            <ul>
-                                <li><strong>Cantidad:</strong> ${producto.cantidad} unidad(es)</li>
-                                <li><strong>Preparación:</strong> Según receta estándar</li>
-                                <li><strong>Calidad:</strong> Revisar frescura de ingredientes</li>
-                            </ul>
+                            <h6>.</h6>
+                            <p>.</p>
+                           
                         </div>
                         <div class="completion-section">
                             <input type="checkbox" class="completion-checkbox" id="check-${index}" onchange="updateProductStatus(${index})">
@@ -239,15 +240,36 @@ function openOrderModal(pedidoData) {
                                 ${producto.descripcion || 'Sin descripción disponible'}
                             </p>
                         </div>
+                        <div class="mb-4">
+                           <div class="special-notes">
+                            <h6>Recomendaciones del cliente sobre la preparación</h6>
+                            <p>${producto.recomendacion_cliente || 'Sin recomendaciones especiales'}</p>
+                        </div>
+                        </div>
+                        ${adiciones.length > 0 ? `
                         <div class="ingredients-section">
                             <h6 class="section-title">
-                                <i class="fas fa-list-ul me-2"></i>Información del producto
+                                <i class="fas fa-list-ul me-2"></i>Adiciones
                             </h6>
                             <div class="ingredients-list">
-                                <span class="ingredient-tag">ID: ${producto.producto_id}</span>
-                                <span class="ingredient-tag">Cantidad: ${producto.cantidad}</span>
+                                ${adiciones.map(adicion => 
+                                    `<span class="ingredient-tag">${adicion.nombre} (${adicion.descripcion})</span>`
+                                ).join('')}
                             </div>
                         </div>
+                        ` : ''}
+                        ${bebidas.length > 0 ? `
+                        <div class="ingredients-section">
+                            <h6 class="section-title">
+                                <i class="fas fa-wine-glass me-2"></i>Bebidas
+                            </h6>
+                            <div class="ingredients-list">
+                                ${bebidas.map(bebida => 
+                                    `<span class="ingredient-tag">${bebida.nombre} (${bebida.descripcion})</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+                        ` : ''}
                     </div>
                 </div>
             </div>
@@ -331,7 +353,7 @@ function updateNavigation() {
     document.getElementById('prevBtn').style.display = currentSlide > 0 ? 'inline-block' : 'none';
     
     if (currentSlide === totalSlides - 1) {
-        document.getElementById('nextBtn').innerHTML = '<i class="fas fa-arrow-right me-2"></i>Ver Resumen';
+        document.getElementById('nextBtn').innerHTML = '<i class="fas fa-arrow-right me-2"></i> ';
     } else {
         document.getElementById('nextBtn').innerHTML = '<i class="fas fa-chevron-right"></i>';
     }

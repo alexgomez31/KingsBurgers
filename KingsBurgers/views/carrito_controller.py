@@ -70,7 +70,7 @@ class CarritoController:
     @require_GET
     def getCarritoEmpleado(request):
         carritos_pagados = Carrito.objects.filter(estado='PAGADO').select_related('usuario').prefetch_related(
-            Prefetch('items', queryset=CartItem.objects.select_related('producto'))
+            Prefetch('items', queryset=CartItem.objects.select_related('producto__categoria'))
         )
 
         resultado = []
@@ -81,15 +81,32 @@ class CarritoController:
             except Cliente.DoesNotExist:
                 cliente = None
 
-            items = []
+            items_dict = {}
+            adicionales_temp = []
+
             for item in carrito.items.all():
-                items.append({
-                    'producto_id': item.producto.id,
-                    'nombre': item.producto.nombre,
-                    'descripcion': item.producto.descripcion,
-                    'imagen': item.producto.imagen.url if item.producto.imagen else None,
-                    'cantidad': item.cantidad,
-                })
+                if item.adicionales_id is None:
+                    items_dict[item.id] = {
+                        'producto_id': item.producto.id,
+                        'nombre': item.producto.nombre,
+                        'descripcion': item.producto.descripcion,
+                        'imagen': item.producto.imagen.url if item.producto.imagen else None,
+                        'cantidad': item.cantidad,
+                        'recomendacion_cliente': item.descripcion,
+                        'adiciones': []
+                    }
+                else:
+                    adicionales_temp.append(item)
+
+            # Asociar adicionales
+            for adicional in adicionales_temp:
+                if adicional.adicionales_id in items_dict:
+                    items_dict[adicional.adicionales_id]['adiciones'].append({
+                        'producto_id': adicional.producto.id,
+                        'nombre': adicional.producto.nombre,
+                        'descripcion': adicional.producto.descripcion,
+                        'categoria': adicional.producto.categoria.nombre if adicional.producto.categoria else None
+                    })
 
             resultado.append({
                 'carrito_id': carrito.id,
@@ -105,10 +122,13 @@ class CarritoController:
                     'telefono': cliente.telefono if cliente else None,
                     'direccion': cliente.direccion if cliente else None,
                 },
-                'productos': items
+                'productos': list(items_dict.values())
             })
 
         return JsonResponse({'carritos': resultado})
+    
+
+    
     @require_POST
     @login_required
     def obtener_productos_categoria(request):
