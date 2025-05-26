@@ -1,669 +1,577 @@
 {% extends "admin/panel_admin.html" %}
-{% block title %}Dashboard - KingsBurgers{% endblock %}
-{% block header_title %}Dashboard Administrativo{% endblock %}
+{% block title %}Reportes de Carritos - KingsBurgers{% endblock %}
+{% block header_title %}Reportes de Carritos Pagados{% endblock %}
 
 {% block content %}
-<!-- Tarjetas de Resumen -->
-<div class="row mb-4">
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Ventas Totales (Mensual)</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$58,750</div>
-                        <div class="text-xs text-success mt-2">
-                            <i class="fas fa-arrow-up"></i> 12.5% vs mes anterior
-                        </div>
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-muted mb-0">Visualiza y exporta los carritos pagados</p>
+                </div>
+                <div class="btn-toolbar">
+                    <div class="btn-group me-2">
+                        <button type="button" class="btn btn-sm btn-success" onclick="exportarDatos('excel')">
+                            <i class="fas fa-file-excel me-1"></i> Excel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-secondary" onclick="exportarDatos('csv')">
+                            <i class="fas fa-file-csv me-1"></i> CSV
+                        </button>
                     </div>
-                    <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="limpiarFiltros()">
+                        <i class="fas fa-filter-circle-xmark me-1"></i> Limpiar
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            Pedidos Completados (Mensual)</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">1,248</div>
-                        <div class="text-xs text-success mt-2">
-                            <i class="fas fa-arrow-up"></i> 8.3% vs mes anterior
+    <!-- Filtros -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fas fa-sliders me-2"></i>Filtros</h5>
+        </div>
+        <div class="card-body">
+            <form id="filtrosForm">
+                <div class="row g-3">
+                    <!-- Fechas -->
+                    <div class="col-md-3">
+                        <label class="form-label">Fecha Inicio</label>
+                        <input type="date" class="form-control" name="fecha_inicio" id="fechaInicio">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Fecha Fin</label>
+                        <input type="date" class="form-control" name="fecha_fin" id="fechaFin">
+                    </div>
+                    
+                    <!-- Estado -->
+                    <div class="col-md-3">
+                        <label class="form-label">Estado</label>
+                        <select class="form-select" name="estado" id="estadoSelect">
+                            <option value="">Todos</option>
+                            <!-- Se llena dinámicamente -->
+                        </select>
+                    </div>
+                    
+                    <!-- Tipo Usuario -->
+                    <div class="col-md-3">
+                        <label class="form-label">Tipo de Usuario</label>
+                        <select class="form-select" name="tipo_usuario" id="tipoUsuarioSelect">
+                            <option value="">Todos</option>
+                            <!-- Se llena dinámicamente -->
+                        </select>
+                    </div>
+                    
+                    <!-- Cliente -->
+                    <div class="col-md-4">
+                        <label class="form-label">Cliente</label>
+                        <select class="form-select" name="cliente_id" id="clienteSelect">
+                            <option value="">Todos</option>
+                            <!-- Se llena dinámicamente -->
+                        </select>
+                    </div>
+                    
+                    <!-- Producto -->
+                    <div class="col-md-4">
+                        <label class="form-label">Producto</label>
+                        <select class="form-select" name="producto_id" id="productoSelect">
+                            <option value="">Todos</option>
+                            <!-- Se llena dinámicamente -->
+                        </select>
+                    </div>
+                    
+                    <!-- Búsqueda -->
+                    <div class="col-md-4">
+                        <label class="form-label">Buscar</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="buscar" 
+                                   placeholder="ID, nombre, correo..." id="buscarInput">
+                            <button class="btn btn-primary" type="button" onclick="cargarCarritos()">
+                                <i class="fas fa-search"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="col-auto">
-                        <i class="fas fa-shopping-bag fa-2x text-gray-300"></i>
-                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-info shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                            Ticket Promedio</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$47.08</div>
-                        <div class="text-xs text-success mt-2">
-                            <i class="fas fa-arrow-up"></i> 3.2% vs mes anterior
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-receipt fa-2x text-gray-300"></i>
-                    </div>
-                </div>
+    <!-- Resultados -->
+    <div class="card">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Resultados</h5>
+            <div class="text-muted" id="contadorRegistros">
+                Mostrando 0 de 0 registros
             </div>
         </div>
-    </div>
-
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-warning shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                            Alertas de Inventario</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
-                        <div class="text-xs text-danger mt-2">
-                            <i class="fas fa-arrow-up"></i> 2 más que ayer
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
-                    </div>
-                </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuario</th>
+                            <th>Cliente</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Productos</th>
+                            <th>Total</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaCarritos">
+                        <!-- Se llena dinámicamente -->
+                        <tr>
+                            <td colspan="8" class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
+                                <p class="mt-2">Cargando datos...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+        </div>
+        
+        <!-- Paginación -->
+        <div class="card-footer">
+            <nav aria-label="Paginación">
+                <ul class="pagination justify-content-center mb-0" id="paginacion">
+                    <!-- Se llena dinámicamente -->
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
 
-<!-- Gráfica de Ventas -->
-<div class="row">
-    <div class="col-xl-8 col-lg-7">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Resumen de Ventas</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Filtrar por:</div>
-                        <a class="dropdown-item active" href="#">Últimos 7 días</a>
-                        <a class="dropdown-item" href="#">Últimos 30 días</a>
-                        <a class="dropdown-item" href="#">Este mes</a>
-                        <a class="dropdown-item" href="#">Este año</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Exportar datos</a>
+<!-- Modal Detalle Carrito -->
+<div class="modal fade" id="detalleCarritoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Detalle del Carrito <span id="modalCarritoId"></span></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-user me-2"></i>Información del Usuario</h6>
+                        <div class="ps-4 mt-2">
+                            <p class="mb-1"><strong>Nombre:</strong> <span id="usuarioNombre"></span></p>
+                            <p class="mb-1"><strong>Correo:</strong> <span id="usuarioCorreo"></span></p>
+                            <p class="mb-1"><strong>Tipo:</strong> <span id="usuarioTipo"></span></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-info-circle me-2"></i>Información del Carrito</h6>
+                        <div class="ps-4 mt-2">
+                            <p class="mb-1"><strong>Fecha:</strong> <span id="carritoFecha"></span></p>
+                            <p class="mb-1"><strong>Estado:</strong> <span id="carritoEstado"></span></p>
+                            <p class="mb-1"><strong>Total Items:</strong> <span id="carritoTotalItems"></span></p>
+                            <p class="mb-1"><strong>Total:</strong> $<span id="carritoTotal"></span></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Gráfica de Productos Más Vendidos -->
-    <div class="col-xl-4 col-lg-5">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Productos Más Vendidos</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Filtrar por:</div>
-                        <a class="dropdown-item active" href="#">Últimos 7 días</a>
-                        <a class="dropdown-item" href="#">Últimos 30 días</a>
-                        <a class="dropdown-item" href="#">Este mes</a>
-                        <a class="dropdown-item" href="#">Este año</a>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="chart-pie pt-4 pb-2">
-                    <canvas id="myPieChart"></canvas>
-                </div>
-                <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-primary"></i> Hamburguesa Doble
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-success"></i> Combo Familiar
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-info"></i> Hamburguesa Especial
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Análisis de Ventas por Categoría -->
-<div class="row">
-    <div class="col-lg-6 mb-4">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Ventas por Categoría</h6>
-            </div>
-            <div class="card-body">
-                <div class="chart-bar">
-                    <canvas id="categoryBarChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Análisis de Ventas por Hora -->
-    <div class="col-lg-6 mb-4">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Ventas por Hora del Día</h6>
-            </div>
-            <div class="card-body">
-                <div class="chart-bar">
-                    <canvas id="hourlyBarChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Alertas de Inventario y Productos a Reponer -->
-<div class="row">
-    <div class="col-12">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-warning text-white">
-                <h6 class="m-0 font-weight-bold">Productos con Stock Bajo</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-white"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="#">Generar Orden de Compra</a>
-                        <a class="dropdown-item" href="#">Marcar como Revisados</a>
-                        <a class="dropdown-item" href="#">Ver Historial de Inventario</a>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
+                
+                <h6><i class="fas fa-boxes me-2"></i>Productos</h6>
                 <div class="table-responsive">
-                    <table class="table table-hover" id="stockAlertTable">
+                    <table class="table table-sm">
                         <thead>
                             <tr>
                                 <th>Producto</th>
-                                <th>Categoría</th>
-                                <th>Stock Actual</th>
-                                <th>Stock Mínimo</th>
-                                <th>Último Reabastecimiento</th>
-                                <th>Ventas Últimos 7 días</th>
-                                <th>Acciones</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unitario</th>
+                                <th>Subtotal</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>Hamburguesa Clásica</td>
-                                <td>Hamburguesas</td>
-                                <td><span class="badge bg-danger">2</span></td>
-                                <td>10</td>
-                                <td>28/04/2025</td>
-                                <td>32</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Añadir Stock</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Papas Fritas</td>
-                                <td>Adicionales</td>
-                                <td><span class="badge bg-warning">5</span></td>
-                                <td>15</td>
-                                <td>30/04/2025</td>
-                                <td>45</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Añadir Stock</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Coca-Cola 500ml</td>
-                                <td>Bebidas</td>
-                                <td><span class="badge bg-danger">3</span></td>
-                                <td>20</td>
-                                <td>29/04/2025</td>
-                                <td>38</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Añadir Stock</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Nuggets de Pollo</td>
-                                <td>Adicionales</td>
-                                <td><span class="badge bg-warning">8</span></td>
-                                <td>12</td>
-                                <td>01/05/2025</td>
-                                <td>22</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Añadir Stock</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Hamburguesa Vegetariana</td>
-                                <td>Hamburguesas</td>
-                                <td><span class="badge bg-warning">6</span></td>
-                                <td>8</td>
-                                <td>02/05/2025</td>
-                                <td>15</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Añadir Stock</button>
-                                </td>
-                            </tr>
+                        <tbody id="modalProductos">
+                            <!-- Se llena dinámicamente -->
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" onclick="exportarCarritoModal()">
+                    <i class="fas fa-download me-1"></i> Exportar
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Últimas ventas y rendimiento -->
-<div class="row">
-    <!-- Tabla de Últimas Ventas -->
-    <div class="col-xl-7 col-lg-6">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Últimas Ventas</h6>
-                <a href="#" class="btn btn-sm btn-primary">Ver Todas</a>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Orden #</th>
-                                <th>Cliente</th>
-                                <th>Productos</th>
-                                <th>Total</th>
-                                <th>Fecha/Hora</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>0053</td>
-                                <td>Carlos Pérez</td>
-                                <td>Combo Familiar x1, Bebidas x2</td>
-                                <td>$38.50</td>
-                                <td>04/05/2025 - 15:42</td>
-                                <td><span class="badge bg-success">Completado</span></td>
-                            </tr>
-                            <tr>
-                                <td>0052</td>
-                                <td>María López</td>
-                                <td>Hamburguesa Doble x2, Papas x1, Bebidas x2</td>
-                                <td>$35.75</td>
-                                <td>04/05/2025 - 14:20</td>
-                                <td><span class="badge bg-success">Completado</span></td>
-                            </tr>
-                            <tr>
-                                <td>0051</td>
-                                <td>Juan Gómez</td>
-                                <td>Hamburguesa Especial x1, Nuggets x1, Bebidas x1</td>
-                                <td>$22.50</td>
-                                <td>04/05/2025 - 13:45</td>
-                                <td><span class="badge bg-success">Completado</span></td>
-                            </tr>
-                            <tr>
-                                <td>0050</td>
-                                <td>Ana Martínez</td>
-                                <td>Hamburguesa Vegetariana x1, Papas x1, Bebidas x1</td>
-                                <td>$18.25</td>
-                                <td>04/05/2025 - 12:30</td>
-                                <td><span class="badge bg-success">Completado</span></td>
-                            </tr>
-                            <tr>
-                                <td>0049</td>
-                                <td>Roberto Silva</td>
-                                <td>Combo Familiar x1, Adicionales x3</td>
-                                <td>$45.80</td>
-                                <td>04/05/2025 - 12:15</td>
-                                <td><span class="badge bg-success">Completado</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+<!-- Loading Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center py-4">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Cargando...</span>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Rendimiento de Productos -->
-    <div class="col-xl-5 col-lg-6">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Rendimiento de Productos</h6>
-            </div>
-            <div class="card-body">
-                <h4 class="small font-weight-bold">Hamburguesa Clásica <span class="float-right">65%</span></h4>
-                <div class="progress mb-4">
-                    <div class="progress-bar bg-danger" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <h4 class="small font-weight-bold">Hamburguesa Doble <span class="float-right">85%</span></h4>
-                <div class="progress mb-4">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <h4 class="small font-weight-bold">Combo Familiar <span class="float-right">78%</span></h4>
-                <div class="progress mb-4">
-                    <div class="progress-bar bg-info" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <h4 class="small font-weight-bold">Papas Fritas <span class="float-right">90%</span></h4>
-                <div class="progress mb-4">
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <h4 class="small font-weight-bold">Hamburguesa Vegetariana <span class="float-right">40%</span></h4>
-                <div class="progress mb-4">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <h4 class="small font-weight-bold">Nuggets de Pollo <span class="float-right">60%</span></h4>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
+                <p class="mb-0" id="loadingText">Exportando datos...</p>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Scripts para las gráficas -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
-// Configuración de la gráfica de área (ventas)
-var ctx = document.getElementById("myAreaChart");
-var myLineChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: ["27 Abr", "28 Abr", "29 Abr", "30 Abr", "1 May", "2 May", "3 May", "4 May"],
-        datasets: [{
-            label: "Ingresos",
-            lineTension: 0.3,
-            backgroundColor: "rgba(78, 115, 223, 0.05)",
-            borderColor: "rgba(78, 115, 223, 1)",
-            pointRadius: 3,
-            pointBackgroundColor: "rgba(78, 115, 223, 1)",
-            pointBorderColor: "rgba(78, 115, 223, 1)",
-            pointHoverRadius: 3,
-            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-            pointHitRadius: 10,
-            pointBorderWidth: 2,
-            data: [5680, 6400, 5780, 6850, 7480, 8200, 7850, 6980],
-        }],
-    },
-    options: {
-        maintainAspectRatio: false,
-        layout: {
-            padding: {
-                left: 10,
-                right: 25,
-                top: 25,
-                bottom: 0
+    // Variables globales
+    let carritoActual = null;
+    let currentPage = 1;
+    const perPage = 10;
+
+    // Cuando el documento está listo
+    $(document).ready(function() {
+        cargarFiltros();
+        cargarCarritos();
+        
+        // Configurar eventos
+        $('#filtrosForm select').change(function() {
+            currentPage = 1;
+            cargarCarritos();
+        });
+        
+        $('#buscarInput').keypress(function(e) {
+            if(e.which === 13) {
+                currentPage = 1;
+                cargarCarritos();
             }
-        },
-        scales: {
-            xAxes: [{
-                time: {
-                    unit: 'date'
-                },
-                gridLines: {
-                    display: false,
-                    drawBorder: false
-                },
-                ticks: {
-                    maxTicksLimit: 7
-                }
-            }],
-            yAxes: [{
-                ticks: {
-                    maxTicksLimit: 5,
-                    padding: 10,
-                    callback: function(value, index, values) {
-                        return '$' + value;
-                    }
-                },
-                gridLines: {
-                    color: "rgb(234, 236, 244)",
-                    zeroLineColor: "rgb(234, 236, 244)",
-                    drawBorder: false,
-                    borderDash: [2],
-                    zeroLineBorderDash: [2]
-                }
-            }],
-        },
-        legend: {
-            display: false
-        },
-        tooltips: {
-            backgroundColor: "rgb(255,255,255)",
-            bodyFontColor: "#858796",
-            titleMarginBottom: 10,
-            titleFontColor: '#6e707e',
-            titleFontSize: 14,
-            borderColor: '#dddfeb',
-            borderWidth: 1,
-            xPadding: 15,
-            yPadding: 15,
-            displayColors: false,
-            intersect: false,
-            mode: 'index',
-            caretPadding: 10,
-            callbacks: {
-                label: function(tooltipItem, chart) {
-                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                    return datasetLabel + ': $' + tooltipItem.yLabel;
-                }
+        });
+    });
+
+    // Cargar opciones de filtros
+    function cargarFiltros() {
+        $.get('/api/reportes/filtros/', function(data) {
+            // Estados
+            const estadoSelect = $('#estadoSelect');
+            data.estados.forEach(estado => {
+                estadoSelect.append(`<option value="${estado}">${estado.charAt(0).toUpperCase() + estado.slice(1).toLowerCase()}</option>`);
+            });
+            
+            // Tipos de usuario
+            const tipoUsuarioSelect = $('#tipoUsuarioSelect');
+            data.tipos_usuario.forEach(tipo => {
+                tipoUsuarioSelect.append(`<option value="${tipo}">${tipo.charAt(0).toUpperCase() + tipo.slice(1).toLowerCase()}</option>`);
+            });
+            
+            // Clientes
+            const clienteSelect = $('#clienteSelect');
+            data.clientes.forEach(cliente => {
+                clienteSelect.append(`<option value="${cliente.id}">${cliente.usuario__nombre} - ${cliente.usuario__correo}</option>`);
+            });
+            
+            // Productos
+            const productoSelect = $('#productoSelect');
+            data.productos.forEach(producto => {
+                productoSelect.append(`<option value="${producto.id}">${producto.nombre}</option>`);
+            });
+        }).fail(function() {
+            mostrarError('Error al cargar los filtros');
+        });
+    }
+
+    // Cargar carritos con filtros aplicados
+    function cargarCarritos() {
+        console.log('Cargando carritos para la página:', currentPage);
+        
+        const filtros = {
+            fecha_inicio: $('#fechaInicio').val(),
+            fecha_fin: $('#fechaFin').val(),
+            estado: $('#estadoSelect').val(),
+            tipo_usuario: $('#tipoUsuarioSelect').val(),
+            cliente_id: $('#clienteSelect').val(),
+            producto_id: $('#productoSelect').val(),
+            buscar: $('#buscarInput').val(),
+            page: currentPage,
+            per_page: perPage
+        };
+        
+        // Mostrar loading
+        $('#tablaCarritos').html(`
+            <tr>
+                <td colspan="8" class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                    <p class="mt-2">Cargando datos...</p>
+                </td>
+            </tr>
+        `);
+        
+        $.get('/api/reportes/carritos/', filtros, function(data) {
+            if(data.success) {
+                renderizarCarritos(data.carritos);
+                actualizarContador(data.total, data.carritos.length);
+                renderizarPaginacion(data.total, data.per_page, data.page);
+            } else {
+                mostrarError('Error al cargar los carritos');
             }
+        }).fail(function() {
+            mostrarError('Error de conexión al cargar los carritos');
+        });
+    }
+
+    // Renderizar la lista de carritos
+    function renderizarCarritos(carritos) {
+        const tbody = $('#tablaCarritos');
+        tbody.empty();
+        
+        if(carritos.length === 0) {
+            tbody.html(`
+                <tr>
+                    <td colspan="8" class="text-center py-4">
+                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">No se encontraron resultados</h5>
+                        <p class="text-muted">Intenta ajustar los filtros de búsqueda</p>
+                    </td>
+                </tr>
+            `);
+            return;
+        }
+        
+        carritos.forEach(carrito => {
+            const estadoClass = carrito.estado.toLowerCase() === 'pagado' ? 'badge-pagado' : 
+                              carrito.estado.toLowerCase() === 'pendiente' ? 'badge-pendiente' : 'badge-cancelado';
+            
+            let clienteInfo = 'No disponible';
+            if(carrito.cliente.telefono || carrito.cliente.direccion) {
+                clienteInfo = `
+                    <small class="d-block"><i class="fas fa-phone text-primary me-1"></i> ${carrito.cliente.telefono || 'N/A'}</small>
+                    <small class="d-block"><i class="fas fa-map-marker-alt text-danger me-1"></i> ${carrito.cliente.direccion ? carrito.cliente.direccion.substring(0, 30) + (carrito.cliente.direccion.length > 30 ? '...' : '') : 'N/A'}</small>
+                `;
+            }
+            
+            tbody.append(`
+                <tr>
+                    <td><strong>#${carrito.carrito_id}</strong></td>
+                    <td>
+                        <div>
+                            <strong>${carrito.usuario.nombre}</strong>
+                            <br>
+                            <small class="text-muted">${carrito.usuario.correo}</small>
+                            <br>
+                            <span class="badge bg-info">${carrito.usuario.tipo_usuario}</span>
+                        </div>
+                    </td>
+                    <td>${clienteInfo}</td>
+                    <td>${carrito.fecha}</td>
+                    <td>
+                        <span class="badge badge-estado ${estadoClass}">
+                            ${carrito.estado.charAt(0).toUpperCase() + carrito.estado.slice(1).toLowerCase()}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary" onclick="verDetalleCarrito(${carrito.carrito_id})">
+                            <i class="fas fa-box-open me-1"></i> Ver (${carrito.productos.length})
+                        </button>
+                    </td>
+                    <td>
+                        <span class="badge bg-primary">$${carrito.total.toFixed(2)}</span>
+                        <br>
+                        <small class="text-muted">${carrito.total_items} items</small>
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-info" onclick="verDetalleCarrito(${carrito.carrito_id})" title="Ver detalle">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-outline-success" onclick="exportarCarrito(${carrito.carrito_id})" title="Exportar">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `);
+        });
+    }
+
+    // Actualizar el contador de registros
+    function actualizarContador(total, mostrados) {
+        $('#contadorRegistros').text(`Mostrando ${mostrados} de ${total} registros`);
+    }
+
+    // Renderizar la paginación
+    function renderizarPaginacion(total, perPage, currentPage) {
+        const totalPages = Math.ceil(total / perPage);
+        const paginacion = $('#paginacion');
+        paginacion.empty();
+        
+        if(totalPages <= 1) return;
+        
+        // Botón Anterior
+        paginacion.append(`
+            <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#" onclick="cambiarPagina(${currentPage - 1})" aria-label="Anterior">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        `);
+        
+        // Páginas
+        const maxPagesToShow = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+        let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+        
+        if(endPage - startPage + 1 < maxPagesToShow) {
+            startPage = Math.max(1, endPage - maxPagesToShow + 1);
+        }
+        
+        for(let i = startPage; i <= endPage; i++) {
+            paginacion.append(`
+                <li class="page-item ${i === currentPage ? 'active' : ''}">
+                    <a class="page-link" href="#" onclick="cambiarPagina(${i})">${i}</a>
+                </li>
+            `);
+        }
+        
+        // Botón Siguiente
+        paginacion.append(`
+            <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                <a class="page-link" href="#" onclick="cambiarPagina(${currentPage + 1})" aria-label="Siguiente">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        `);
+    }
+
+    // Cambiar de página
+    function cambiarPagina(pagina) {
+        currentPage = pagina;
+        cargarCarritos();
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
+    }
+
+    // Ver detalle de un carrito
+    function verDetalleCarrito(carritoId) {
+        $.get(`/api/reportes/carritos/?carrito_id=${carritoId}`, function(data) {
+            if(data.success && data.carritos.length > 0) {
+                const carrito = data.carritos[0];
+                carritoActual = carrito;
+                
+                // Llenar modal
+                $('#modalCarritoId').text(`#${carrito.carrito_id}`);
+                $('#usuarioNombre').text(carrito.usuario.nombre);
+                $('#usuarioCorreo').text(carrito.usuario.correo);
+                $('#usuarioTipo').text(carrito.usuario.tipo_usuario);
+                $('#carritoFecha').text(carrito.fecha);
+                $('#carritoEstado').text(carrito.estado.charAt(0).toUpperCase() + carrito.estado.slice(1).toLowerCase());
+                $('#carritoTotalItems').text(carrito.total_items);
+                $('#carritoTotal').text(carrito.total.toFixed(2));
+                
+                // Llenar productos
+                const tbody = $('#modalProductos');
+                tbody.empty();
+                
+                carrito.productos.forEach(producto => {
+                    tbody.append(`
+                        <tr>
+                            <td>
+                                <strong>${producto.nombre}</strong>
+                                <br>
+                                <small class="text-muted">ID: ${producto.producto_id}</small>
+                            </td>
+                            <td>${producto.cantidad}</td>
+                            <td>$${producto.precio.toFixed(2)}</td>
+                            <td>$${producto.subtotal.toFixed(2)}</td>
+                        </tr>
+                    `);
+                });
+                
+                // Mostrar modal
+                const modal = new bootstrap.Modal(document.getElementById('detalleCarritoModal'));
+                modal.show();
+            } else {
+                mostrarError('No se encontró el carrito');
+            }
+        }).fail(function() {
+            mostrarError('Error al cargar el detalle del carrito');
+        });
+    }
+
+    // Exportar datos
+    function exportarDatos(formato) {
+        const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+        $('#loadingText').text('Preparando exportación...');
+        loadingModal.show();
+        
+        const params = new URLSearchParams();
+        
+        // Agregar filtros actuales
+        $('#filtrosForm').serializeArray().forEach(item => {
+            if(item.value) params.append(item.name, item.value);
+        });
+        
+        const url = formato === 'csv' 
+            ? '/api/reportes/exportar-csv/?' + params.toString() 
+            : '/api/reportes/exportar-excel/?' + params.toString();
+        
+        // Descargar archivo
+        setTimeout(() => {
+            const link = document.createElement('a');
+            link.href = url;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            loadingModal.hide();
+        }, 500);
+    }
+
+    // Exportar un carrito específico
+    function exportarCarrito(carritoId) {
+        const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+        $('#loadingText').text('Preparando exportación...');
+        loadingModal.show();
+        
+        setTimeout(() => {
+            const link = document.createElement('a');
+            link.href = `/api/reportes/exportar-excel/?carrito_id=${carritoId}`;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            loadingModal.hide();
+        }, 500);
+    }
+
+    // Exportar desde el modal
+    function exportarCarritoModal() {
+        if(carritoActual) {
+            exportarCarrito(carritoActual.carrito_id);
+            const modal = bootstrap.Modal.getInstance(document.getElementById('detalleCarritoModal'));
+            modal.hide();
         }
     }
-});
 
-// Configuración de la gráfica de pastel (productos más vendidos)
-var ctx2 = document.getElementById("myPieChart");
-var myPieChart = new Chart(ctx2, {
-    type: 'doughnut',
-    data: {
-        labels: ["Hamburguesa Doble", "Combo Familiar", "Hamburguesa Especial", "Otros"],
-        datasets: [{
-            data: [42, 28, 15, 15],
-            backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e'],
-            hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#dda20a'],
-            hoverBorderColor: "rgba(234, 236, 244, 1)",
-        }],
-    },
-    options: {
-        maintainAspectRatio: false,
-        tooltips: {
-            backgroundColor: "rgb(255,255,255)",
-            bodyFontColor: "#858796",
-            borderColor: '#dddfeb',
-            borderWidth: 1,
-            xPadding: 15,
-            yPadding: 15,
-            displayColors: false,
-            caretPadding: 10,
-        },
-        legend: {
-            display: false
-        },
-        cutoutPercentage: 80,
-    },
-});
-
-// Configuración de la gráfica de barras (categorías)
-var ctx3 = document.getElementById("categoryBarChart");
-var myBarChart = new Chart(ctx3, {
-    type: 'bar',
-    data: {
-        labels: ["Hamburguesas", "Combos", "Promociones", "Adicionales", "Bebidas"],
-        datasets: [{
-            label: "Ventas ($)",
-            backgroundColor: "#4e73df",
-            hoverBackgroundColor: "#2e59d9",
-            borderColor: "#4e73df",
-            data: [25250, 18750, 5500, 4800, 4450],
-        }],
-    },
-    options: {
-        maintainAspectRatio: false,
-        layout: {
-            padding: {
-                left: 10,
-                right: 25,
-                top: 25,
-                bottom: 0
-            }
-        },
-        scales: {
-            xAxes: [{
-                gridLines: {
-                    display: false,
-                    drawBorder: false
-                },
-                ticks: {
-                    maxTicksLimit: 6
-                },
-                maxBarThickness: 25,
-            }],
-            yAxes: [{
-                ticks: {
-                    min: 0,
-                    max: 30000,
-                    maxTicksLimit: 5,
-                    padding: 10,
-                    callback: function(value, index, values) {
-                        return '$' + value;
-                    }
-                },
-                gridLines: {
-                    color: "rgb(234, 236, 244)",
-                    zeroLineColor: "rgb(234, 236, 244)",
-                    drawBorder: false,
-                    borderDash: [2],
-                    zeroLineBorderDash: [2]
-                }
-            }],
-        },
-        legend: {
-            display: false
-        },
-        tooltips: {
-            titleMarginBottom: 10,
-            titleFontColor: '#6e707e',
-            titleFontSize: 14,
-            backgroundColor: "rgb(255,255,255)",
-            bodyFontColor: "#858796",
-            borderColor: '#dddfeb',
-            borderWidth: 1,
-            xPadding: 15,
-            yPadding: 15,
-            displayColors: false,
-            caretPadding: 10,
-            callbacks: {
-                label: function(tooltipItem, chart) {
-                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                    return datasetLabel + ': $' + tooltipItem.yLabel;
-                }
-            }
-        },
+    // Limpiar filtros
+    function limpiarFiltros() {
+        $('#filtrosForm')[0].reset();
+        currentPage = 1;
+        cargarCarritos();
     }
-});
 
-// Configuración de la gráfica de barras (ventas por hora)
-var ctx4 = document.getElementById("hourlyBarChart");
-var hourlyBarChart = new Chart(ctx4, {
-    type: 'bar',
-    data: {
-        labels: ["11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"],
-        datasets: [{
-            label: "Ventas ($)",
-            backgroundColor: "#1cc88a",
-            hoverBackgroundColor: "#17a673",
-            borderColor: "#1cc88a",
-            data: [1200, 3500, 5800, 4200, 3800, 2900, 3100, 4500, 6200, 5800, 4100, 2200],
-        }],
-    },
-    options: {
-        maintainAspectRatio: false,
-        layout: {
-            padding: {
-                left: 10,
-                right: 25,
-                top: 25,
-                bottom: 0
-            }
-        },
-        scales: {
-            xAxes: [{
-                gridLines: {
-                    display: false,
-                    drawBorder: false
-                },
-                ticks: {
-                    maxTicksLimit: 12
-                },
-                maxBarThickness: 20,
-            }],
-            yAxes: [{
-                ticks: {
-                    min: 0,
-                    max: 7000,
-                    maxTicksLimit: 5,
-                    padding: 10,
-                    callback: function(value, index, values) {
-                        return '$' + value;
-                    }
-                },
-                gridLines: {
-                    color: "rgb(234, 236, 244)",
-                    zeroLineColor: "rgb(234, 236, 244)",
-                    drawBorder: false,
-                    borderDash: [2],
-                    zeroLineBorderDash: [2]
-                }
-            }],
-        },
-        legend: {
-            display: false
-        },
-        tooltips: {
-            titleMarginBottom: 10,
-            titleFontColor: '#6e707e',
-            titleFontSize: 14,
-            backgroundColor: "rgb(255,255,255)",
-            bodyFontColor: "#858796",
-            borderColor: '#dddfeb',
-            borderWidth: 1,
-            xPadding: 15,
-            yPadding: 15,
-            displayColors: false,
-            caretPadding: 10,
-            callbacks: {
-                label: function(tooltipItem, chart) {
-                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                    return datasetLabel + ': $' + tooltipItem.yLabel;
-                }
-            }
-        },
+    // Mostrar mensaje de error
+    function mostrarError(mensaje) {
+        const tbody = $('#tablaCarritos');
+        tbody.html(`
+            <tr>
+                <td colspan="8" class="text-center py-4 text-danger">
+                    <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
+                    <h5>${mensaje}</h5>
+                    <button class="btn btn-sm btn-outline-primary mt-2" onclick="cargarCarritos()">
+                        <i class="fas fa-sync-alt me-1"></i> Reintentar
+                    </button>
+                </td>
+            </tr>
+        `);
     }
-});
 </script>
 {% endblock %}

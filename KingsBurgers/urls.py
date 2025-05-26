@@ -12,6 +12,13 @@ from django.contrib.auth.views import LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
 
+from KingsBurgers.views.reportes_controller import (
+    get_carritos_pagados,
+    exportar_excel,
+    exportar_csv,
+    get_filtros_disponibles
+)
+
 urlpatterns = [
 
     # vistas
@@ -62,4 +69,15 @@ urlpatterns = [
 
     # vista empleado carritos pagos
     path('carritos-pagados/', CarritoController.getCarritoEmpleado, name='carritos_pagados'),
+
+
+
+    # vista reportes admin
+    path('api/reportes/carritos/', get_carritos_pagados, name='get_carritos_pagados'),
+    path('api/reportes/exportar-excel/', exportar_excel, name='exportar_excel'),
+    path('api/reportes/exportar-csv/', exportar_csv, name='exportar_csv'),
+    path('api/reportes/filtros/', get_filtros_disponibles, name='get_filtros_disponibles'),
+
+
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

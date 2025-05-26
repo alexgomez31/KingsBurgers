@@ -377,9 +377,10 @@
       </div>
       
       <div class="modal-footer premium-footer">
-        <button class="add-to-cart btn-agregar premium-btn" data-id="">
-          <i class="fas fa-shopping-cart me-2"></i>AÑADIR AL PEDIDO
+        <button class="add-to-cart btn-agregar premium-btn">
+            <i class="fas fa-shopping-cart me-2"></i>AÑADIR AL PEDIDO
         </button>
+        <input type="hidden" id="productoIddd" value="">
       </div>
     </div>
   </div>
@@ -599,7 +600,7 @@
     $('#modalProductoDescripcion').text(descripcion);
     $('#modalProductoPrecio').text('$' + precio);
     $('#modalProductoImagen').attr('src', imagen);
-    $('.btn-agregar').attr('data-id', productoId);
+    $('#productoIddd').val(productoId);
 
     // Limpiar containers
     $('#adicionesContainer').empty();
@@ -655,7 +656,9 @@
 
 
         $('.btn-agregar').click(function () {
-            const productoId = $(this).data('id');
+            
+            const productoId = $('#productoIddd').val();
+            console.log(productoId);
             const descripcion = $('textarea.cuadro-textooo').val();
 
             const adicionesSeleccionadas = [];

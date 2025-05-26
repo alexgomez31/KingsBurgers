@@ -813,3 +813,25 @@ input:checked + .slider:before {
     border-radius: 50%;
     background-color: red !important;
 }
+
+    .badge-estado {
+        font-size: 0.85em;
+        padding: 5px 8px;
+    }
+    .badge-pagado {
+        background-color: #28a745;
+    }
+    .badge-pendiente {
+        background-color: #ffc107;
+        color: #212529;
+    }
+    .badge-cancelado {
+        background-color: #dc3545;
+    }
+    .cursor-pointer {
+        cursor: pointer;
+    }
+    .page-item.active .page-link {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
