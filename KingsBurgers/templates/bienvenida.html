@@ -136,8 +136,11 @@
             <div class="category-menu text-center">
                 <button class="category-btn active" data-category="all">Todos</button>
                 {% for categoria in categorias %}
-                    <button class="category-btn" data-category="{{ categoria.nombre|lower }}">{{ categoria.nombre }}</button>
+                    {% if categoria.nombre != "Adicionales" %}
+                        <button class="category-btn" data-category="{{ categoria.nombre|lower }}">{{ categoria.nombre }}</button>
+                    {% endif %}
                 {% endfor %}
+
             </div>
             
             <!-- Productos dinámicos -->
